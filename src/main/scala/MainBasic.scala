@@ -8,6 +8,8 @@
 //   - 'a'/'z' to increase/decrease the speed of every moving objects
 //   - 'c' to clear the state (and thus the screen)
 
+
+import insects._
 import scala.swing._
 import scala.swing.{ SimpleSwingApplication, MainFrame, Panel }
 import scala.swing.event._
@@ -141,7 +143,8 @@ object MainBasic extends SimpleSwingApplication {
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
       g.setColor(new Color(100, 100, 100))
-      g.drawString(" Press 'i' to add sprites, 'c' to remove them all. Click on sprite to destroy them", 10, size.height - 10)
+      g.drawString(" Press 'i' to add sprites, 'c' to remove them all. Click on sprite to destroy them",
+        10, size.height - 10)
       val pos = getPos()
       if (pos != null)
         g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
