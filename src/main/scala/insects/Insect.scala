@@ -24,8 +24,12 @@ abstract class Insect(posX: Int, posY: Int, img: String, _place: Place, _armor: 
   def getArmor: Int = armor
   def isDead: Boolean = dead
 
-  def setX(newX: Int) { x = newX }
-  def setY(newY: Int) { y = newY }
+  def setX(newX: Int) {
+    x = newX
+  }
+  def setY(newY: Int) {
+    y = newY
+  }
   def setPlace(newPlace: Place) { place = newPlace }
   def setArmor(newArmor: Int) {
     armor = newArmor
@@ -91,15 +95,29 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Place)
 class Bee(posX: Int, posY: Int, _place: Place = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor) {
 
-  override def moveActions(): Unit = {
-    if (getPlace.isDefined) {
-      if (getPlace.isAntIn) {
-        val ant: Ant = getPlace.getAnt
-        ant.setArmor(ant.getArmor - 1)
-      }
-      else {
-        getPlace.nextPlace
-      }
+  override def moveActions() {
+    if (getPlace.isDefined && getPlace.isAntIn) {
+      val ant: Ant = getPlace.getAnt
+      ant.setArmor(ant.getArmor - 1)
+    }
+  }
+
+  /** Called each frame for the bees to move. */
+  def move() {
+    if (getPlace.isDefined && !(getPlace.isAntIn)) {  // Not quite sure how to manage None/Some things
+      moveTowardPlace(getPlace.getNextPlace)
+    }
+  }
+
+  def moveTowardPlace(nextPlace: Place) {
+    setY(getY - getDY)
+    // move toward the next place NOT REALLY IMPLEMENTED YET?
+    if (nextPlace.x - (nextPlace.getWidth / 2) < getX && getX <= nextPlace.x + (nextPlace.getWidth / 2) ||
+      nextPlace.y - (nextPlace.getHeight / 2) < getY && getY <= nextPlace.y + (nextPlace.getHeight / 2)) {
+
+      getPlace.removeBee(this)
+      setPlace(nextPlace)
+      nextPlace.addBee(this)
     }
   }
 }
