@@ -1,0 +1,16 @@
+TO DO:
+    General:
+        -
+
+    Simon:
+        -
+
+    Florestan:
+        - isBeesIn, getBees, isAntInt, getAnt
+        - nextPlace
+        -
+
+
+Remarks:
+    - Scala uses "camelCase" naming conventions
+    -
