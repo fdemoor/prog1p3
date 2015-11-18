@@ -8,27 +8,31 @@ abstract class Insect(posX: Int, posY: Int, img: String, _place: Place, _armor: 
   val icon: ImageIcon = new ImageIcon("src/main/resources/img/" + img + ".png")
   val im = icon.getImage
 
-  private var x: Int = posX
-  private var y: Int = posY
-  private var dx: Int = 1
-  private var dy: Int = 1
+  private var _x: Int = posX
+  private var _y: Int = posY
+  private var _dx: Int = 1
+  private var _dy: Int = 1
   private var place: Place = _place
   private var armor = _armor
   private var dead = false
 
-  def getX: Int = x
-  def getY: Int = y
-  def getDX: Int = dx
-  def getDY: Int = dy
+  def getX: Int = _x
+  def x: Int = _x
+  def getY: Int = _y
+  def y: Int = _y
+  def getDX: Int = _dx
+  def dx: Int = _dx
+  def getDY: Int = _dy
+  def dy: Int = _dy
   def getPlace: Place = place
   def getArmor: Int = armor
   def isDead: Boolean = dead
 
   def setX(newX: Int) {
-    x = newX
+    _x = newX
   }
   def setY(newY: Int) {
-    y = newY
+    _y = newY
   }
   def setPlace(newPlace: Place) { place = newPlace }
   def setArmor(newArmor: Int) {
@@ -38,20 +42,20 @@ abstract class Insect(posX: Int, posY: Int, img: String, _place: Place, _armor: 
 
   /** Update the position considering speed */
   def move() {
-    x += dx
-    y += dy
+    _x += _dx
+    _y += _dy
   }
 
   /** Increase speed */
   def accelerate(ax:Int, ay:Int) {
-    dx += ax
-    dy += ay
+    _dx += ax
+    _dy += ay
   }
 
   /** Decrease speed */
   def decelerate(ax:Int, ay:Int) {
-    dx -= ax
-    dy -= ay
+    _dx -= ax
+    _dy -= ay
   }
 
   /** Called each move for each insect to do its actions. */
