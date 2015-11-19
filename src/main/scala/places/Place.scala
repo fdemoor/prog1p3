@@ -2,46 +2,45 @@ package places
 
 import insects._
 
+class Place (private val name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place]) {
 
-class Place (name: String, posx: Int, posy: Int, entranceInit: Option[Place], exitInit: Option[Place]) {
+  private val in: Option[Place] = entranceInit
+  private val out: Option[Place] = exitInit
+  private var _bees: List[Bee] = Nil
+  private var _ant: Option[Ant] = None
 
-  def x: Int = posx
-  def y: Int = posy
+  def x: Int = posX
+  def y: Int = posY
+  def entrance: Option[Place] = in
+  def exit: Option[Place] = out
 
-  private val in: Place = entranceInit.get
-  private val out: Place = exitInit.get
-  
-  private var bees: List[Bee] = Nil
-  private var ant: Option[Ant] = None
+  def height: Int = 66
+  def width: Int = 66
+  def bees: List[Bee] = _bees
+  def ant: Ant = _ant.get
 
-  def entrance: Place = in
-  def exit: Place = out
-
-  def getHeight: Int = 66
-  def getWidth: Int = 66
-  def getBees: List[Bee] = bees
-  def getAnt: Ant = ant.get
-  
-  def isBeesIn : Boolean = bees.isEmpty
-  def addBee(b: Bee): Unit = bees = b::bees
+  def isBeesIn: Boolean = _bees.isEmpty
+  def addBee(b: Bee): Unit = { _bees = b::_bees }
   def removeBee(b: Bee): Unit = {
-    bees match {
-      case Nil => ()
-      case h::t =>
-        if (b != h) removeBee(b)
+    def rmBee(b2: Bee, l2: List[Bee]): List[Bee] = {
+      l2 match {
+        case h::t => if (b2 != h) h::rmBee(b2, t) else t
+        case Nil => throw new IllegalArgumentException("Bee not in the list of bees.")
+      }
     }
+    _bees = rmBee(b, _bees)
   }
-  
-  def isAntIn: Boolean = ant.isDefined
-  
+
+  def isAntIn: Boolean = _ant.isDefined
+
   def addAnt(a: Ant): Unit = {
-    assert(ant.isEmpty)
-    ant = Some(a)
+    assert(_ant.isEmpty)
+    _ant = Some(a)
   }
 
   def removeAnt(): Unit = {
-    assert(ant.isDefined)
-    ant = None
+    assert(_ant.isDefined)
+    _ant = None
   }
-  
+
 }

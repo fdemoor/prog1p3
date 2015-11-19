@@ -1,12 +1,12 @@
 package colony
 
-class Colony(initValue: Int) {
-  private var foodAmount = initValue
+class Colony(foodAmountInit: Int) {
+  private var _foodAmount = foodAmountInit
 
-  def getFoodAmount = foodAmount
+  def foodAmount = _foodAmount
 
-  def setFoodAmount(newAmount: Int) {
+  def foodAmount_=(newAmount: Int) {
     assert(newAmount >= 0)
-    foodAmount = newAmount
+    _foodAmount = newAmount
   }
 }

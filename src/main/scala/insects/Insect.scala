@@ -4,7 +4,7 @@ import javax.swing.ImageIcon
 import colony._
 import places._
 
-class Insect(posX: Int, posY: Int, img: String, _place: Option[Place], _armor: Int = 1) {
+abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1) {
   val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
@@ -12,33 +12,29 @@ class Insect(posX: Int, posY: Int, img: String, _place: Option[Place], _armor: I
   private var _y: Int = posY
   private var _dx: Int = 1
   private var _dy: Int = 1
-  private var place: Option[Place] = _place
-  private var armor = _armor
-  private var dead = false
+  private var _place: Option[Place] = placeInit
+  private var _armor = armorInit
+  private var _isDead = false
 
-  def getX: Int = _x
   def x: Int = _x
-  def getY: Int = _y
   def y: Int = _y
-  def getDX: Int = _dx
   def dx: Int = _dx
-  def getDY: Int = _dy
   def dy: Int = _dy
-  def getPlace: Option[Place] = place
-  def getArmor: Int = armor
-  def isDead: Boolean = dead
+  def place: Option[Place] = _place
+  def armor: Int = _armor
+  def isDead: Boolean = _isDead
 
-  def setX(newX: Int) {
+  def x_=(newX: Int) {
     _x = newX
   }
-  def setY(newY: Int) {
+  def y_=(newY: Int) {
     _y = newY
   }
-  def setPlace(newPlace: Place) { place = Some(newPlace) }
-  
-  def setArmor(newArmor: Int) {
-    armor = newArmor
-    if (armor >= 0) dead = true // main has to check after a turn which insects are DE4D
+  def place_=(newPlace: Place) { _place = Some(newPlace) }
+
+  def armor_=(newArmor: Int) {
+    _armor = newArmor
+    if (_armor >= 0) _isDead = true // main has to check after a turn which insects are DE4D
   }
 
 //  /** Update the position considering speed */
@@ -60,21 +56,22 @@ class Insect(posX: Int, posY: Int, img: String, _place: Option[Place], _armor: I
   }
 
   /** Called each move for each insect to do its actions. */
-  def moveActions(): Unit = {()}
+  def moveActions(): Unit
 }
 
-class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place], cost: Int, _armor: Int = 1)
+abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place], cost: Int, _armor: Int = 1)
   extends Insect(posX, posY, "ant_" + img, _place, _armor) {
 
-  private val Cost = cost
-  private val Colony = colony
+  private val _Cost = cost
+  private val _Colony = colony
 
-  assert(Colony.getFoodAmount >= Cost)
+  assert(_Colony.foodAmount >= _Cost)
+  _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
 
-  def getCost: Int = Cost
-  def getColony: Colony = Colony
+  def Cost: Int = _Cost
+  def Colony: Colony = _Colony
 
-  def addFood(amount: Int = 1) { Colony.setFoodAmount(Colony.getFoodAmount + amount) }
+  def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
 }
 
 class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
@@ -89,9 +86,41 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "thrower", colony, _place, 2) {
 
   override def moveActions() {
-    if (getPlace.get.isBeesIn){
-      for (bee: Bee <- getPlace.get.getBees) {
-        bee.setArmor(bee.getArmor - 1)
+    if (place.get.isBeesIn){
+      for (bee: Bee <- place.get.bees) {
+        bee.armor_=(bee.armor - 1)
+      }
+    }
+  }
+}
+
+class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+  extends Ant(posX, posY, "shortthrower", colony, _place, 3) {
+
+  override def moveActions() {
+    var currentPlace: Option[Place] = place.get.entrance
+    var i: Int = 2
+    while (i > 0 && currentPlace.isDefined) {
+      for (bee: Bee <- currentPlace.get.bees) {
+        bee.armor_=(bee.armor - 1)
+      }
+      i -= 1
+      currentPlace = currentPlace.get.entrance
+    }
+  }
+}
+
+class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+  extends Ant(posX, posY, "longthrower", colony, _place, 3) {
+
+  override def moveActions() {
+    try {
+      var currentPlace: Option[Place] = place.get.entrance.get.entrance.get.entrance
+      while (currentPlace.isDefined) {
+        for (bee: Bee <- currentPlace.get.bees) {
+          bee.armor_=(bee.armor - 1)
+        }
+        currentPlace = currentPlace.get.entrance
       }
     }
   }
@@ -100,29 +129,37 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor) {
 
+  var hasGoneThrough = false
+
   override def moveActions() {
-    if (getPlace.isDefined && getPlace.get.isAntIn) {
-      val ant: Ant = getPlace.get.getAnt
-      ant.setArmor(ant.getArmor - 1)
+    if (place.isDefined && place.get.isAntIn) {
+      val ant: Ant = place.get.ant
+      ant.armor_=(ant.armor - 1)
     }
   }
 
   /** Called each frame for the bees to move. */
   def move() {
-    if (getPlace.isDefined && !getPlace.get.isAntIn) {
-      moveTowardPlace(getPlace.get.exit)
+    if (place.isDefined && !place.get.isAntIn) {
+      if (place.get.exit.isDefined) moveTowardPlace(place.get.exit.get)
+      else moveTowardEnd()
     }
   }
 
   def moveTowardPlace(nextPlace: Place) {
-    setY(getY - getDY)
-    // move toward the next place NOT REALLY IMPLEMENTED YET?
-    if (nextPlace.x - (nextPlace.getWidth / 2) < getX && getX <= nextPlace.x + (nextPlace.getWidth / 2) ||
-      nextPlace.y - (nextPlace.getHeight / 2) < getY && getY <= nextPlace.y + (nextPlace.getHeight / 2)) {
-
-      getPlace.get.removeBee(this)
-      setPlace(nextPlace)
+    y_=(y - dy)
+    if (nextPlace.x - (nextPlace.width / 2) < x && x <= nextPlace.x + (nextPlace.width / 2)) {
+      //|| nextPlace.y - (nextPlace.height / 2) < y && y <= nextPlace.y + (nextPlace.height / 2)) {
+      place.get.removeBee(this)
+      place_=(nextPlace)
       nextPlace.addBee(this)
+    }
+  }
+
+  def moveTowardEnd(): Unit = {
+    y_=(y - dy)
+    if (place.get.x - (place.get.width / 2) == x) {
+      hasGoneThrough = true
     }
   }
 }
