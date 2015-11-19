@@ -63,66 +63,66 @@ class Insect(posX: Int, posY: Int, img: String, _place: Place, _armor: Int = 1) 
   def moveActions(): Unit = {()}
 }
 
-//class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Place, cost: Int, _armor: Int = 1)
-  //extends Insect(posX, posY, "ant_" + img, _place, _armor) {
+class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Place, cost: Int, _armor: Int = 1)
+  extends Insect(posX, posY, "ant_" + img, _place, _armor) {
 
-  //private val Cost = cost
-  //private val Colony = colony
+  private val Cost = cost
+  private val Colony = colony
 
-  //assert(Colony.getFoodAmount >= Cost)
+  assert(Colony.getFoodAmount >= Cost)
 
-  //def getCost: Int = Cost
-  //def getColony: Colony = Colony
+  def getCost: Int = Cost
+  def getColony: Colony = Colony
 
-  //def addFood(amount: Int = 1) { Colony.setFoodAmount(Colony.getFoodAmount + amount) }
-//}
+  def addFood(amount: Int = 1) { Colony.setFoodAmount(Colony.getFoodAmount + amount) }
+}
 
-//class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Place)
-  //extends Ant(posX, posY, "harvester", colony, _place, 2) {
+class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Place)
+  extends Ant(posX, posY, "harvester", colony, _place, 2) {
 
-  //override def moveActions() {
-    //addFood()
-  //}
-//}
+  override def moveActions() {
+    addFood()
+  }
+}
 
-//class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Place)
-  //extends Ant(posX, posY, "thrower", colony, _place, 2) {
+class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Place)
+  extends Ant(posX, posY, "thrower", colony, _place, 2) {
 
-  //override def moveActions() {
-    //if (getPlace.isBeesIn){
-      //for (bee: Bee <- getPlace.getBees) {
-        //bee.setArmor(bee.getArmor - 1)
-      //}
-    //}
-  //}
-//}
+  override def moveActions() {
+    if (getPlace.isBeesIn){
+      for (bee: Bee <- getPlace.getBees) {
+        bee.setArmor(bee.getArmor - 1)
+      }
+    }
+  }
+}
 
-//class Bee(posX: Int, posY: Int, _place: Place = None, _armor: Int = 1)
-  //extends Insect(posX, posY, "bee", _place, _armor) {
+class Bee(posX: Int, posY: Int, _place: Place = None, _armor: Int = 1)
+  extends Insect(posX, posY, "bee", _place, _armor) {
 
-  //override def moveActions() {
-    //if (getPlace.isDefined && getPlace.isAntIn) {
-      //val ant: Ant = getPlace.getAnt
-      //ant.setArmor(ant.getArmor - 1)
-    //}
-  //}
+  override def moveActions() {
+    if (getPlace.isDefined && getPlace.isAntIn) {
+      val ant: Ant = getPlace.getAnt
+      ant.setArmor(ant.getArmor - 1)
+    }
+  }
 
-  ///** Called each frame for the bees to move. */
-  //def move() {
-    //if (getPlace.isDefined && !(getPlace.isAntIn)) {  // Not quite sure how to manage None/Some things
-      //moveTowardPlace(getPlace.getNextPlace)
-    //}
-  //}
+  /** Called each frame for the bees to move. */
+  def move() {
+    if (getPlace.isDefined && !(getPlace.isAntIn)) {  // Not quite sure how to manage None/Some things
+      moveTowardPlace(getPlace.getNextPlace)
+    }
+  }
 
-  //def moveTowardPlace(nextPlace: Place) {
-    //setY(getY - getDY)
-    //// move toward the next place NOT REALLY IMPLEMENTED YET?
-    //if (nextPlace.x - (nextPlace.getWidth / 2) < getX && getX <= nextPlace.x + (nextPlace.getWidth / 2) ||
-      //nextPlace.y - (nextPlace.getHeight / 2) < getY && getY <= nextPlace.y + (nextPlace.getHeight / 2)) {
+  def moveTowardPlace(nextPlace: Place) {
+    setY(getY - getDY)
+    // move toward the next place NOT REALLY IMPLEMENTED YET?
+    if (nextPlace.x - (nextPlace.getWidth / 2) < getX && getX <= nextPlace.x + (nextPlace.getWidth / 2) ||
+      nextPlace.y - (nextPlace.getHeight / 2) < getY && getY <= nextPlace.y + (nextPlace.getHeight / 2)) {
 
-      //getPlace.removeBee(this)
-      //setPlace(nextPlace)
-      //nextPlace.addBee(this)
-    //}
-  //}
-//}
+      getPlace.removeBee(this)
+      setPlace(nextPlace)
+      nextPlace.addBee(this)
+    }
+  }
+}
