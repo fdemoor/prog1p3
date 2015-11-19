@@ -1,4 +1,5 @@
 import insects._
+import places._
 import scala.swing._
 import scala.swing.{ SimpleSwingApplication, MainFrame, Panel }
 import scala.swing.event._

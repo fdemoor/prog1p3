@@ -5,7 +5,7 @@ import colony._
 import places._
 
 class Insect(posX: Int, posY: Int, img: String, _place: Place, _armor: Int = 1) {
-  val icon: ImageIcon = new ImageIcon("src/main/resources/img/" + img + ".png")
+  val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
   private var _x: Int = posX
