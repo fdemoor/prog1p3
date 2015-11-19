@@ -17,11 +17,11 @@ object Main extends SimpleSwingApplication {
     def get_insects () = insects_list
     
     for (i <- 0 until 8) {
-		val p = new Place ("Box" + i.toString, 100 + 66*i, 100)
+			val p = new Place ("Box" + i.toString, 100 + 66*i, 100, None, None)
 		places_list = p::(places_list)
 	}
 	
-	val i = new Insect (100, 100, "ant_thrower", places_list(0), 1)
+	val i = new Insect (100, 100, "ant_thrower", Some(places_list(0)), 1)
 	insects_list = i::(insects_list)
 
 	lazy val ui = new Panel {
