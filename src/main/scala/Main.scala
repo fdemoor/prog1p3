@@ -39,10 +39,18 @@ object Main extends SimpleSwingApplication {
     focusable = true
     listenTo(mouse.clicks, mouse.moves, keys)
 
+    /* Returns the current position of the mouse (or null if it's not over the panel */
+    def getPos = peer.getMousePosition()
+
+
+    /* USER ACTIONS */
     reactions += {
       case e: MousePressed =>
       case e: MouseDragged  =>
       case e: MouseReleased =>
+        if (10 <= getPos.x < 77 && 10 <= getPos.y < 77) {
+          harvesterSelected = !harvesterSelected // Harvester Box
+        }
       case KeyTyped(_, 'c', _, _) =>
       case KeyTyped(_, 'i', _, _) =>
       case KeyTyped(_, 'a', _, _) =>
@@ -51,8 +59,7 @@ object Main extends SimpleSwingApplication {
       case _: FocusLost => repaint()
     }
 
-    /* Returns the current position of the mouse (or null if it's not over the panel */
-    def getPos = peer.getMousePosition()
+    
 
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
@@ -77,8 +84,28 @@ object Main extends SimpleSwingApplication {
         if (p.isAntIn) {
           g.drawImage(p.ant.im, p.ant.x, p.ant.y, peer)
         }
-
-    }
+      }
+      
+      /* USER INTERFACE */
+      
+      private val harvesterSelected: Boolean = false 
+      
+      
+      val harvesterSelectBox = new geom.GeneralPath
+        harvesterSelectBox.moveTo( 10, 10 )
+        harvesterSelectBox.lineTo( 10 + 66, 10 )
+        harvesterSelectBox.lineTo( 10 + 66,  10 + 66 )
+        harvesterSelectBox.lineTo( 10, 10 + 66 )
+        harvesterSelectBox.lineTo( 10, 10 )
+        if (harvesterSelected) {
+          g.setColor(Color.red)
+        } else {
+          g.setColor(Color.black)
+        }
+        g.draw(harvesterSelectBox)
+      
+      
+      
   }
 
   class MyTimer extends ActionListener {
