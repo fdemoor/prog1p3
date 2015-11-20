@@ -138,7 +138,7 @@ object Main extends SimpleSwingApplication {
   class MyTimer extends ActionListener {
     /* Configuration */
     val fpsTarget = 50 // Desired amount of frames per second
-    var delay = 1000 / fpsTarget
+    var delay = 100000 / fpsTarget
 
     /* The swing timer */
     val timer = new Timer(delay, this)
@@ -152,7 +152,7 @@ object Main extends SimpleSwingApplication {
         if (p.isAntIn) p.ant.moveActions()
       }
       for (bee <- p.bees) bee.moveActions()
-
+      // TODO another timer for turns
     }
   }
 
