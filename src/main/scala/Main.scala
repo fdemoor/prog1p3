@@ -13,7 +13,7 @@ object Main extends SimpleSwingApplication {
 
   private var places_list: List[Place] = Nil
   private val Colony: Colony = new Colony(2)
-  
+
 
   def places = places_list
 
@@ -41,11 +41,11 @@ object Main extends SimpleSwingApplication {
 
 
     /* VAR USER INTERFACE */
-    
+
     var harvesterSelected: Boolean = false
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
     val harvesterIm = harvesterIcon.getImage
-   
+
 
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
@@ -71,11 +71,11 @@ object Main extends SimpleSwingApplication {
           g.drawImage(p.ant.im, p.ant.x, p.ant.y, peer)
         }
       }
-      
+
       /* DRAW USER INTERFACE */
-      
+
       g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
-      
+
       val harvesterSelectBox = new geom.GeneralPath
       harvesterSelectBox.moveTo( 10, 10 )
       harvesterSelectBox.lineTo( 10 + 66, 10 )
@@ -89,18 +89,18 @@ object Main extends SimpleSwingApplication {
       }
       g.draw(harvesterSelectBox)
       g.drawImage(harvesterIm, 10, 10, peer)
-      
+
     }
-      
-      
+
+
       /* USER ACTIONS */
-      
+
       def findPlace(l: List[Place]): Unit = {
               l match {
                 case Nil => ()
                 case p::t =>
                   if (p.x <= getPos.x && getPos.x < p.x + 67 && p.y <= getPos.y && getPos.y < p.y + 67) {
-                    
+
                     if (harvesterSelected) { // Put new Harvester
                       try {
                         new HarvesterAnt(p.x, p.y, Colony, Some(p))
@@ -113,18 +113,18 @@ object Main extends SimpleSwingApplication {
                 }
               }
       }
-      
+
       reactions += {
         case e: MousePressed =>
         case e: MouseDragged  =>
         case e: MouseReleased =>
-        
+
           if (10 <= getPos.x && getPos.x < 77 && 10 <= getPos.y && getPos.y < 77) {
             harvesterSelected = !harvesterSelected // Harvester Box
           } else {
-              findPlace(places_list) 
+              findPlace(places_list)
             }
-          
+
         case KeyTyped(_, 'c', _, _) =>
         case KeyTyped(_, 'i', _, _) =>
         case KeyTyped(_, 'a', _, _) =>
@@ -149,7 +149,7 @@ object Main extends SimpleSwingApplication {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       ui.repaint() // Tell Scala that the image should be redrawn
-      
+
       // TODO move actions
 
     }
