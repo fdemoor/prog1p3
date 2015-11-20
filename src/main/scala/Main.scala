@@ -20,7 +20,7 @@ object Main extends SimpleSwingApplication {
   val p = new Place ("Box0", 100, 100, None, None)
     places_list = p::places_list
   for (i <- 1 until 8) {
-    val p = new Place ("Box" + i.toString, 100 + 66*i, 100, Some(places_list(0)), None)
+    val p = new Place ("Box" + i.toString, 100 + 66*i, 100, Some(places_list.head), None)
     places_list = p::places_list
   }
   for (i <- 1 to places_list.length -1) {
@@ -96,22 +96,21 @@ object Main extends SimpleSwingApplication {
       /* USER ACTIONS */
 
       def findPlace(l: List[Place]): Unit = {
-              l match {
-                case Nil => ()
-                case p::t =>
-                  if (p.x <= getPos.x && getPos.x < p.x + 67 && p.y <= getPos.y && getPos.y < p.y + 67) {
-
-                    if (harvesterSelected) { // Put new Harvester
-                      try {
-                        new HarvesterAnt(p.x, p.y, Colony, Some(p))
-                      } catch {
-                        case ex: IllegalArgumentException => ()
-                      }
-                  } else {
-                    findPlace(t)
-                  }
+        l match {
+          case Nil => ()
+          case pl::pls =>
+            if (pl.x <= getPos.x && getPos.x < pl.x + 67 && pl.y <= getPos.y && getPos.y < pl.y + 67) {
+              if (harvesterSelected) { // Put new Harvester
+                try {
+                  new HarvesterAnt(pl.x, pl.y, Colony, Some(pl))
+                } catch {
+                  case ex: IllegalArgumentException => ()
                 }
               }
+            } else {
+              findPlace(pls)
+            }
+        }
       }
 
       reactions += {
