@@ -4,7 +4,8 @@ import javax.swing.ImageIcon
 import colony._
 import places._
 
-abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1) {
+abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1
+                      , waterProof: Boolean = false) {
   val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
@@ -23,6 +24,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def place: Option[Place] = _place
   def armor: Int = _armor
   def isDead: Boolean = _isDead
+  def isWaterProof: Boolean = waterProof
 
   def x_=(newX: Int) {
     _x = newX
@@ -62,13 +64,12 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place], cost: Int, _armor: Int = 1)
   extends Insect(posX, posY, "ant_" + img, _place, _armor) {
 
-  require(!place.get.isAntIn)
-  place.get.addAnt(this)
-
   private val _Cost = cost
   private val _Colony = colony
 
-  require(_Colony.foodAmount >= _Cost)
+  require(!place.get.isAntIn)
+  place.get.addAnt(this)
+  if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
   _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
 
   def Cost: Int = _Cost
@@ -144,7 +145,7 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 }
 
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
-  extends Insect(posX, posY, "bee", _place, _armor) {
+  extends Insect(posX, posY, "bee", _place, _armor, true) {
 
   var hasGoneThrough = false
 

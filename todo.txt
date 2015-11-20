@@ -3,7 +3,7 @@ TO DO:
         -
 
     Simon:
-        -
+        - MVC
 
     Florestan:
         - isBeesIn, getBees, isAntInt, getAnt

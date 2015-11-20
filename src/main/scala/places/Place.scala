@@ -45,5 +45,13 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     require(_ant.isDefined)
     _ant = None
   }
+}
 
+class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place])
+  extends Place(name, posX, posY, entranceInit, exitInit) {
+
+  override def addAnt(a: Ant): Unit = {
+    super.addAnt(a)
+    a.armor_=(0)
+  }
 }
