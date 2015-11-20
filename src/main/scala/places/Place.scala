@@ -4,8 +4,8 @@ import insects._
 
 class Place (private val name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place]) {
 
-  private val in: Option[Place] = entranceInit
-  private val out: Option[Place] = exitInit
+  private var in: Option[Place] = entranceInit
+  private var out: Option[Place] = exitInit
   private var _bees: List[Bee] = Nil
   private var _ant: Option[Ant] = None
 
@@ -18,6 +18,9 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def width: Int = 66
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
+
+  def entrance_=(newIn: Option[Place]) { in = newIn }
+  def exit_=(newOut: Option[Place]) { out = newOut }
 
   def isBeesIn: Boolean = _bees.isEmpty
   def addBee(b: Bee): Unit = { _bees = b::_bees }

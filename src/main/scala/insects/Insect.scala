@@ -31,10 +31,10 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
     _y = newY
   }
   def place_=(newPlace: Place) { _place = Some(newPlace) }
-
+  def kill() = { _isDead = true}
   def armor_=(newArmor: Int) {
     _armor = newArmor
-    if (_armor >= 0) _isDead = true // main has to check after a turn which insects are DE4D
+    if (_armor <= 0) kill() // main has to check after a turn which insects are DE4D
   }
 
 //  /** Update the position considering speed */
@@ -61,6 +61,9 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place], cost: Int, _armor: Int = 1)
   extends Insect(posX, posY, "ant_" + img, _place, _armor) {
+
+  require(!place.get.isAntIn)
+  place.get.addAnt(this)
 
   private val _Cost = cost
   private val _Colony = colony
@@ -126,10 +129,28 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   }
 }
 
+class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+  extends Ant(posX, posY, "fire", colony, _place, 5) {
+
+  override def armor_=(newArmor: Int): Unit = {
+    armor_=(newArmor)
+    if (armor <= 0) {
+      kill()
+      for (bee <- place.get.bees) bee.armor_=(bee.armor - 3)
+    }
+  }
+
+  override def moveActions() {}
+}
+
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor) {
 
   var hasGoneThrough = false
+
+  if (place.isDefined) {
+    place.get.addBee(this)
+  }
 
   override def moveActions() {
     if (place.isDefined && place.get.isAntIn) {
