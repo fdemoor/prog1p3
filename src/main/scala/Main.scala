@@ -26,9 +26,7 @@ object Main extends SimpleSwingApplication {
   for (i <- 1 to places_list.length -1) {
     places_list(i).exit_=(Some(places_list(i-1)))
   }
-  
 
-  val i = new HarvesterAnt(100, 100, Colony, Some(places_list.head))
 
   lazy val ui = new Panel {
 
@@ -42,6 +40,9 @@ object Main extends SimpleSwingApplication {
     def getPos = peer.getMousePosition()
 
 
+    /* VAR USER INTERFACE */
+    
+    var harvesterSelected: Boolean = false
    
     
 
@@ -70,11 +71,9 @@ object Main extends SimpleSwingApplication {
         }
       }
       
-      /* USER INTERFACE */
+      /* DRAW USER INTERFACE */
       
-      var harvesterSelected: Boolean = false 
-      
-      g.drawString("Food: " + Colony.foodAmount.toString, 1, 1)
+      g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
       
       val harvesterSelectBox = new geom.GeneralPath
       harvesterSelectBox.moveTo( 10, 10 )
@@ -94,13 +93,32 @@ object Main extends SimpleSwingApplication {
       
       /* USER ACTIONS */
       
+      def findPlace(l): Unit = {
+              l match {
+                case Nil => ()
+                case p::t =>
+                  if (p.x <= getPos.x && getPos.x < p.X + 67 && p.y <= getPos.y && getPos.y < p.y + 67) {
+                    
+                    if (harvesterSelected) { // Put new Harvester
+                      new HarvesterAnt(p.x, p.y, Colony, Some(p))
+                    }
+                  } else {
+                    findPlace(t)
+                  }
+                }
+      }
+      
       reactions += {
         case e: MousePressed =>
         case e: MouseDragged  =>
         case e: MouseReleased =>
+        
           if (10 <= getPos.x && getPos.x < 77 && 10 <= getPos.y && getPos.y < 77) {
             harvesterSelected = !harvesterSelected // Harvester Box
+          } else {
+             findPlace(places_list) 
           }
+          
         case KeyTyped(_, 'c', _, _) =>
         case KeyTyped(_, 'i', _, _) =>
         case KeyTyped(_, 'a', _, _) =>
