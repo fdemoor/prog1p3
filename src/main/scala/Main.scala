@@ -12,17 +12,21 @@ import javax.swing.{ ImageIcon, Timer }
 object Main extends SimpleSwingApplication {
 
   private var places_list: List[Place] = Nil
-  private var insects_list: List[Insect] = Nil
   private val Colony: Colony = new Colony(2)
+  
 
   def places = places_list
-  def insects = insects_list
 
-
-  for (i <- 0 until 8) {
-    val p = new Place ("Box" + i.toString, 100 + 66*i, 100, None, None)
+  val p = new Place ("Box0", 100 + 66*i, 100, None, None)
+    places_list = p::places_list
+  for (i <- 1 until 8) {
+    val p = new Place ("Box" + i.toString, 100 + 66*i, 100, Some(places_list(0)), None)
     places_list = p::places_list
   }
+  for (i <- 1 to places_list.length -1) {
+    exit_=(Some(places_list(i-1)))
+  }
+  
 
   val i = new HarvesterAnt(100, 100, Colony, Some(places_list.head))
   insects_list = i::insects_list
@@ -67,11 +71,13 @@ object Main extends SimpleSwingApplication {
         box.lineTo( p.x, p.y + 66 )
         box.lineTo( p.x, p.y )
         g.draw(box)
-      }
+        for (bee <- p.bees) {
+          g.drawImage(bee.im, bee.x, bee.y, peer)
+        }
+        if (p.isAntIn) {
+          g.drawImage(p.ant.im, p.ant.x, p.ant.y, peer)
+        }
 
-      for (i <- Main.insects) {
-        g.drawImage(i.im, i.x, i.y, peer)
-      }
     }
   }
 
