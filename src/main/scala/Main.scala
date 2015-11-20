@@ -17,19 +17,18 @@ object Main extends SimpleSwingApplication {
 
   def places = places_list
 
-  val p = new Place ("Box0", 100 + 66*i, 100, None, None)
+  val p = new Place ("Box0", 100, 100, None, None)
     places_list = p::places_list
   for (i <- 1 until 8) {
     val p = new Place ("Box" + i.toString, 100 + 66*i, 100, Some(places_list(0)), None)
     places_list = p::places_list
   }
   for (i <- 1 to places_list.length -1) {
-    exit_=(Some(places_list(i-1)))
+    places_list(i).exit_=(Some(places_list(i-1)))
   }
   
 
   val i = new HarvesterAnt(100, 100, Colony, Some(places_list.head))
-  insects_list = i::insects_list
 
   lazy val ui = new Panel {
 
@@ -43,22 +42,7 @@ object Main extends SimpleSwingApplication {
     def getPos = peer.getMousePosition()
 
 
-    /* USER ACTIONS */
-    reactions += {
-      case e: MousePressed =>
-      case e: MouseDragged  =>
-      case e: MouseReleased =>
-        if (10 <= getPos.x < 77 && 10 <= getPos.y < 77) {
-          harvesterSelected = !harvesterSelected // Harvester Box
-        }
-      case KeyTyped(_, 'c', _, _) =>
-      case KeyTyped(_, 'i', _, _) =>
-      case KeyTyped(_, 'a', _, _) =>
-      case KeyTyped(_, 'z', _, _) =>
-
-      case _: FocusLost => repaint()
-    }
-
+   
     
 
     override def paintComponent(g: Graphics2D) = {
@@ -88,23 +72,43 @@ object Main extends SimpleSwingApplication {
       
       /* USER INTERFACE */
       
-      private val harvesterSelected: Boolean = false 
+      var harvesterSelected: Boolean = false 
       
+      g.drawString("Food: " + Colony.foodAmount.toString, 1, 1)
       
       val harvesterSelectBox = new geom.GeneralPath
-        harvesterSelectBox.moveTo( 10, 10 )
-        harvesterSelectBox.lineTo( 10 + 66, 10 )
-        harvesterSelectBox.lineTo( 10 + 66,  10 + 66 )
-        harvesterSelectBox.lineTo( 10, 10 + 66 )
-        harvesterSelectBox.lineTo( 10, 10 )
-        if (harvesterSelected) {
-          g.setColor(Color.red)
-        } else {
-          g.setColor(Color.black)
-        }
-        g.draw(harvesterSelectBox)
+      harvesterSelectBox.moveTo( 10, 10 )
+      harvesterSelectBox.lineTo( 10 + 66, 10 )
+      harvesterSelectBox.lineTo( 10 + 66,  10 + 66 )
+      harvesterSelectBox.lineTo( 10, 10 + 66 )
+      harvesterSelectBox.lineTo( 10, 10 )
+      if (harvesterSelected) {
+        g.setColor(Color.red)
+      } else {
+        g.setColor(Color.black)
+      }
+      g.draw(harvesterSelectBox)
+      
+    }
       
       
+      /* USER ACTIONS */
+      
+      reactions += {
+        case e: MousePressed =>
+        case e: MouseDragged  =>
+        case e: MouseReleased =>
+          if (10 <= getPos.x && getPos.x < 77 && 10 <= getPos.y && getPos.y < 77) {
+            harvesterSelected = !harvesterSelected // Harvester Box
+          }
+        case KeyTyped(_, 'c', _, _) =>
+        case KeyTyped(_, 'i', _, _) =>
+        case KeyTyped(_, 'a', _, _) =>
+        case KeyTyped(_, 'z', _, _) =>
+
+        case _: FocusLost => repaint()
+      }
+
       
   }
 
@@ -121,10 +125,9 @@ object Main extends SimpleSwingApplication {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       ui.repaint() // Tell Scala that the image should be redrawn
-      for (ant <- insects) {
-        ant.moveActions()
-      }
-      print(Colony.foodAmount, " ")
+      
+      // TODO move actions
+
     }
   }
 
