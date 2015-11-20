@@ -3,12 +3,10 @@ TO DO:
         -
 
     Simon:
-        - MVC
+        -
 
     Florestan:
-        - isBeesIn, getBees, isAntInt, getAnt
-        - nextPlace
-        - width and height of the place ?
+        -
 
 
 Remarks:

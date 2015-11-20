@@ -120,7 +120,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "longthrower", colony, _place, 3) {
 
   override def moveActions() {
-    try {
+    scala.util.control.Exception.ignoring(classOf[NoSuchElementException]) {
       var currentPlace: Option[Place] = place.get.entrance.get.entrance.get.entrance
       while (currentPlace.isDefined) {
         for (bee: Bee <- currentPlace.get.bees) {
