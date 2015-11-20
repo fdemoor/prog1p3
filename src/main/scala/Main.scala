@@ -43,8 +43,9 @@ object Main extends SimpleSwingApplication {
     /* VAR USER INTERFACE */
     
     var harvesterSelected: Boolean = false
+    val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
+    val harvesterIm = harvesterIcon.getImage
    
-    
 
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
@@ -87,25 +88,30 @@ object Main extends SimpleSwingApplication {
         g.setColor(Color.black)
       }
       g.draw(harvesterSelectBox)
+      g.drawImage(harvesterIm, 10, 10, peer)
       
     }
       
       
       /* USER ACTIONS */
       
-      def findPlace(l): Unit = {
+      def findPlace(l: List[Place]): Unit = {
               l match {
                 case Nil => ()
                 case p::t =>
-                  if (p.x <= getPos.x && getPos.x < p.X + 67 && p.y <= getPos.y && getPos.y < p.y + 67) {
+                  if (p.x <= getPos.x && getPos.x < p.x + 67 && p.y <= getPos.y && getPos.y < p.y + 67) {
                     
                     if (harvesterSelected) { // Put new Harvester
-                      new HarvesterAnt(p.x, p.y, Colony, Some(p))
-                    }
+                      try {
+                        new HarvesterAnt(p.x, p.y, Colony, Some(p))
+                      } catch {
+                        case ex: IllegalArgumentException => ()
+                      }
                   } else {
                     findPlace(t)
                   }
                 }
+              }
       }
       
       reactions += {
@@ -116,8 +122,8 @@ object Main extends SimpleSwingApplication {
           if (10 <= getPos.x && getPos.x < 77 && 10 <= getPos.y && getPos.y < 77) {
             harvesterSelected = !harvesterSelected // Harvester Box
           } else {
-             findPlace(places_list) 
-          }
+              findPlace(places_list) 
+            }
           
         case KeyTyped(_, 'c', _, _) =>
         case KeyTyped(_, 'i', _, _) =>
@@ -127,8 +133,8 @@ object Main extends SimpleSwingApplication {
         case _: FocusLost => repaint()
       }
 
-      
-  }
+}
+
 
   class MyTimer extends ActionListener {
     /* Configuration */
