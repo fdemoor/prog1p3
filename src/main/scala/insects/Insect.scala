@@ -68,9 +68,11 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   private val _Colony = colony
 
   if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
-  require(!place.get.isAntIn)
-  _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
-  place.get.addAnt(this)
+  //  require(!place.get.isAntIn)
+  if (!place.get.isAntIn) {
+    place.get.addAnt(this)
+    _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
+  }
 
   def Cost: Int = _Cost
   def Colony: Colony = _Colony

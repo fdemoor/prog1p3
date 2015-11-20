@@ -1,9 +1,6 @@
 package mvc
 
-import colony.Colony
-import places.Place
-
-
+import colony.Colony, places.Place
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
 import scala.swing.event._
@@ -16,10 +13,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
   private val Colony: Colony = _Colony
 
   lazy val ui = new Panel {
-
     background = Color.white
     preferredSize = new Dimension(800, 600)
-
     focusable = true
     listenTo(mouse.clicks, mouse.moves, keys)
 
@@ -30,7 +25,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     var harvesterSelected: Boolean = false
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
     val harvesterIm = harvesterIcon.getImage
-
 
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
@@ -57,7 +51,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       }
 
       /* DRAW USER INTERFACE */
-
       g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
 
       val harvesterSelectBox = new geom.GeneralPath
@@ -77,11 +70,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
     def harvesterClicked() { harvesterSelected = !harvesterSelected }
 
-
     /* USER ACTIONS */
-
-
-
     reactions += {
       case e: MousePressed =>
       case e: MouseDragged  =>
@@ -100,7 +89,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     }
   }
 
-  def repaint() { ui.repaint() }
-
   def getUI = ui
+  def repaint() { ui.repaint() }
 }

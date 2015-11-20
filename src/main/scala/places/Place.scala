@@ -27,8 +27,8 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def removeBee(b: Bee): Unit = {
     def rmBee(b2: Bee, l2: List[Bee]): List[Bee] = {
       l2 match {
-        case h::t => if (b2 != h) h::rmBee(b2, t) else t
         case Nil => throw new IllegalArgumentException("Bee not in the list of bees.")
+        case h::t => if (b2 == h) t else h::rmBee(b2, t)
       }
     }
     _bees = rmBee(b, _bees)

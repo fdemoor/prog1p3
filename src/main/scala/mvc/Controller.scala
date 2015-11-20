@@ -5,10 +5,10 @@ import javax.swing.Timer
 
 
 class Controller(_model: Model) {
-  val model: Model = _model
-  var _view: Option[View] = None
-  var _tTurn: Option[MyTimerTurn] = None
-  var _tFrame: Option[MyTimerFrame] = None
+  private val model: Model = _model
+  private var _view: Option[View] = None
+  private var _tTurn: Option[MyTimerTurn] = None
+  private var _tFrame: Option[MyTimerFrame] = None
 
   def view = _view.get
   def tTurn = _tTurn.get
@@ -16,6 +16,7 @@ class Controller(_model: Model) {
 
   var harvesterSelected: Boolean = false
 
+  /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
   def addView(newView: View) {
     _tTurn = Some(new MyTimerTurn())
     tTurn  // Don't remove, avoid garbage collector
@@ -56,6 +57,4 @@ class Controller(_model: Model) {
       model.tryAddingAnt(cursorPos, "harvester")
     }
   }
-
-
 }
