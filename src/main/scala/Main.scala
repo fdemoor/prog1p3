@@ -149,8 +149,10 @@ object Main extends SimpleSwingApplication {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       ui.repaint() // Tell Scala that the image should be redrawn
-
-      // TODO move actions
+      for (p <- places_list) {
+        if (p.isAntIn) p.ant.moveActions()
+      }
+      for (bee <- p.bees) bee.moveActions()
 
     }
   }
