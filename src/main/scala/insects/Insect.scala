@@ -65,7 +65,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   private val _Cost = cost
   private val _Colony = colony
 
-  assert(_Colony.foodAmount >= _Cost)
+  require(_Colony.foodAmount >= _Cost)
   _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
 
   def Cost: Int = _Cost

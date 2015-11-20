@@ -34,12 +34,12 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def isAntIn: Boolean = _ant.isDefined
 
   def addAnt(a: Ant): Unit = {
-    assert(_ant.isEmpty)
+    require(_ant.isEmpty)
     _ant = Some(a)
   }
 
   def removeAnt(): Unit = {
-    assert(_ant.isDefined)
+    require(_ant.isDefined)
     _ant = None
   }
 

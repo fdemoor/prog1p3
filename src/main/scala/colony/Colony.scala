@@ -6,7 +6,7 @@ class Colony(foodAmountInit: Int) {
   def foodAmount = _foodAmount
 
   def foodAmount_=(newAmount: Int) {
-    assert(newAmount >= 0)
+    require(newAmount >= 0, "Negative food amount")
     _foodAmount = newAmount
   }
 }
