@@ -12,7 +12,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   }
 
   override def moveActions() {
-    if (place.isDefined && place.get.isAntIn) {
+    if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
       val ant: Ant = place.get.ant
       ant.armor_=(ant.armor - 1)
     }
@@ -20,7 +20,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
 
   /** Called each frame for the bees to move. */
   def move() {
-    if (place.isDefined && !place.get.isAntIn) {
+    if (place.isDefined && (!place.get.isAntIn || !place.get.ant.blocksPath)) {
       if (place.get.exit.isDefined) moveTowardPlace(place.get.exit.get)
       else moveTowardEnd()
     }

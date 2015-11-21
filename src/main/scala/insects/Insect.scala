@@ -35,7 +35,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def kill() = { _isDead = true}
   def armor_=(newArmor: Int) {
     _armor = newArmor
-    if (_armor <= 0) kill() // main has to check after a turn which insects are DE4D
+    if (_armor <= 0) kill() // TODO main has to check after a turn which insects are DE4D
   }
 
 //  /** Update the position considering speed */
