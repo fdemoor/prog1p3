@@ -28,8 +28,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
 
   def moveTowardPlace(nextPlace: Place) {
     y_=(y - dy)
-    if (nextPlace.x - (nextPlace.width / 2) < x && x <= nextPlace.x + (nextPlace.width / 2)) {
-      //|| nextPlace.y - (nextPlace.height / 2) < y && y <= nextPlace.y + (nextPlace.height / 2)) {
+    if (nextPlace.x < x && x <= nextPlace.x + nextPlace.width) {
       place.get.removeBee(this)
       place_=(nextPlace)
       nextPlace.addBee(this)

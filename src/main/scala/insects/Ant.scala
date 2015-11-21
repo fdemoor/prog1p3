@@ -11,8 +11,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   private val _Colony = colony
 
   if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
-  //  require(!place.get.isAntIn)
-  if (!container && !place.get.isAntIn) {
+  if (place.get.canAddAnt(this)) {
     place.get.addAnt(this)
     _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
   }
@@ -21,8 +20,6 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   def Colony: Colony = _Colony
   def blocksPath: Boolean = _blocksPath
   def isContainer: Boolean = container
-  def isProtected: Boolean = place.get.bodyguard.isDefined
-  def bodyguard: Option[BodyguardAnt] = place.get.bodyguard
   /** Get the all the places of the tunnel. */
   def places: List[Place] = {
     var currentPlace: Place = place.get
@@ -40,23 +37,6 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   }
 
   def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
-
-  override def armor_=(newArmor: Int) {
-    if (newArmor < armor) {  // Damages are done the the ant
-      if (isContainer || !isProtected) {
-        super.armor_=(newArmor)
-      } else {
-        // Reroute the damages to the bodyguard and take what's left
-        val damages = armor - newArmor
-        val remainingDamages = damages - bodyguard.get.armor
-        if (remainingDamages > 0) {
-          bodyguard.get.armor_=(0)
-          super.armor_=(armor - remainingDamages)
-        }
-        else bodyguard.get.armor_=(bodyguard.get.armor - damages)
-      }
-    }
-  }
 }
 
 class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
@@ -168,9 +148,6 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], antInit: Option[Ant] = None)
   extends Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
 
-  place.get.addAnt(this)
-  Colony.foodAmount_=(Colony.foodAmount - Cost)
-
   private var _ant: Option[Ant] = antInit
 
   def ant: Option[Ant] = _ant
@@ -181,5 +158,15 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], 
     _ant = modifiedAnt
   }
 
-  override def moveActions() {}
+  override def armor_=(newArmor: Int): Unit = {
+    super.armor_=(newArmor)
+    if (newArmor <= 0) {
+      ant.get.armor_=(ant.get.armor + newArmor)
+      place.get.removeAnt()
+    }
+  }
+
+  override def moveActions(): Unit = {
+    if (ant.isDefined) ant.get.moveActions()
+  }
 }

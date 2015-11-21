@@ -8,7 +8,6 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   private var out: Option[Place] = exitInit
   private var _bees: List[Bee] = Nil
   private var _ant: Option[Ant] = None
-  private var _bodyguard: Option[BodyguardAnt] = None
 
   def x: Int = posX
   def y: Int = posY
@@ -19,7 +18,6 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def width: Int = 66
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
-  def bodyguard: Option[BodyguardAnt] = _bodyguard
 
   def entrance_=(newIn: Option[Place]) { in = newIn }
   def exit_=(newOut: Option[Place]) { out = newOut }
@@ -38,26 +36,30 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
 
   def isAntIn: Boolean = _ant.isDefined
 
-  def addAnt(a: Ant): Unit = {
-    if (!a.isContainer) {
-      require(_ant.isEmpty)
-      _ant = Some(a)
+  def canAddAnt(a: Ant): Boolean = {
+    if (a.isContainer) {
+      !isAntIn || !ant.isContainer
+    } else {
+      !isAntIn || (ant.isContainer && ant.asInstanceOf[BodyguardAnt].canAddAnt)
     }
+  }
+
+  def addAnt(a: Ant): Unit = {
+    require(canAddAnt(a))
+    if (!isAntIn) _ant = Some(a)
     else {
-      require(bodyguard.isEmpty)
-      a match {
-        case bgA: BodyguardAnt => _bodyguard = Some(bgA)
+      if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(Some(a))
+      else {
+        a.asInstanceOf[BodyguardAnt].ant_=(Some(ant))
+        _ant = Some(a)
       }
     }
   }
 
   def removeAnt(): Unit = {
     require(_ant.isDefined)
-    _ant = None
-  }
-  def removeBodyguard(): Unit = {
-    require(bodyguard.isDefined)
-    _bodyguard = None
+    if (ant.isContainer) _ant = ant.asInstanceOf[BodyguardAnt].ant
+    else _ant = None
   }
 }
 
