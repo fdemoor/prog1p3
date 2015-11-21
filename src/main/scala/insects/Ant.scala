@@ -4,7 +4,7 @@ import colony.Colony, places.Place
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
                    , cost: Int = 1, _armor: Int = 1
-                   , waterProof: Boolean = false, _blocksPath: Boolean = true)
+                   , waterProof: Boolean = false, _blocksPath: Boolean = true, container: Boolean = false)
   extends Insect(posX, posY, "ant_" + img, _place, _armor, waterProof) {
 
   private val _Cost = cost
@@ -12,7 +12,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
 
   if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
   //  require(!place.get.isAntIn)
-  if (!place.get.isAntIn) {
+  if (!container && !place.get.isAntIn) {
     place.get.addAnt(this)
     _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
   }
@@ -20,6 +20,9 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   def Cost: Int = _Cost
   def Colony: Colony = _Colony
   def blocksPath: Boolean = _blocksPath
+  def isContainer: Boolean = container
+  def isProtected: Boolean = place.get.bodyguard.isDefined
+  def bodyguard: Option[BodyguardAnt] = place.get.bodyguard
   /** Get the all the places of the tunnel. */
   def places: List[Place] = {
     var currentPlace: Place = place.get
@@ -37,6 +40,23 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   }
 
   def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
+
+  override def armor_=(newArmor: Int) {
+    if (newArmor < armor) {  // Damages are done the the ant
+      if (isContainer || !isProtected) {
+        super.armor_=(newArmor)
+      } else {
+        // Reroute the damages to the bodyguard and take what's left
+        val damages = armor - newArmor
+        val remainingDamages = damages - bodyguard.get.armor
+        if (remainingDamages > 0) {
+          bodyguard.get.armor_=(0)
+          super.armor_=(armor - remainingDamages)
+        }
+        else bodyguard.get.armor_=(bodyguard.get.armor - damages)
+      }
+    }
+  }
 }
 
 class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
@@ -61,10 +81,10 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
 }
 
 class ScubaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends ThrowerAnt(posX, posY, colony, _place, cost = 5, name = "scuba", waterProof = true) {}
+  extends ThrowerAnt(posX, posY, colony, _place, cost = 5, name = "scuba", waterProof = true)
 
 class NinjaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends ThrowerAnt(posX, posY, colony, _place, cost = 6, name = "ninja", blocksPath = false) {}
+  extends ThrowerAnt(posX, posY, colony, _place, cost = 6, name = "ninja", blocksPath = false)
 
 class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "shortthrower", colony, _place, cost = 3) {
@@ -143,4 +163,23 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       if (hasKilledBee) turnAwait = 3
     }
   }
+}
+
+class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], antInit: Option[Ant] = None)
+  extends Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
+
+  place.get.addAnt(this)
+  Colony.foodAmount_=(Colony.foodAmount - Cost)
+
+  private var _ant: Option[Ant] = antInit
+
+  def ant: Option[Ant] = _ant
+  def canAddAnt: Boolean = ant.isEmpty
+
+  def ant_=(modifiedAnt: Option[Ant]) {
+    if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
+    _ant = modifiedAnt
+  }
+
+  override def moveActions() {}
 }

@@ -8,6 +8,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   private var out: Option[Place] = exitInit
   private var _bees: List[Bee] = Nil
   private var _ant: Option[Ant] = None
+  private var _bodyguard: Option[BodyguardAnt] = None
 
   def x: Int = posX
   def y: Int = posY
@@ -18,6 +19,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def width: Int = 66
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
+  def bodyguard: Option[BodyguardAnt] = _bodyguard
 
   def entrance_=(newIn: Option[Place]) { in = newIn }
   def exit_=(newOut: Option[Place]) { out = newOut }
@@ -37,13 +39,25 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def isAntIn: Boolean = _ant.isDefined
 
   def addAnt(a: Ant): Unit = {
-    require(_ant.isEmpty)
-    _ant = Some(a)
+    if (!a.isContainer) {
+      require(_ant.isEmpty)
+      _ant = Some(a)
+    }
+    else {
+      require(bodyguard.isEmpty)
+      a match {
+        case bgA: BodyguardAnt => _bodyguard = Some(bgA)
+      }
+    }
   }
 
   def removeAnt(): Unit = {
     require(_ant.isDefined)
     _ant = None
+  }
+  def removeBodyguard(): Unit = {
+    require(bodyguard.isDefined)
+    _bodyguard = None
   }
 }
 
