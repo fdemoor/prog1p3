@@ -3,7 +3,7 @@ package insects
 import places.Place
 
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
-  extends Insect(posX, posY, "bee", _place, _armor, true) {
+  extends Insect(posX, posY, "bee", _place, _armor, true, damagesAmount = 1) {
 
   var hasGoneThrough = false
 
@@ -14,7 +14,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   override def moveActions() {
     if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
       val ant: Ant = place.get.ant
-      ant.armor_=(ant.armor - 1)
+      ant.armor_=(ant.armor - damages)
     }
   }
 
@@ -32,6 +32,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
       place.get.removeBee(this)
       place_=(nextPlace)
       nextPlace.addBee(this)
+      if (nextPlace.isAntIn && nextPlace.ant.isInstanceOf[QueenAnt]) hasGoneThrough = true  // The bees won
     }
   }
 

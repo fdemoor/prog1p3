@@ -4,7 +4,7 @@ import javax.swing.ImageIcon
 import places._
 
 abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1
-                      , waterProof: Boolean = false) {
+                      , waterProof: Boolean = false, damagesAmount: Int = 0) {
   val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
@@ -15,6 +15,8 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var _place: Option[Place] = placeInit
   private var _armor = armorInit
   private var _isDead = false
+  private var doubledDamages: Boolean = false
+  private val _damages: Int = damagesAmount
 
   def x: Int = _x
   def y: Int = _y
@@ -24,6 +26,11 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def armor: Int = _armor
   def isDead: Boolean = _isDead
   def isWaterProof: Boolean = waterProof
+  def hasDoubledDamages: Boolean = doubledDamages
+  def damages: Int = {
+    if (hasDoubledDamages) 2 * _damages
+    else _damages
+  }
 
   def x_=(newX: Int) {
     _x = newX
@@ -37,6 +44,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
     _armor = newArmor
     if (_armor <= 0) kill() // TODO main has to check after a turn which insects are DE4D
   }
+  def doubleDamges() { doubledDamages = true }
 
 //  /** Update the position considering speed */
 //  def move() {

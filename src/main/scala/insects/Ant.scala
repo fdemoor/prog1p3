@@ -3,9 +3,9 @@ package insects
 import colony.Colony, places.Place
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
-                   , cost: Int = 1, _armor: Int = 1
+                   , cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0
                    , waterProof: Boolean = false, _blocksPath: Boolean = true, container: Boolean = false)
-  extends Insect(posX, posY, "ant_" + img, _place, _armor, waterProof) {
+  extends Insect(posX, posY, "ant_" + img, _place, _armor, waterProof, damagesAmount = damagesAmount) {
 
   private val _Cost = cost
   private val _Colony = colony
@@ -49,32 +49,57 @@ class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 
 class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], cost: Int = 2
                  , armor: Int = 1, name: String = "thrower", waterProof: Boolean = false, blocksPath: Boolean = true)
-  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath) {
+  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1) {
 
   override def moveActions() {
     if (place.get.isBeesIn){
-      for (bee: Bee <- place.get.bees) {
-        bee.armor_=(bee.armor - 1)
+      val bee: Bee = place.get.bees.head
+      bee.armor_=(bee.armor - damages)
+    }
+  }
+}
+
+class ScubaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place]
+               , cost: Int = 5, name: String = "scuba", armor: Int = 1)
+  extends ThrowerAnt(posX, posY, colony, _place, cost = cost, name = name, armor = armor, waterProof = true)
+
+class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+  extends ScubaAnt(posX, posY, colony, _place, cost = 6, name = "queen", armor = 2) {
+
+  /* Kill it if there's already a queen. */
+  for (p <- places if p != place.get) {
+    if (p.isAntIn && (p.ant.isInstanceOf[QueenAnt] ||
+      (p.ant.isContainer &&
+        p.ant.asInstanceOf[BodyguardAnt].ant.isDefined &&
+        p.ant.asInstanceOf[BodyguardAnt].ant.get.isInstanceOf[QueenAnt]))) armor_=(0)
+  }
+
+  override def moveActions(): Unit = {
+    super.moveActions()
+    for (p <- places) {
+      if (p.isAntIn) {
+        if (!p.ant.isContainer) p.ant.doubleDamges()
+        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.doubleDamges()
       }
     }
   }
 }
 
-class ScubaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends ThrowerAnt(posX, posY, colony, _place, cost = 5, name = "scuba", waterProof = true)
-
 class NinjaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends ThrowerAnt(posX, posY, colony, _place, cost = 6, name = "ninja", blocksPath = false)
 
 class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends Ant(posX, posY, "shortthrower", colony, _place, cost = 3) {
+  extends Ant(posX, posY, "shortthrower", colony, _place, cost = 3, damagesAmount = 1) {
 
   override def moveActions() {
     var currentPlace: Option[Place] = place.get.entrance
     var i: Int = 2
-    while (i > 0 && currentPlace.isDefined) {
-      for (bee: Bee <- currentPlace.get.bees) {
-        bee.armor_=(bee.armor - 1)
+    var hasHitBee: Boolean = false
+    while (i > 0 && currentPlace.isDefined && !hasHitBee) {
+      if (currentPlace.get.isBeesIn) {
+        val bee: Bee = currentPlace.get.bees.head
+        bee.armor_=(bee.armor - damages)
+        hasHitBee = true
       }
       i -= 1
       currentPlace = currentPlace.get.entrance
@@ -83,14 +108,17 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 }
 
 class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends Ant(posX, posY, "longthrower", colony, _place, 3) {
+  extends Ant(posX, posY, "longthrower", colony, _place, 3, damagesAmount = 1) {
 
   override def moveActions() {
     scala.util.control.Exception.ignoring(classOf[NoSuchElementException]) {
       var currentPlace: Option[Place] = place.get.entrance.get.entrance.get.entrance
-      while (currentPlace.isDefined) {
-        for (bee: Bee <- currentPlace.get.bees) {
-          bee.armor_=(bee.armor - 1)
+      var hasHitBee: Boolean = false
+      while (currentPlace.isDefined && !hasHitBee) {
+        if (currentPlace.get.isBeesIn) {
+          val bee: Bee = currentPlace.get.bees.head
+          bee.armor_=(bee.armor - damages)
+          hasHitBee = true
         }
         currentPlace = currentPlace.get.entrance
       }
@@ -100,13 +128,13 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 
 /** Ant that does damages when it dies. */
 class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends Ant(posX, posY, "fire", colony, _place, cost = 5) {
+  extends Ant(posX, posY, "fire", colony, _place, cost = 5, damagesAmount = 3) {
 
   override def armor_=(newArmor: Int): Unit = {
     armor_=(newArmor)
     if (armor <= 0) {
       kill()
-      for (bee <- place.get.bees) bee.armor_=(bee.armor - 3)
+      for (bee <- place.get.bees) bee.armor_=(bee.armor - damages)
     }
   }
 

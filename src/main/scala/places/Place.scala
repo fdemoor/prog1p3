@@ -22,7 +22,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def entrance_=(newIn: Option[Place]) { in = newIn }
   def exit_=(newOut: Option[Place]) { out = newOut }
 
-  def isBeesIn: Boolean = _bees.isEmpty
+  def isBeesIn: Boolean = bees.nonEmpty
   def addBee(b: Bee): Unit = { _bees = b::_bees }
   def removeBee(b: Bee): Unit = {
     def rmBee(b2: Bee, l2: List[Bee]): List[Bee] = {
@@ -59,7 +59,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def removeAnt(): Unit = {
     require(_ant.isDefined)
     if (ant.isContainer) _ant = ant.asInstanceOf[BodyguardAnt].ant
-    else _ant = None
+    else if (!ant.isInstanceOf[QueenAnt]) _ant = None
   }
 }
 
