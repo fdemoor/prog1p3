@@ -36,12 +36,13 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
       for (p <- placesList) {
         val box = new geom.GeneralPath
-        box.moveTo( p.x, p.y )
-        box.lineTo( p.x + 66,  p.y )
-        box.lineTo( p.x + 66,  p.y + 66 )
-        box.lineTo( p.x, p.y + 66 )
-        box.lineTo( p.x, p.y )
+        box.moveTo(p.x, p.y)
+        box.lineTo(p.x + p.width,  p.y)
+        box.lineTo(p.x + p.width,  p.y + p.height)
+        box.lineTo(p.x, p.y + p.height)
+        box.lineTo(p.x, p.y)
         g.draw(box)
+        g.drawImage(p.im, p.x, p.y, peer)
         for (bee <- p.bees) {
           g.drawImage(bee.im, bee.x, bee.y, peer)
         }
@@ -54,11 +55,11 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
 
       val harvesterSelectBox = new geom.GeneralPath
-      harvesterSelectBox.moveTo( 10, 10 )
-      harvesterSelectBox.lineTo( 10 + 66, 10 )
-      harvesterSelectBox.lineTo( 10 + 66,  10 + 66 )
-      harvesterSelectBox.lineTo( 10, 10 + 66 )
-      harvesterSelectBox.lineTo( 10, 10 )
+      harvesterSelectBox.moveTo(10, 10)
+      harvesterSelectBox.lineTo(10 + harvesterIcon.getIconWidth, 10)
+      harvesterSelectBox.lineTo(10 + harvesterIcon.getIconWidth,  10 + harvesterIcon.getIconHeight)
+      harvesterSelectBox.lineTo(10, 10 + harvesterIcon.getIconHeight)
+      harvesterSelectBox.lineTo(10, 10)
       if (harvesterSelected) {
         g.setColor(Color.red)
       } else {
@@ -75,7 +76,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       case e: MousePressed =>
       case e: MouseDragged  =>
       case e: MouseReleased =>
-        if (10 <= getPos.x && getPos.x < 77 && 10 <= getPos.y && getPos.y < 77) {
+        if (10 <= getPos.x && getPos.x < 10 + harvesterIcon.getIconWidth &&
+            10 <= getPos.y && getPos.y < 10 + harvesterIcon.getIconHeight) {
           controller.harvesterClicked() // Harvester Box
           harvesterClicked()
         } else {

@@ -1,8 +1,12 @@
 package places
 
+import javax.swing.ImageIcon
+
 import insects._
 
 class Place (private val name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place]) {
+  var icon: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
+  var im = icon.getImage
 
   private var in: Option[Place] = entranceInit
   private var out: Option[Place] = exitInit
@@ -14,8 +18,8 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def entrance: Option[Place] = in
   def exit: Option[Place] = out
 
-  def height: Int = 66
-  def width: Int = 66
+  def height: Int = icon.getIconHeight
+  def width: Int = icon.getIconWidth
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
 
@@ -66,8 +70,14 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
 class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place])
   extends Place(name, posX, posY, entranceInit, exitInit) {
 
+  icon = new ImageIcon(getClass.getResource("/img/tunnel_water.png"))
+  im = icon.getImage
+
   override def addAnt(a: Ant): Unit = {
     super.addAnt(a)
-    a.armor_=(0)
+    if (!a.isWaterProof) {
+      a.armor_=(0)
+      removeAnt()
+    }
   }
 }

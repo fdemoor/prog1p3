@@ -78,8 +78,8 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     super.moveActions()
     for (p <- places) {
       if (p.isAntIn) {
-        if (!p.ant.isContainer) p.ant.doubleDamges()
-        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.doubleDamges()
+        if (!p.ant.isContainer) p.ant.doubleDamages()
+        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.doubleDamages()
       }
     }
   }

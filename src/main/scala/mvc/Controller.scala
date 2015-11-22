@@ -38,6 +38,7 @@ class Controller(_model: Model) {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActions()
+      model.removeDeads()
     }
   }
   class MyTimerFrame extends ActionListener {

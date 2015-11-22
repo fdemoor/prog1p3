@@ -1,5 +1,7 @@
 package mvc
 
+import javax.swing.ImageIcon
+
 import insects._, places._, colony._
 
 class Model {
@@ -10,12 +12,14 @@ class Model {
   def Colony: Colony = _Colony
 
   /* Initializing places. */
-  val p = new Place ("Box0", 100, 100, None, None)
+  val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
+  val p = new Place ("Box0", 20, 100, None, None)
   _places = p::_places
-  for (i <- 1 until 8) {
-    val p = new Place ("Box" + i.toString, 100 + 66*i, 100, Some(_places.head), None)
+  for (i <- 1 until 7) {
+    val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 100, Some(_places.head), None)
     _places = p::_places
   }
+  _places = new WaterPlace ("Box7", 20 + iconPlace.getIconWidth*7, 100, Some(_places.head), None)::_places
   for (i <- 1 to _places.length -1) {
     _places(i).exit_=(Some(_places(i-1)))
   }
@@ -26,7 +30,8 @@ class Model {
       l match {
         case Nil => ()
         case pl :: pls =>
-          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + 67 && pl.y <= cursorPos._2 && cursorPos._2 < pl.y + 67) {
+          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
+              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
             if (typeAnt == "harvester") {
               // Put new Harvester
               try {
@@ -47,6 +52,18 @@ class Model {
     for (p <- _places) {
       if (p.isAntIn) p.ant.moveActions()
       for (bee <- p.bees) bee.moveActions()
+    }
+  }
+  def removeDeads(): Unit = {
+    for (p <- _places) {
+      if (p.isAntIn && p.ant.isDead) p.removeAnt()
+      def removeDeadBees(bL: List[Bee]): Unit = {
+        if (bL.nonEmpty) {
+          if (bL.head.isDead) p.removeBee(bL.head)
+          removeDeadBees(bL.tail)
+        }
+      }
+      removeDeadBees(p.bees)
     }
   }
   def move(): Unit = {
