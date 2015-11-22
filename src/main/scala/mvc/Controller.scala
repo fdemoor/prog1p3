@@ -14,7 +14,16 @@ class Controller(_model: Model) {
   def tTurn = _tTurn.get
   def tFrame = _tFrame.get
 
+  /* User Selecter Interface */
   var harvesterSelected: Boolean = false
+  var shortThrowerSelected: Boolean = false
+  var longThrowerSelected: Boolean = false
+  var fireSelected: Boolean = false
+  var scubaSelected: Boolean = false
+  var wallSelected: Boolean = false
+  var ninjaSelected: Boolean = false
+  var hungrySelected: Boolean = false
+  var queenSelected: Boolean = false
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
   def addView(newView: View) {
@@ -53,9 +62,20 @@ class Controller(_model: Model) {
   }
 
   def harvesterClicked() { harvesterSelected = !harvesterSelected }
+  def shortThrowerClicked() { shortThrowerSelected = !shortThrowerSelected }
+  def longThrowerClicked() { longThrowerSelected = !longThrowerSelected }
+  def fireClicked() { fireSelected = !fireSelected }
+  def scubaClicked() { scubaSelected = !scubaSelected }
+  def wallClicked() { wallSelected = !wallSelected }
+  def ninjaClicked() { ninjaSelected = !ninjaSelected }
+  def hungryClicked() { hungrySelected = !hungrySelected }
+  def queenClicked() { queenSelected = !queenSelected }
+  
   def placeClicked(cursorPos: (Int, Int)): Unit = {
     if (harvesterSelected) {
       model.tryAddingAnt(cursorPos, "harvester")
+      // TODO add the tryAddingAnt for other ants
+      // Warning with queen : only one can remain !
     }
   }
 }
