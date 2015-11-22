@@ -52,9 +52,15 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
   extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1) {
 
   override def moveActions() {
-    if (place.get.isBeesIn){
-      val bee: Bee = place.get.bees.head
-      bee.armor_=(bee.armor - damages)
+    var hasHitBee: Boolean = false
+    var bL: List[Bee] = place.get.bees
+    while (bL.nonEmpty && !hasHitBee) {
+      val bee: Bee = bL.head
+      if (!bee.isDead) {
+        bee.armor_=(bee.armor - damages)
+        hasHitBee = true
+      }
+      bL = bL.tail
     }
   }
 }
@@ -96,10 +102,14 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     var i: Int = 2
     var hasHitBee: Boolean = false
     while (i > 0 && currentPlace.isDefined && !hasHitBee) {
-      if (currentPlace.get.isBeesIn) {
+      var bL: List[Bee] = currentPlace.get.bees
+      while (bL.nonEmpty && !hasHitBee) {
         val bee: Bee = currentPlace.get.bees.head
-        bee.armor_=(bee.armor - damages)
-        hasHitBee = true
+        if (!bee.isDead) {
+          bee.armor_=(bee.armor - damages)
+          hasHitBee = true
+        }
+        bL = bL.tail
       }
       i -= 1
       currentPlace = currentPlace.get.entrance
@@ -115,10 +125,14 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       var currentPlace: Option[Place] = place.get.entrance.get.entrance.get.entrance
       var hasHitBee: Boolean = false
       while (currentPlace.isDefined && !hasHitBee) {
-        if (currentPlace.get.isBeesIn) {
+        var bL: List[Bee] = currentPlace.get.bees
+        while (bL.nonEmpty && !hasHitBee) {
           val bee: Bee = currentPlace.get.bees.head
-          bee.armor_=(bee.armor - damages)
-          hasHitBee = true
+          if (!bee.isDead) {
+            bee.armor_=(bee.armor - damages)
+            hasHitBee = true
+          }
+          bL = bL.tail
         }
         currentPlace = currentPlace.get.entrance
       }
@@ -163,8 +177,14 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       while (!hasKilledBee && placesNotChecked != Nil) {
         val currentPlace: Place = placesNotChecked.head
         if (currentPlace.isBeesIn) {
-          currentPlace.bees.head.armor_=(0)
-          hasKilledBee = true
+          var b: List[Bee] = currentPlace.bees
+          while (b.nonEmpty && !hasKilledBee) {
+            if (!b.head.isDead) {
+              currentPlace.bees.head.armor_=(0)
+              hasKilledBee = true
+            }
+            b = b.tail
+          }
         }
         placesNotChecked = placesNotChecked.tail
       }
