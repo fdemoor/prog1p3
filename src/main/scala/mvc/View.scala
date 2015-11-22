@@ -64,6 +64,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       /* DRAW USER INTERFACE */
       g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
       
+      /** Draw a Selecter Box and print cost and armor of the unit, red if selected, black otherwise */
       def drawSelectedBox(x: Int, y: Int, bool: Boolean, cost: Int, armor: Int, icon: ImageIcon) = {
         val currentSelectBox = new geom.GeneralPath
         currentSelectBox.moveTo(x, y)
@@ -106,31 +107,31 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       
         if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.harvesterClicked() // Harvester Box
+          controller.harvesterClicked()
         } else if (10 + selectBoxWidth * 1 <= getPos.x && getPos.x < 10 + selectBoxWidth * 2 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.shortThrowerClicked() // Harvester Box
+          controller.shortThrowerClicked()
         } else if (10 + selectBoxWidth * 2 <= getPos.x && getPos.x < 10 + selectBoxWidth * 3 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.longThrowerClicked() // Harvester Box
+          controller.longThrowerClicked()
         } else if (10 + selectBoxWidth * 3 <= getPos.x && getPos.x < 10 + selectBoxWidth * 4 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.fireClicked() // Harvester Box
+          controller.fireClicked()
         } else if (10 + selectBoxWidth * 4 <= getPos.x && getPos.x < 10 + selectBoxWidth * 5 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.scubaClicked() // Harvester Box
+          controller.scubaClicked()
         } else if (10 + selectBoxWidth * 5 <= getPos.x && getPos.x < 10 + selectBoxWidth * 6 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.wallClicked() // Harvester Box
+          controller.wallClicked()
         } else if (10 + selectBoxWidth * 6 <= getPos.x && getPos.x < 10 + selectBoxWidth * 7 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.ninjaClicked() // Harvester Box
+          controller.ninjaClicked()
         } else if (10 + selectBoxWidth * 7 <= getPos.x && getPos.x < 10 + selectBoxWidth * 8 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.hungryClicked() // Harvester Box
+          controller.hungryClicked()
         } else if (10 + selectBoxWidth * 8 <= getPos.x && getPos.x < 10 + selectBoxWidth * 9 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
-          controller.queenClicked() // Harvester Box
+          controller.queenClicked()
         } else {
           controller.placeClicked((getPos.x, getPos.y))
         }
