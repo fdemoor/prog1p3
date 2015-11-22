@@ -13,13 +13,13 @@ class Model {
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-  val p = new Place ("Box0", 20, 100, None, None)
+  val p = new Place ("Box0", 20, 120, None, None)
   _places = p::_places
   for (i <- 1 until 7) {
-    val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 100, Some(_places.head), None)
+    val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, Some(_places.head), None)
     _places = p::_places
   }
-  _places = new WaterPlace ("Box7", 20 + iconPlace.getIconWidth*7, 100, Some(_places.head), None)::_places
+  _places = new WaterPlace ("Box7", 20 + iconPlace.getIconWidth*7, 120, Some(_places.head), None)::_places
   for (i <- 1 to _places.length -1) {
     _places(i).exit_=(Some(_places(i-1)))
   }

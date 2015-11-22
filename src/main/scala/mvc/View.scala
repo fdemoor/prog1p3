@@ -22,7 +22,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     def getPos = peer.getMousePosition()
 
     /* VAR USER INTERFACE */
-    var harvesterSelected: Boolean = false
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
     val harvesterIm = harvesterIcon.getImage
 
@@ -57,29 +56,29 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       val harvesterSelectBox = new geom.GeneralPath
       harvesterSelectBox.moveTo(10, 10)
       harvesterSelectBox.lineTo(10 + harvesterIcon.getIconWidth, 10)
-      harvesterSelectBox.lineTo(10 + harvesterIcon.getIconWidth,  10 + harvesterIcon.getIconHeight)
-      harvesterSelectBox.lineTo(10, 10 + harvesterIcon.getIconHeight)
+      harvesterSelectBox.lineTo(10 + harvesterIcon.getIconWidth,  10 + harvesterIcon.getIconHeight + 40)
+      harvesterSelectBox.lineTo(10, 10 + harvesterIcon.getIconHeight + 40)
       harvesterSelectBox.lineTo(10, 10)
-      if (harvesterSelected) {
+      if (controller.harvesterSelected) {
         g.setColor(Color.red)
       } else {
         g.setColor(Color.black)
       }
+      g.drawString(" Cost: 2", 10, 30)
+      g.drawString(" Armor: 1", 10, 50)
       g.draw(harvesterSelectBox)
-      g.drawImage(harvesterIm, 10, 10, peer)
+      g.drawImage(harvesterIm, 10, 50, peer)
     }
 
-    def harvesterClicked() { harvesterSelected = !harvesterSelected }
 
     /* USER ACTIONS */
     reactions += {
       case e: MousePressed =>
       case e: MouseDragged  =>
       case e: MouseReleased =>
-        if (10 <= getPos.x && getPos.x < 10 + harvesterIcon.getIconWidth &&
-            10 <= getPos.y && getPos.y < 10 + harvesterIcon.getIconHeight) {
+        if (10 <= getPos.x && getPos.x < 10 + harvesterIcon.getIconWidth + 50 &&
+            10 <= getPos.y && getPos.y < 10 + harvesterIcon.getIconHeight + 50) {
           controller.harvesterClicked() // Harvester Box
-          harvesterClicked()
         } else {
           controller.placeClicked((getPos.x, getPos.y))
         }
