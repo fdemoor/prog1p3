@@ -46,7 +46,11 @@ class Controller(_model: Model) {
 
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
-      model.moveActions()
+      model.moveActionsAnts()
+      // Display attacks ?
+      model.removeDeads()
+      model.moveActionsBees()
+      // Display attacks ?
       model.removeDeads()
     }
   }
@@ -70,12 +74,13 @@ class Controller(_model: Model) {
   def ninjaClicked() { ninjaSelected = !ninjaSelected }
   def hungryClicked() { hungrySelected = !hungrySelected }
   def queenClicked() { queenSelected = !queenSelected }
-  
+
   def placeClicked(cursorPos: (Int, Int)): Unit = {
     if (harvesterSelected) {
       model.tryAddingAnt(cursorPos, "harvester")
       // TODO add the tryAddingAnt for other ants
       // Warning with queen : only one can remain !
+      // /!\ You don't have to care about that, the second that you die immediately
     }
   }
 }

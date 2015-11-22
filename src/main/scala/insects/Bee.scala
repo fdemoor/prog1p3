@@ -1,6 +1,7 @@
 package insects
 
 import places.Place
+import mvc.LogsActions
 
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor, true, damagesAmount = 1) {
@@ -15,6 +16,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
     if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
       val ant: Ant = place.get.ant
       ant.armor_=(ant.armor - damages)
+      LogsActions.addAttack(((x, y), (ant.x, ant.y)))
     }
   }
 
@@ -22,6 +24,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   def move() {
     if (place.isDefined && (!place.get.isAntIn || !place.get.ant.blocksPath)) {
       if (place.get.exit.isDefined) moveTowardPlace(place.get.exit.get)
+      else if (place.get.x + place.get.width < x) y_=(y - dy)
       else moveTowardEnd()
     }
   }

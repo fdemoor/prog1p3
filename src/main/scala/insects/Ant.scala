@@ -1,6 +1,7 @@
 package insects
 
 import colony.Colony, places.Place
+import mvc.LogsActions
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
                    , cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0
@@ -59,6 +60,7 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
       if (!bee.isDead) {
         bee.armor_=(bee.armor - damages)
         hasHitBee = true
+        LogsActions.addAttack(((x, y), (bee.x, bee.y)))
       }
       bL = bL.tail
     }
@@ -108,6 +110,7 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
         if (!bee.isDead) {
           bee.armor_=(bee.armor - damages)
           hasHitBee = true
+          LogsActions.addAttack(((x, y), (bee.x, bee.y)))
         }
         bL = bL.tail
       }
@@ -131,6 +134,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
           if (!bee.isDead) {
             bee.armor_=(bee.armor - damages)
             hasHitBee = true
+            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
           }
           bL = bL.tail
         }

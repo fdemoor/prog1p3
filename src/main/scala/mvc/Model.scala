@@ -48,9 +48,13 @@ class Model {
     findPlaceAddingAnt(_places)
   }
 
-  def moveActions(): Unit = {
+  def moveActionsAnts(): Unit = {
     for (p <- _places) {
       if (p.isAntIn) p.ant.moveActions()
+    }
+  }
+  def moveActionsBees(): Unit = {
+    for (p <- _places) {
       for (bee <- p.bees) bee.moveActions()
     }
   }
