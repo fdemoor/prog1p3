@@ -47,6 +47,23 @@ class Model {
     }
     findPlaceAddingAnt(_places)
   }
+  
+  /** Remove an ant when Bye Box is selected */
+  // TODO maybe give back a part of the cost ?
+  def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
+    def findPlaceRemovingAnt(l: List[Place]): Unit = {
+      l match {
+        case Nil => ()
+        case pl :: pls =>
+          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
+              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
+              if (pl.isAntIn) pl.removeAnt()
+          } else {
+            findPlaceRemovingAnt(pls)
+          }
+      }
+    }
+  }
 
   def moveActionsAnts(): Unit = {
     for (p <- _places) {

@@ -24,6 +24,9 @@ class Controller(_model: Model) {
   var ninjaSelected: Boolean = false
   var hungrySelected: Boolean = false
   var queenSelected: Boolean = false
+  var byeSelected: Boolean = false
+  //val listSelected: List[Boolean] = [harvesterSelected, shortThrowerSelected, longThrowerSelected, fireSelected,
+  //  scubaSelected, wallSelected, ninjaSelected, hungrySelected, queenSelected, byeSelected]
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
   def addView(newView: View) {
@@ -74,13 +77,30 @@ class Controller(_model: Model) {
   def ninjaClicked() { ninjaSelected = !ninjaSelected }
   def hungryClicked() { hungrySelected = !hungrySelected }
   def queenClicked() { queenSelected = !queenSelected }
+  def byeClicked() { byeSelected = !byeSelected }
 
   def placeClicked(cursorPos: (Int, Int)): Unit = {
     if (harvesterSelected) {
       model.tryAddingAnt(cursorPos, "harvester")
-      // TODO add the tryAddingAnt for other ants
-      // Warning with queen : only one can remain !
-      // /!\ You don't have to care about that, the second that you die immediately
+    } else if (shortThrowerSelected) {
+      model.tryAddingAnt(cursorPos, "shortThrower")
+    } else if (longThrowerSelected) {
+      model.tryAddingAnt(cursorPos, "longThrower")
+    } else if (fireSelected) {
+      model.tryAddingAnt(cursorPos, "fire")
+    } else if (scubaSelected) {
+      model.tryAddingAnt(cursorPos, "scuba")
+    } else if (wallSelected) {
+      model.tryAddingAnt(cursorPos, "wall")
+    } else if (ninjaSelected) {
+      model.tryAddingAnt(cursorPos, "ninja")
+    } else if (wallSelected) {
+      model.tryAddingAnt(cursorPos, "hungry")
+    } else if (queenSelected) {
+      model.tryAddingAnt(cursorPos, "queen")
+    } else if (byeSelected) {
+      model.tryRemovingAnt(cursorPos)
     }
   }
+  
 }

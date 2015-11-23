@@ -31,11 +31,12 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     val ninjaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_ninja.png"))
     val hungryIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_hungry.png"))
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
+    val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
       
     val selectBoxWidth: Int = 66
-    val selectBoxHeight: Int = 66 + 40  
-      
-
+    val selectBoxHeight: Int = 66 + 40
+    
+    
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
       g.setColor(new Color(100, 100, 100))
@@ -47,8 +48,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       for (p <- placesList) {
         val box = new geom.GeneralPath
         box.moveTo(p.x, p.y)
-        box.lineTo(p.x + p.width,  p.y)
-        box.lineTo(p.x + p.width,  p.y + p.height)
+        box.lineTo(p.x + p.width, p.y)
+        box.lineTo(p.x + p.width, p.y + p.height)
         box.lineTo(p.x, p.y + p.height)
         box.lineTo(p.x, p.y)
         g.draw(box)
@@ -93,6 +94,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       drawSelectedBox(10 + selectBoxWidth * 6, 10, controller.ninjaSelected, 6, 1, ninjaIcon)
       drawSelectedBox(10 + selectBoxWidth * 7, 10, controller.hungrySelected, 4, 1, hungryIcon)
       drawSelectedBox(10 + selectBoxWidth * 8, 10, controller.queenSelected, 6, 2, queenIcon)
+      drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.byeSelected, 0, 0, byeIcon)
       // TODO add bodyguard later, but drawing is a bit different
       
       
@@ -132,6 +134,9 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         } else if (10 + selectBoxWidth * 8 <= getPos.x && getPos.x < 10 + selectBoxWidth * 9 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.queenClicked()
+        } else if (10 + selectBoxWidth * 9 <= getPos.x && getPos.x < 10 + selectBoxWidth * 10 &&
+            10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
+          controller.byeClicked()
         } else {
           controller.placeClicked((getPos.x, getPos.y))
         }
