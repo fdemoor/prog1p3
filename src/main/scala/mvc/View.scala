@@ -14,7 +14,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
   lazy val ui = new Panel {
     background = Color.white
-    preferredSize = new Dimension(800, 600)
+    preferredSize = new Dimension(900, 600)
     focusable = true
     listenTo(mouse.clicks, mouse.moves, keys)
 
@@ -31,6 +31,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     val ninjaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_ninja.png"))
     val hungryIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_hungry.png"))
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
+    val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
       
     val selectBoxWidth: Int = 66
@@ -54,7 +55,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         box.lineTo(p.x, p.y)
         g.draw(box)
         g.drawImage(p.im, p.x, p.y, peer)
-        for (bee <- p.bees) {
+        for (bee <- p.bees) { // TODO deal with bodyguards, improve centering
           g.drawImage(bee.im, bee.x, bee.y, peer)
         }
         if (p.isAntIn) {
@@ -94,8 +95,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       drawSelectedBox(10 + selectBoxWidth * 6, 10, controller.ninjaSelected, 6, 1, ninjaIcon)
       drawSelectedBox(10 + selectBoxWidth * 7, 10, controller.hungrySelected, 4, 1, hungryIcon)
       drawSelectedBox(10 + selectBoxWidth * 8, 10, controller.queenSelected, 6, 2, queenIcon)
-      drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.byeSelected, 0, 0, byeIcon)
-      // TODO add bodyguard later, but drawing is a bit different
+      drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.bodyGuardSelected, 6, 2, bodyGuardIcon)
+      drawSelectedBox(10 + selectBoxWidth * 10, 10, controller.byeSelected, 4, 2, byeIcon)
       
       
     }
@@ -135,6 +136,9 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.queenClicked()
         } else if (10 + selectBoxWidth * 9 <= getPos.x && getPos.x < 10 + selectBoxWidth * 10 &&
+            10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
+          controller.bodyGuardClicked()
+        } else if (10 + selectBoxWidth * 10 <= getPos.x && getPos.x < 10 + selectBoxWidth * 11 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.byeClicked()
         } else {

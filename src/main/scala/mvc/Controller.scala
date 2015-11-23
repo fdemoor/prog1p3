@@ -24,9 +24,23 @@ class Controller(_model: Model) {
   var ninjaSelected: Boolean = false
   var hungrySelected: Boolean = false
   var queenSelected: Boolean = false
+  var bodyGuardSelected: Boolean = false
   var byeSelected: Boolean = false
-  //val listSelected: List[Boolean] = [harvesterSelected, shortThrowerSelected, longThrowerSelected, fireSelected,
-  //  scubaSelected, wallSelected, ninjaSelected, hungrySelected, queenSelected, byeSelected]
+  
+  
+  def initSelecter() = {
+    harvesterSelected = false
+    shortThrowerSelected = false
+    longThrowerSelected = false
+    fireSelected = false
+    scubaSelected = false
+    wallSelected = false
+    ninjaSelected = false
+    hungrySelected = false
+    queenSelected = false
+    bodyGuardSelected = false
+    byeSelected = false
+  }
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
   def addView(newView: View) {
@@ -68,16 +82,50 @@ class Controller(_model: Model) {
     }
   }
 
-  def harvesterClicked() { harvesterSelected = !harvesterSelected }
-  def shortThrowerClicked() { shortThrowerSelected = !shortThrowerSelected }
-  def longThrowerClicked() { longThrowerSelected = !longThrowerSelected }
-  def fireClicked() { fireSelected = !fireSelected }
-  def scubaClicked() { scubaSelected = !scubaSelected }
-  def wallClicked() { wallSelected = !wallSelected }
-  def ninjaClicked() { ninjaSelected = !ninjaSelected }
-  def hungryClicked() { hungrySelected = !hungrySelected }
-  def queenClicked() { queenSelected = !queenSelected }
-  def byeClicked() { byeSelected = !byeSelected }
+  def harvesterClicked() {
+    if (!harvesterSelected) initSelecter()
+      harvesterSelected = !harvesterSelected
+  }
+  def shortThrowerClicked() {
+    if (!shortThrowerSelected) initSelecter()
+      shortThrowerSelected = !shortThrowerSelected
+  }
+  def longThrowerClicked() {
+    if (!longThrowerSelected) initSelecter()
+      longThrowerSelected = !longThrowerSelected
+  }
+  def fireClicked() {
+    if (!fireSelected) initSelecter()
+      fireSelected = !fireSelected
+  }
+  def scubaClicked() {
+    if (!scubaSelected) initSelecter()
+      scubaSelected = !scubaSelected
+  }
+  def wallClicked() {
+    if (!wallSelected) initSelecter()
+      wallSelected = !wallSelected
+  }
+  def ninjaClicked() {
+    if (!ninjaSelected) initSelecter()
+      ninjaSelected = !ninjaSelected
+  }
+  def hungryClicked() {
+    if (!hungrySelected) initSelecter()
+      hungrySelected = !hungrySelected
+  }
+  def queenClicked() {
+    if (!queenSelected) initSelecter()
+      queenSelected = !queenSelected
+  }
+  def bodyGuardClicked() {
+    if (!bodyGuardSelected) initSelecter()
+      bodyGuardSelected = !bodyGuardSelected
+  }
+  def byeClicked() {
+    if (!byeSelected) initSelecter() 
+      byeSelected = !byeSelected
+  }
 
   def placeClicked(cursorPos: (Int, Int)): Unit = {
     if (harvesterSelected) {
@@ -98,6 +146,8 @@ class Controller(_model: Model) {
       model.tryAddingAnt(cursorPos, "hungry")
     } else if (queenSelected) {
       model.tryAddingAnt(cursorPos, "queen")
+    } else if (bodyGuardSelected) {
+      model.tryAddingAnt(cursorPos, "bodyGuard")
     } else if (byeSelected) {
       model.tryRemovingAnt(cursorPos)
     }

@@ -49,7 +49,6 @@ class Model {
   }
   
   /** Remove an ant when Bye Box is selected */
-  // TODO maybe give back a part of the cost ?
   def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
     def findPlaceRemovingAnt(l: List[Place]): Unit = {
       l match {
@@ -63,6 +62,7 @@ class Model {
           }
       }
     }
+    findPlaceRemovingAnt(_places)
   }
 
   def moveActionsAnts(): Unit = {
