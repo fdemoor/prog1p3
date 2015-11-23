@@ -60,6 +60,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     }
   }
 
+  // TODO doesn't work
   def removeAnt(): Unit = {
     require(_ant.isDefined)
     if (ant.isContainer) _ant = ant.asInstanceOf[BodyguardAnt].ant
