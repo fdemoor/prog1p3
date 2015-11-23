@@ -68,7 +68,6 @@ class Controller(_model: Model) {
       model.removeDeads()
       model.moveActionsBees()
       // Display attacks ?
-      model.moveActionsProjectiles()
       model.removeDeads()
     }
   }
@@ -79,6 +78,7 @@ class Controller(_model: Model) {
 
     def actionPerformed(e: ActionEvent): Unit = {
       model.move()
+      model.moveActionsProjectiles()
       view.repaint() // Tell Scala that the image should be redrawn
     }
   }

@@ -2,7 +2,7 @@ package mvc
 
 import javax.swing.ImageIcon
 
-import insects._, places._, colony._
+import insects._, places._, colony._, projectiles._
 
 class Model {
   private var _places: List[Place] = Nil
@@ -12,13 +12,14 @@ class Model {
 
   def places: List[Place] = _places
   def Colony: Colony = _Colony
+  def projectiles: List[Projectile] = _projectiles
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
   val p = new Place ("Box0", 20, 120, None, None)
   
   // ONLY FOR TEST //
-  val beeTest: Bee = new Bee(800, 120, p, 5)
+  val beeTest: Bee = new Bee(800, 120, Some(p), 1)
   val proj: Projectile = new Projectile(20, 120, beeTest)
   _projectiles = proj::_projectiles
   // ------------ //

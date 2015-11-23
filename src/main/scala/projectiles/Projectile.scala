@@ -5,7 +5,10 @@ import insects._
 class Projectile (posX: Int, posY: Int, target: Bee) {
   
   private var _x: Int = posX
-  private var _y: Int = poxY
+  private var _y: Int = posY
+  
+  def x: Int = _x
+  def y: Int = _y
   
   private var _dx: Int = 1
   private var _dy: Int = 0
@@ -16,9 +19,9 @@ class Projectile (posX: Int, posY: Int, target: Bee) {
   }
   
   def hit() = {
-    if (_x == target.x && _y == target.y) {
+    if (_x == target.x && _y == target.y) {
       target.armor_=(target.armor - 1)
-      this = None
+      //TODO this = None how to remove ??
     }
   }
   

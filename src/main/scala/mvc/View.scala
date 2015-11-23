@@ -6,7 +6,7 @@ import javax.swing.ImageIcon
 import scala.swing.event._
 import scala.swing.Panel
 
-class View(_controller: Controller, placesList: List[Place], _Colony: Colony, projectilesList: List[Projectile]}) {
+class View(_controller: Controller, placesList: List[Place], _Colony: Colony, projectilesList: List[Projectile]) {
 
   private val controller: Controller = _controller
   //private val places: List[Place] = placesList
@@ -44,12 +44,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
-      // DRAW PROJECTILES
-      g.setColor(Color.red)
-      for (proj <- projectilesList) {
-        val circle = new geom.Ellipse2D.Double(proj.x.toDouble, proj.y.toDouble, 2., 2.)
-        g.draw(circle)
-      }
 
       // DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
@@ -104,6 +98,14 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
       drawSelectedBox(10 + selectBoxWidth * 8, 10, controller.queenSelected, 6, 2, queenIcon)
       drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.bodyGuardSelected, 6, 2, bodyGuardIcon)
       drawSelectedBox(10 + selectBoxWidth * 10, 10, controller.byeSelected, 4, 2, byeIcon)
+      
+      
+       // DRAW PROJECTILES
+      g.setColor(Color.red)
+      for (proj <- projectilesList) {
+        val circle = new geom.Ellipse2D.Double(proj.x.toDouble, (proj.y + 30).toDouble, 8.0, 8.0)
+        g.draw(circle)
+      }
       
       
     }
