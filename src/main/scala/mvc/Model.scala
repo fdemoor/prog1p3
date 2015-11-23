@@ -88,6 +88,7 @@ class Model {
   def moveActionsProjectiles(): Unit = {
     for (proj <- _projectiles) {
       proj.move()
+      proj.hit()
     }
   }
   def removeDeads(): Unit = {
