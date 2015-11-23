@@ -64,10 +64,11 @@ class Controller(_model: Model) {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
-      // Display attacks ?
+      // Display attacks ? -> when projectile created, you have to add it to _projectiles in model
       model.removeDeads()
       model.moveActionsBees()
       // Display attacks ?
+      model.moveActionsProjectiles()
       model.removeDeads()
     }
   }

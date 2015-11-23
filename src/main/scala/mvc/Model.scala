@@ -7,6 +7,8 @@ import insects._, places._, colony._
 class Model {
   private var _places: List[Place] = Nil
   private val _Colony: Colony = new Colony(2)
+  private var _projectiles: List[Projectile] = Nil
+  
 
   def places: List[Place] = _places
   def Colony: Colony = _Colony
@@ -14,6 +16,13 @@ class Model {
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
   val p = new Place ("Box0", 20, 120, None, None)
+  
+  // ONLY FOR TEST //
+  val beeTest: Bee = new Bee(800, 120, p, 5)
+  val proj: Projectile = new Projectile(20, 120, beeTest)
+  _projectiles = proj::_projectiles
+  // ------------ //
+  
   _places = p::_places
   for (i <- 1 until 7) {
     val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, Some(_places.head), None)
@@ -73,6 +82,11 @@ class Model {
   def moveActionsBees(): Unit = {
     for (p <- _places) {
       for (bee <- p.bees) bee.moveActions()
+    }
+  }
+  def moveActionsProjectiles(): Unit = {
+    for (proj <- _projectiles) {
+      proj.move()
     }
   }
   def removeDeads(): Unit = {

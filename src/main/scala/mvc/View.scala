@@ -1,12 +1,12 @@
 package mvc
 
-import colony.Colony, places.Place
+import colony.Colony, places.Place, projectiles.Projectile
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
 import scala.swing.event._
 import scala.swing.Panel
 
-class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
+class View(_controller: Controller, placesList: List[Place], _Colony: Colony, projectilesList: List[Projectile]}) {
 
   private val controller: Controller = _controller
   //private val places: List[Place] = placesList
@@ -44,8 +44,15 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
-      g.setColor(Color.black)
+      // DRAW PROJECTILES
+      g.setColor(Color.red)
+      for (proj <- projectilesList) {
+        val circle = new geom.Ellipse2D.Double(proj.x.toDouble, proj.y.toDouble, 2., 2.)
+        g.draw(circle)
+      }
 
+      // DRAW PLACES AND INSECTS //
+      g.setColor(Color.black)
       for (p <- placesList) {
         val box = new geom.GeneralPath
         box.moveTo(p.x, p.y)
