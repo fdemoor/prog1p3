@@ -42,6 +42,7 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
+                
             if (typeAnt == "harvester") {
               // Put new Harvester
               try {
@@ -49,7 +50,71 @@ class Model {
               } catch {
                 case ex: IllegalArgumentException => ()
               }
+            } else if (typeAnt == "shortThrower") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "longThrower") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if if (typeAnt == "fire") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "scuba") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "wall") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "ninja") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "hungry") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
+            } else if (typeAnt == "queen") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              } else if (typeAnt == "bodyGuard") {
+              // Put new Harvester
+              try {
+                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              } catch {
+                case ex: IllegalArgumentException => ()
+              }
             }
+            }
+            
           } else {
             findPlaceAddingAnt(pls)
           }
