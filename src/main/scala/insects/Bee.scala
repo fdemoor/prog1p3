@@ -42,7 +42,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
 
   def moveTowardEnd(): Unit = {
     x_=(x - dx)
-    if (place.get.x - (place.get.width / 2) == x) {
+    if (place.get.x - (place.get.width / 2) >= x) {
       hasGoneThrough = true
     }
   }

@@ -109,7 +109,7 @@ class Model {
             } else if (typeAnt == "bodyGuard") {
               // Put new Harvester
               try {
-                if (pl.isAntIn) new BodyguardAnt(pl.x, pl.y,_Colony, Some(p), Some(pl.ant))
+                new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
@@ -152,10 +152,6 @@ class Model {
     }
   }
   def moveActionsProjectiles(): Unit = {
-//    for (proj <- _projectiles) {
-//      proj.move()
-////      proj.hit()
-//    }
     Projectiles.moves()
   }
   def removeDeads(): Unit = {
