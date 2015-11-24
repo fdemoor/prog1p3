@@ -1,12 +1,12 @@
 package mvc
 
-import colony.Colony, places.Place, projectiles.Projectile
+import colony.Colony, places.Place, projectiles.Projectiles
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
 import scala.swing.event._
 import scala.swing.Panel
 
-class View(_controller: Controller, placesList: List[Place], _Colony: Colony, projectilesList: List[Projectile]) {
+class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
   private val controller: Controller = _controller
   //private val places: List[Place] = placesList
@@ -33,11 +33,11 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
     val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-      
+
     val selectBoxWidth: Int = 66
     val selectBoxHeight: Int = 66 + 40
-    
-    
+
+
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
       g.setColor(new Color(100, 100, 100))
@@ -66,7 +66,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
 
       /* DRAW USER INTERFACE */
       g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
-      
+
       /** Draw a Selecter Box and print cost and armor of the unit, red if selected, black otherwise */
       def drawSelectedBox(x: Int, y: Int, bool: Boolean, cost: Int, armor: Int, icon: ImageIcon) = {
         val currentSelectBox = new geom.GeneralPath
@@ -98,16 +98,14 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
       drawSelectedBox(10 + selectBoxWidth * 8, 10, controller.queenSelected, 6, 2, queenIcon)
       drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.bodyGuardSelected, 6, 2, bodyGuardIcon)
       drawSelectedBox(10 + selectBoxWidth * 10, 10, controller.byeSelected, 4, 2, byeIcon)
-      
-      
+
+
        // DRAW PROJECTILES
       g.setColor(Color.red)
-      for (proj <- projectilesList) {
-        val circle = new geom.Ellipse2D.Double(proj.x.toDouble, (proj.y + 30).toDouble, 8.0, 8.0)
+      for (p <- Projectiles.projectiles) {
+        val circle = new geom.Ellipse2D.Double(p.x, p.y + 30, 8, 8)
         g.draw(circle)
       }
-      
-      
     }
 
 
@@ -116,7 +114,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony, pr
       case e: MousePressed =>
       case e: MouseDragged  =>
       case e: MouseReleased =>
-      
+
         if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.harvesterClicked()

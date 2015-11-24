@@ -7,23 +7,17 @@ import insects._, places._, colony._, projectiles._
 class Model {
   private var _places: List[Place] = Nil
   private val _Colony: Colony = new Colony(2)
-  private var _projectiles: List[Projectile] = Nil
-  
+//  private var _projectiles: List[Projectile] = Nil
+
 
   def places: List[Place] = _places
   def Colony: Colony = _Colony
-  def projectiles: List[Projectile] = _projectiles
+//  def projectiles: List[Projectile] = _projectiles
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
   val p = new Place ("Box0", 20, 120, None, None)
-  
-  // ONLY FOR TEST //
-  val beeTest: Bee = new Bee(800, 120, Some(p), 1)
-  val proj: Projectile = new Projectile(20, 120, beeTest)
-  _projectiles = proj::_projectiles
-  // ------------ //
-  
+
   _places = p::_places
   for (i <- 1 until 7) {
     val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, Some(_places.head), None)
@@ -33,6 +27,12 @@ class Model {
   for (i <- 1 to _places.length -1) {
     _places(i).exit_=(Some(_places(i-1)))
   }
+
+  // ONLY FOR TEST //
+  val beeTest: Bee = new Bee(800, 120, Some(_places.head), 1)
+  //  val proj: Projectile = new Projectile(20, 120, beeTest, 2)
+  //  _projectiles = proj::_projectiles
+  // ------------ //
 
   /** A place has been clicked, find it and (eventually) add the ant. */
   def tryAddingAnt(cursorPos: (Int, Int), typeAnt: String): Unit = {
@@ -122,7 +122,7 @@ class Model {
     }
     findPlaceAddingAnt(_places)
   }
-  
+
   /** Remove an ant when Bye Box is selected */
   def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
     def findPlaceRemovingAnt(l: List[Place]): Unit = {
@@ -151,10 +151,11 @@ class Model {
     }
   }
   def moveActionsProjectiles(): Unit = {
-    for (proj <- _projectiles) {
-      proj.move()
-      proj.hit()
-    }
+//    for (proj <- _projectiles) {
+//      proj.move()
+////      proj.hit()
+//    }
+    Projectiles.moves()
   }
   def removeDeads(): Unit = {
     for (p <- _places) {

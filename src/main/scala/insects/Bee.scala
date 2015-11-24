@@ -1,7 +1,8 @@
 package insects
 
 import places.Place
-import mvc.LogsActions
+//import mvc.LogsActions
+import projectiles.{Projectile, Projectiles}
 
 class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor, true, damagesAmount = 1) {
@@ -15,8 +16,9 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   override def moveActions() {
     if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
       val ant: Ant = place.get.ant
-      ant.armor_=(ant.armor - damages)
-      LogsActions.addAttack(((x, y), (ant.x, ant.y)))
+//      ant.armor_=(ant.armor - damages)
+//      LogsActions.addAttack(((x, y), (ant.x, ant.y)))
+      Projectiles.addProjectile(new Projectile(x, y, ant, damages))
     }
   }
 
