@@ -29,7 +29,7 @@ class Model {
   }
 
   def beeWave(): Unit = {
-    new Bee(800, 120, Some(_places.head), 2)
+    new Bee(800, 120, Some(_places.head), 3)
   }
   
   // ONLY FOR TEST //

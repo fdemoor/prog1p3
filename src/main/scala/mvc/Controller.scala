@@ -77,14 +77,11 @@ class Controller(_model: Model) {
     timerFrame.setCoalesce(true)
     timerFrame.start()
     
-    private var k: Int = 1
-
     def actionPerformed(e: ActionEvent): Unit = {
-      if (k == 0) model.move()
+      model.move()
       model.moveActionsProjectiles()
       model.removeDeads()
       view.repaint() // Tell Scala that the image should be redrawn
-      k = (k+1)%2
     }
   }
 
