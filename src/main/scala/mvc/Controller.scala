@@ -26,8 +26,8 @@ class Controller(_model: Model) {
   var queenSelected: Boolean = false
   var bodyGuardSelected: Boolean = false
   var byeSelected: Boolean = false
-  
-  
+
+
   def initSelecter() = {
     harvesterSelected = false
     shortThrowerSelected = false
@@ -64,10 +64,9 @@ class Controller(_model: Model) {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
-      // Display attacks ? -> when projectile created, you have to add it to _projectiles in model
+      model.moveActionsProjectiles()
       model.removeDeads()
       model.moveActionsBees()
-      // Display attacks ?
       model.removeDeads()
     }
   }
@@ -85,47 +84,47 @@ class Controller(_model: Model) {
 
   def harvesterClicked() {
     if (!harvesterSelected) initSelecter()
-      harvesterSelected = !harvesterSelected
+    harvesterSelected = !harvesterSelected
   }
   def shortThrowerClicked() {
     if (!shortThrowerSelected) initSelecter()
-      shortThrowerSelected = !shortThrowerSelected
+    shortThrowerSelected = !shortThrowerSelected
   }
   def longThrowerClicked() {
     if (!longThrowerSelected) initSelecter()
-      longThrowerSelected = !longThrowerSelected
+    longThrowerSelected = !longThrowerSelected
   }
   def fireClicked() {
     if (!fireSelected) initSelecter()
-      fireSelected = !fireSelected
+    fireSelected = !fireSelected
   }
   def scubaClicked() {
     if (!scubaSelected) initSelecter()
-      scubaSelected = !scubaSelected
+    scubaSelected = !scubaSelected
   }
   def wallClicked() {
     if (!wallSelected) initSelecter()
-      wallSelected = !wallSelected
+    wallSelected = !wallSelected
   }
   def ninjaClicked() {
     if (!ninjaSelected) initSelecter()
-      ninjaSelected = !ninjaSelected
+    ninjaSelected = !ninjaSelected
   }
   def hungryClicked() {
     if (!hungrySelected) initSelecter()
-      hungrySelected = !hungrySelected
+    hungrySelected = !hungrySelected
   }
   def queenClicked() {
     if (!queenSelected) initSelecter()
-      queenSelected = !queenSelected
+    queenSelected = !queenSelected
   }
   def bodyGuardClicked() {
     if (!bodyGuardSelected) initSelecter()
-      bodyGuardSelected = !bodyGuardSelected
+    bodyGuardSelected = !bodyGuardSelected
   }
   def byeClicked() {
-    if (!byeSelected) initSelecter() 
-      byeSelected = !byeSelected
+    if (!byeSelected) initSelecter()
+    byeSelected = !byeSelected
   }
 
   def placeClicked(cursorPos: (Int, Int)): Unit = {
@@ -153,5 +152,4 @@ class Controller(_model: Model) {
       model.tryRemovingAnt(cursorPos)
     }
   }
-  
 }

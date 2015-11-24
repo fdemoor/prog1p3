@@ -1,7 +1,8 @@
 package insects
 
 import colony.Colony, places.Place
-import mvc.LogsActions
+//import mvc.LogsActions
+import projectiles._
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
                    , cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0
@@ -58,9 +59,10 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
     while (bL.nonEmpty && !hasHitBee) {
       val bee: Bee = bL.head
       if (!bee.isDead) {
-        bee.armor_=(bee.armor - damages)
+//        bee.armor_=(bee.armor - damages)
         hasHitBee = true
-        LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+        Projectiles.addProjectile(new Projectile(x, y, bee, damages))
+//        LogsActions.addAttack(((x, y), (bee.x, bee.y)))
       }
       bL = bL.tail
     }
@@ -108,9 +110,10 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       while (bL.nonEmpty && !hasHitBee) {
         val bee: Bee = currentPlace.get.bees.head
         if (!bee.isDead) {
-          bee.armor_=(bee.armor - damages)
+//          bee.armor_=(bee.armor - damages)
           hasHitBee = true
-          LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+//          LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+          Projectiles.addProjectile(new Projectile(x, y, bee, damages))
         }
         bL = bL.tail
       }
@@ -132,9 +135,10 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
         while (bL.nonEmpty && !hasHitBee) {
           val bee: Bee = currentPlace.get.bees.head
           if (!bee.isDead) {
-            bee.armor_=(bee.armor - damages)
+//            bee.armor_=(bee.armor - damages)
             hasHitBee = true
-            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+//            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+            Projectiles.addProjectile(new Projectile(x, y, bee, damages))
           }
           bL = bL.tail
         }
