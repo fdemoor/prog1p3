@@ -53,62 +53,63 @@ class Model {
             } else if (typeAnt == "shortThrower") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new ShortThrower(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "longThrower") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new LongThrower(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if if (typeAnt == "fire") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new FireAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "scuba") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "wall") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new WallAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "ninja") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "hungry") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "queen") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               } else if (typeAnt == "bodyGuard") {
               // Put new Harvester
               try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                if (pl.isAntIn) {
+                  new BodyguardAnt(pl.x, pl.y,_Colony, Some(p), Some(pl.ant))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
