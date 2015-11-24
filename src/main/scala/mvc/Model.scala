@@ -28,8 +28,12 @@ class Model {
     _places(i).entrance_=(Some(_places(i-1)))
   }
 
+  def beeWave(): Unit = {
+    new Bee(800, 120, Some(_places.head), 2)
+  }
+  
   // ONLY FOR TEST //
-  val beeTest: Bee = new Bee(800, 120, Some(_places.head), 1)
+  // val beeTest: Bee = new Bee(800, 120, Some(_places.head), 1)
   //  val proj: Projectile = new Projectile(20, 120, beeTest, 2)
   //  _projectiles = proj::_projectiles
   // ------------ //

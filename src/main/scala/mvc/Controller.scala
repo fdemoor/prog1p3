@@ -61,22 +61,30 @@ class Controller(_model: Model) {
     timerTurn.setCoalesce(true) // Please restart by yourself
     timerTurn.start()           // Let's go
 
+    /* Counter to init new wave */
+    private var k: Int = 6
+
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
       model.moveActionsBees()
+      if (k <= 5) model.beeWave()
+      k = (k+1)%10
     }
   }
   class MyTimerFrame extends ActionListener {
     val timerFrame = new Timer(10, this)
     timerFrame.setCoalesce(true)
     timerFrame.start()
+    
+    private var k: Int = 1
 
     def actionPerformed(e: ActionEvent): Unit = {
-      model.move()
+      if (k == 0) model.move()
       model.moveActionsProjectiles()
       model.removeDeads()
       view.repaint() // Tell Scala that the image should be redrawn
+      k = (k+1)%2
     }
   }
 
