@@ -64,10 +64,7 @@ class Controller(_model: Model) {
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
-      model.moveActionsProjectiles()
-      model.removeDeads()
       model.moveActionsBees()
-      model.removeDeads()
     }
   }
   class MyTimerFrame extends ActionListener {
@@ -78,6 +75,7 @@ class Controller(_model: Model) {
     def actionPerformed(e: ActionEvent): Unit = {
       model.move()
       model.moveActionsProjectiles()
+      model.removeDeads()
       view.repaint() // Tell Scala that the image should be redrawn
     }
   }

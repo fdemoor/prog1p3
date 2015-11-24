@@ -1,7 +1,6 @@
 package insects
 
 import colony.Colony, places.Place
-//import mvc.LogsActions
 import projectiles._
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
@@ -51,7 +50,8 @@ class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 
 class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], cost: Int = 2
                  , armor: Int = 1, name: String = "thrower", waterProof: Boolean = false, blocksPath: Boolean = true)
-  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1) {
+  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1
+              , waterProof = waterProof) {
 
   override def moveActions() {
     var hasHitBee: Boolean = false
@@ -59,10 +59,8 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
     while (bL.nonEmpty && !hasHitBee) {
       val bee: Bee = bL.head
       if (!bee.isDead) {
-//        bee.armor_=(bee.armor - damages)
         hasHitBee = true
-        Projectiles.addProjectile(new Projectile(x, y, bee, damages))
-//        LogsActions.addAttack(((x, y), (bee.x, bee.y)))
+        new Projectile(x, y, bee, damages)
       }
       bL = bL.tail
     }
@@ -79,9 +77,8 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   /* Kill it if there's already a queen. */
   for (p <- places if p != place.get) {
     if (p.isAntIn && (p.ant.isInstanceOf[QueenAnt] ||
-      (p.ant.isContainer &&
-        p.ant.asInstanceOf[BodyguardAnt].ant.isDefined &&
-        p.ant.asInstanceOf[BodyguardAnt].ant.get.isInstanceOf[QueenAnt]))) armor_=(0)
+      (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined &&
+        p.ant.asInstanceOf[BodyguardAnt].ant.get.isInstanceOf[QueenAnt]))) place.get.removeQueen()
   }
 
   override def moveActions(): Unit = {
@@ -108,12 +105,10 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     while (i > 0 && currentPlace.isDefined && !hasHitBee) {
       var bL: List[Bee] = currentPlace.get.bees
       while (bL.nonEmpty && !hasHitBee) {
-        val bee: Bee = currentPlace.get.bees.head
+        val bee: Bee = bL.head
         if (!bee.isDead) {
-//          bee.armor_=(bee.armor - damages)
           hasHitBee = true
-//          LogsActions.addAttack(((x, y), (bee.x, bee.y)))
-          Projectiles.addProjectile(new Projectile(x, y, bee, damages))
+          new Projectile(x, y, bee, damages)
         }
         bL = bL.tail
       }
@@ -133,12 +128,12 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       while (currentPlace.isDefined && !hasHitBee) {
         var bL: List[Bee] = currentPlace.get.bees
         while (bL.nonEmpty && !hasHitBee) {
-          val bee: Bee = currentPlace.get.bees.head
+          val bee: Bee = bL.head
           if (!bee.isDead) {
 //            bee.armor_=(bee.armor - damages)
             hasHitBee = true
 //            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
-            Projectiles.addProjectile(new Projectile(x, y, bee, damages))
+            new Projectile(x, y, bee, damages)
           }
           bL = bL.tail
         }

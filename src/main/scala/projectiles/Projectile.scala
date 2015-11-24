@@ -14,7 +14,7 @@ class Projectile (posX: Int, posY: Int, target: Insect, damages: Int) {
   def y: Int = _y
   def hasHit: Boolean = _hasHit
 
-  private var _dx: Int = 1
+  private var _dx: Int = 3
   private var _dy: Int = 0
 
   def move() = {
@@ -25,7 +25,8 @@ class Projectile (posX: Int, posY: Int, target: Insect, damages: Int) {
   }
 
   def hit() = {
-    if (_x == target.x && _y == target.y) {
+    if (x >= target.x && x <= target.x + target.icon.getIconWidth &&
+        y >= target.y && y <= target.y + target.icon.getIconHeight) {
       target.armor_=(target.armor - damages)
       _hasHit = true
     }

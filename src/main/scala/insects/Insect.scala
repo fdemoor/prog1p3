@@ -10,7 +10,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
 
   private var _x: Int = posX
   private var _y: Int = posY
-  private var _dx: Int = 0
+  private var _dx: Int = 1
   private var _dy: Int = 0
   private var _place: Option[Place] = placeInit
   private var _armor = armorInit

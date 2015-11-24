@@ -60,11 +60,16 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     }
   }
 
-  // TODO doesn't work
   def removeAnt(): Unit = {
     require(_ant.isDefined)
     if (ant.isContainer) _ant = ant.asInstanceOf[BodyguardAnt].ant
     else if (!ant.isInstanceOf[QueenAnt]) _ant = None
+  }
+
+  /** Should be called only to remove a queen when there is already one in the tunnel.*/
+  def removeQueen(): Unit = {
+    if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(None)
+    else _ant = None
   }
 }
 
@@ -76,7 +81,7 @@ class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place]
 
   override def addAnt(a: Ant): Unit = {
     super.addAnt(a)
-    if (!a.isWaterProof) {
+    if (isAntIn && !a.isWaterProof) {
       a.armor_=(0)
       removeAnt()
     }

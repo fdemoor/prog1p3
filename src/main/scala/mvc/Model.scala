@@ -16,16 +16,16 @@ class Model {
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-  val p = new Place ("Box0", 20, 120, None, None)
+  val p = new Place("Box0", 20, 120, None, None)
 
   _places = p::_places
   for (i <- 1 until 7) {
-    val p = new Place ("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, Some(_places.head), None)
+    val p = new Place("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, None, Some(_places.head))
     _places = p::_places
   }
-  _places = new WaterPlace ("Box7", 20 + iconPlace.getIconWidth*7, 120, Some(_places.head), None)::_places
-  for (i <- 1 to _places.length -1) {
-    _places(i).exit_=(Some(_places(i-1)))
+  _places = new WaterPlace("Box7", 20 + iconPlace.getIconWidth*7, 120, None, Some(_places.head))::_places
+  for (i <- 1 to _places.length - 1) {
+    _places(i).entrance_=(Some(_places(i-1)))
   }
 
   // ONLY FOR TEST //
@@ -42,7 +42,7 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-                
+
             if (typeAnt == "harvester") {
               // Put new Harvester
               try {
@@ -105,7 +105,7 @@ class Model {
                 new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
-              } 
+              }
             } else if (typeAnt == "bodyGuard") {
               // Put new Harvester
               try {
@@ -114,8 +114,8 @@ class Model {
                 case ex: IllegalArgumentException => ()
               }
             }
-            
-            
+
+
           } else {
             findPlaceAddingAnt(pls)
           }
