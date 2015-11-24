@@ -64,7 +64,7 @@ class Model {
               } catch {
                 case ex: IllegalArgumentException => ()
               }
-            } else if if (typeAnt == "fire") {
+            } else if (typeAnt == "fire") {
               // Put new Harvester
               try {
                 new FireAnt(pl.x, pl.y, _Colony, Some(pl))
@@ -105,16 +105,16 @@ class Model {
                 new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
-              } else if (typeAnt == "bodyGuard") {
+              } 
+            } else if (typeAnt == "bodyGuard") {
               // Put new Harvester
               try {
-                if (pl.isAntIn) {
-                  new BodyguardAnt(pl.x, pl.y,_Colony, Some(p), Some(pl.ant))
+                if (pl.isAntIn) new BodyguardAnt(pl.x, pl.y,_Colony, Some(p), Some(pl.ant))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             }
-            }
+            
             
           } else {
             findPlaceAddingAnt(pls)
