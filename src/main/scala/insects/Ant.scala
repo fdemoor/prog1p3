@@ -148,10 +148,10 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "fire", colony, _place, cost = 5, damagesAmount = 3) {
 
   override def armor_=(newArmor: Int): Unit = {
-    armor_=(newArmor)
+    super.armor_=(newArmor)
     if (armor <= 0) {
       kill()
-      for (bee <- place.get.bees) bee.armor_=(bee.armor - damages)
+      for (bee <- place.get.bees) new Projectile(x, y, bee, damages)
     }
   }
 
@@ -196,15 +196,15 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   }
 }
 
-class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], antInit: Option[Ant] = None)
+class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
 
-  private var _ant: Option[Ant] = antInit
+  private var _ant: Option[Ant] = None // if (place.get.isAntIn) Some(place.get.ant) else None
 
   def ant: Option[Ant] = _ant
   def canAddAnt: Boolean = ant.isEmpty
 
-  def ant_=(modifiedAnt: Option[Ant]) {
+  def ant_=(modifiedAnt: Option[Ant]) {  //TODO This is bugged apparently
     if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
     _ant = modifiedAnt
   }
