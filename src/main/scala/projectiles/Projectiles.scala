@@ -8,14 +8,7 @@ object Projectiles {
   def addProjectile(newProjectile: Projectile) { _projectiles = newProjectile::_projectiles }
 
   def removeProjectile(oldProjectile: Projectile): Unit = {
-    def removeFromList(l: List[Projectile], elt: Projectile): List[Projectile] = {
-      l match {
-        case Nil => Nil
-        case x::xs => if (x == elt) xs
-                      else x::removeFromList(xs, elt)
-      }
-    }
-    removeFromList(_projectiles, oldProjectile)
+    _projectiles = _projectiles.filter(_ != oldProjectile)
   }
 
   def moves(): Unit = {
