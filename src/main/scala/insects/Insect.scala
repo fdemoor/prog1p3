@@ -8,9 +8,9 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
-  private var _x: Int = posX
+  private var _x: Float = posX.toFloat
   private var _y: Int = posY
-  private var _dx: Int = 0
+  private var _dx: Float = 0.3f
   private var _dy: Int = 0
   private var _place: Option[Place] = placeInit
   private var _armor = armorInit
@@ -18,9 +18,9 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var doubledDamages: Boolean = false
   private val _damages: Int = damagesAmount
 
-  def x: Int = _x
+  def x: Float = _x
   def y: Int = _y
-  def dx: Int = _dx
+  def dx: Float = _dx
   def dy: Int = _dy
   def place: Option[Place] = _place
   def armor: Int = _armor
@@ -32,7 +32,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
     else _damages
   }
 
-  def x_=(newX: Int) {
+  def x_=(newX: Float) {
     _x = newX
   }
   def y_=(newY: Int) {

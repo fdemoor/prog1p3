@@ -17,7 +17,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
       val ant: Ant = place.get.ant
 //      ant.armor_=(ant.armor - damages)
 //      LogsActions.addAttack(((x, y), (ant.x, ant.y)))
-      new Projectile(x, y, ant, damages)
+      new Projectile(x.toInt, y, ant, damages)
     }
   }
 

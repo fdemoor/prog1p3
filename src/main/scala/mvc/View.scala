@@ -59,10 +59,10 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         val xtoCenter: Int = (p.width - selectBoxWidth) / 2
         val ytoCenter: Int = (p.height - selectBoxWidth) / 2
         for (bee <- p.bees) { // TODO deal with bodyguards, improve centering
-          g.drawImage(bee.im, bee.x + xtoCenter, bee.y + ytoCenter, peer)
+          g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
         }
         if (p.isAntIn) {
-          g.drawImage(p.ant.im, p.ant.x + xtoCenter, p.ant.y + ytoCenter, peer)
+          g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
         }
       }
 
