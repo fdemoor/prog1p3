@@ -60,7 +60,7 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
       val bee: Bee = bL.head
       if (!bee.isDead) {
         hasHitBee = true
-        new Projectile(x, y, bee, damages)
+        new Projectile(x.toInt, y, bee, damages)
       }
       bL = bL.tail
     }
@@ -108,7 +108,7 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
         val bee: Bee = bL.head
         if (!bee.isDead) {
           hasHitBee = true
-          new Projectile(x, y, bee, damages)
+          new Projectile(x.toInt, y, bee, damages)
         }
         bL = bL.tail
       }
@@ -133,7 +133,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 //            bee.armor_=(bee.armor - damages)
             hasHitBee = true
 //            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
-            new Projectile(x, y, bee, damages)
+            new Projectile(x.toInt, y, bee, damages)
           }
           bL = bL.tail
         }
@@ -151,7 +151,7 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     super.armor_=(newArmor)
     if (armor <= 0) {
       kill()
-      for (bee <- place.get.bees) new Projectile(x, y, bee, damages)
+      for (bee <- place.get.bees) new Projectile(x.toInt, y, bee, damages)
     }
   }
 
@@ -204,8 +204,8 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   def ant: Option[Ant] = _ant
   def canAddAnt: Boolean = ant.isEmpty
 
-  def ant_=(modifiedAnt: Option[Ant]) {  //TODO This is bugged apparently
-    if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
+  def ant_=(modifiedAnt: Option[Ant]) {
+//    if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
     _ant = modifiedAnt
   }
 
