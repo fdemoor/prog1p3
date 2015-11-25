@@ -3,6 +3,8 @@ package mvc
 import colony.Colony, places.Place, projectiles.Projectiles
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
+import insects.BodyguardAnt
+
 import scala.swing.event._
 import scala.swing.Panel
 
@@ -62,6 +64,10 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
           g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
         }
         if (p.isAntIn) {
+          if (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
+            val underAnt = p.ant.asInstanceOf[BodyguardAnt].ant.get
+            g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y + ytoCenter, peer)
+          }
           g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
         }
       }

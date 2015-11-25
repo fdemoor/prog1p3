@@ -76,7 +76,7 @@ class Controller(_model: Model) {
     val timerFrame = new Timer(10, this)
     timerFrame.setCoalesce(true)
     timerFrame.start()
-    
+
     def actionPerformed(e: ActionEvent): Unit = {
       model.move()
       model.moveActionsProjectiles()
@@ -145,7 +145,7 @@ class Controller(_model: Model) {
       model.tryAddingAnt(cursorPos, "wall")
     } else if (ninjaSelected) {
       model.tryAddingAnt(cursorPos, "ninja")
-    } else if (wallSelected) {
+    } else if (hungrySelected) {
       model.tryAddingAnt(cursorPos, "hungry")
     } else if (queenSelected) {
       model.tryAddingAnt(cursorPos, "queen")

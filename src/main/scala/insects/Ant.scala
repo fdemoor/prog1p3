@@ -165,7 +165,7 @@ class WallAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   override def moveActions() {}
 }
 
-/** Ant that kill a random bee in its tunnel each 3 turns. */
+/** Ant that kills a random bee in its tunnel each 3 turns. */
 class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "hungry", colony, _place, cost = 4) {
 
@@ -211,7 +211,7 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 
   override def armor_=(newArmor: Int): Unit = {
     super.armor_=(newArmor)
-    if (newArmor <= 0) {
+    if (isDead && ant.isDefined) {
       ant.get.armor_=(ant.get.armor + newArmor)
       place.get.removeAnt()
     }
