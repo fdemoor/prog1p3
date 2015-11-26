@@ -60,7 +60,7 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
       val bee: Bee = bL.head
       if (!bee.isDead) {
         hasHitBee = true
-        new Projectile(x.toInt, y, bee, damages)
+        new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
       }
       bL = bL.tail
     }
@@ -108,7 +108,7 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
         val bee: Bee = bL.head
         if (!bee.isDead) {
           hasHitBee = true
-          new Projectile(x.toInt, y, bee, damages)
+          new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
         }
         bL = bL.tail
       }
@@ -133,7 +133,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 //            bee.armor_=(bee.armor - damages)
             hasHitBee = true
 //            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
-            new Projectile(x.toInt, y, bee, damages)
+            new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
           }
           bL = bL.tail
         }
@@ -151,7 +151,7 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     super.armor_=(newArmor)
     if (armor <= 0) {
       kill()
-      for (bee <- place.get.bees) new Projectile(x.toInt, y, bee, damages)
+      for (bee <- place.get.bees) new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
     }
   }
 
