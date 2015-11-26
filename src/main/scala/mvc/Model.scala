@@ -17,22 +17,22 @@ class Model {
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-  
+
   val gridWidth: Int = 8
   val gridHeight: Int = 5
 
   /** Create a grid of nXp places, perWater is the probability percentage of water places
    *  Return an array of the p tunnel entrances */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
-    
+
     val alea = new Random()
     val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
-  
+
     for (i <- 0 until p) {
-      
+
       var p = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
       _places = p::_places
-      
+
       for (j <- 1 until n) {
         if (alea.nextInt(101) > perWater) {
           p = new Place("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
@@ -43,23 +43,23 @@ class Model {
         }
         _places = p::_places
       }
-      
+
       for (j <- 1 until n) {
-        _places(j+i*n).entrance_=(Some(_places(j+i*n-1)))
+        _places(j).entrance_=(Some(_places(j-1)))
       }
-      
+
       tunnelEntrances(i) = Some(_places.head)
     }
     tunnelEntrances
   }
-  
+
   val tunnelEntrances: Array[Option[Place]] = grid(gridWidth, gridHeight, 15)
   val aleaWave = new Random()
-  
+
   def beeWave(): Unit = {
     val choice: Int = aleaWave.nextInt(gridHeight)
-    new Bee(800, 120 + iconPlace.getIconHeight*(choice),
-      Some(tunnelEntrances(choice).get), 3)
+    new Bee(800, 120 + iconPlace.getIconHeight*choice,
+      tunnelEntrances(choice), 3)
   }
 
 
