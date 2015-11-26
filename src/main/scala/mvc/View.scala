@@ -16,7 +16,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
   lazy val ui = new Panel {
     background = Color.white
-    preferredSize = new Dimension(900, 600)
+    preferredSize = new Dimension(900, 700)
     focusable = true
     listenTo(mouse.clicks, mouse.moves, keys)
 

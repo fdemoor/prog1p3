@@ -1,6 +1,7 @@
 package mvc
 
 import javax.swing.ImageIcon
+import util.Random
 
 import insects._, places._, colony._, projectiles._
 
@@ -16,27 +17,52 @@ class Model {
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-  val p = new Place("Box0", 20, 120, None, None)
+  
+  val gridWidth: Int = 8
+  val gridHeight: Int = 5
 
-  _places = p::_places
-  for (i <- 1 until 7) {
-    val p = new Place("Box" + i.toString, 20 + iconPlace.getIconWidth*i, 120, None, Some(_places.head))
-    _places = p::_places
+  /** Create a grid of nXp places, perWater is the probability percentage of water places
+   *  Return an array of the p tunnel entrances */
+  def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
+    
+    val alea = new Random()
+    val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
+  
+    for (i <- 0 until p) {
+      
+      var p = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
+      _places = p::_places
+      
+      for (j <- 1 until n) {
+        if (alea.nextInt(101) > perWater) {
+          p = new Place("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
+                120 + iconPlace.getIconHeight*i, None, Some(_places.head))
+        } else {
+          p = new WaterPlace("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
+                120 + iconPlace.getIconHeight*i, None, Some(_places.head))
+        }
+        _places = p::_places
+      }
+      
+      for (j <- 1 until n) {
+        _places(j+i*n).entrance_=(Some(_places(j+i*n-1)))
+      }
+      
+      tunnelEntrances(i) = Some(_places.head)
+    }
+    tunnelEntrances
   }
-  _places = new WaterPlace("Box7", 20 + iconPlace.getIconWidth*7, 120, None, Some(_places.head))::_places
-  for (i <- 1 to _places.length - 1) {
-    _places(i).entrance_=(Some(_places(i-1)))
-  }
-
+  
+  val tunnelEntrances: Array[Option[Place]] = grid(gridWidth, gridHeight, 15)
+  val aleaWave = new Random()
+  
   def beeWave(): Unit = {
-    new Bee(800, 120, Some(_places.head), 3)
+    val choice: Int = aleaWave.nextInt(gridHeight)
+    new Bee(800, 120 + iconPlace.getIconHeight*(choice),
+      Some(tunnelEntrances(choice).get), 3)
   }
 
-  // ONLY FOR TEST //
-  // val beeTest: Bee = new Bee(800, 120, Some(_places.head), 1)
-  //  val proj: Projectile = new Projectile(20, 120, beeTest, 2)
-  //  _projectiles = proj::_projectiles
-  // ------------ //
+
 
   /** A place has been clicked, find it and (eventually) add the ant. */
   def tryAddingAnt(cursorPos: (Int, Int), typeAnt: String): Unit = {
