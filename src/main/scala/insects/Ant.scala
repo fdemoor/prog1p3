@@ -197,15 +197,15 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 }
 
 class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
+  extends { private var _ant: Option[Ant] = None }  // Executed before super's constructor.
+  with Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
 
-  private var _ant: Option[Ant] = None // if (place.get.isAntIn) Some(place.get.ant) else None
 
   def ant: Option[Ant] = _ant
   def canAddAnt: Boolean = ant.isEmpty
 
   def ant_=(modifiedAnt: Option[Ant]) {
-//    if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
+    if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
     _ant = modifiedAnt
   }
 
@@ -213,7 +213,6 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     super.armor_=(newArmor)
     if (isDead && ant.isDefined) {
       ant.get.armor_=(ant.get.armor + newArmor)
-      place.get.removeAnt()
     }
   }
 

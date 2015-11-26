@@ -54,7 +54,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     else {
       if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(Some(a))
       else {
-        a.asInstanceOf[BodyguardAnt].ant_=(Some(ant))
+        a.asInstanceOf[BodyguardAnt].ant_=(_ant)
         _ant = Some(a)
       }
     }

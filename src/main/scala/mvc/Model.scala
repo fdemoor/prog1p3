@@ -31,7 +31,7 @@ class Model {
   def beeWave(): Unit = {
     new Bee(800, 120, Some(_places.head), 3)
   }
-  
+
   // ONLY FOR TEST //
   // val beeTest: Bee = new Bee(800, 120, Some(_places.head), 1)
   //  val proj: Projectile = new Projectile(20, 120, beeTest, 2)
