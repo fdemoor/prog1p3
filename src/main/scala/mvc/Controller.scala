@@ -1,7 +1,8 @@
 package mvc
 
 import java.awt.event.{ActionEvent, ActionListener}
-import javax.swing.Timer
+import javax.swing._
+import scala.swing._
 
 
 class Controller(_model: Model) {
@@ -84,6 +85,7 @@ class Controller(_model: Model) {
       view.repaint() // Tell Scala that the image should be redrawn
     }
   }
+  
 
   def harvesterClicked() {
     if (!harvesterSelected) initSelecter()

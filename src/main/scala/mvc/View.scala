@@ -1,12 +1,12 @@
 package mvc
 
 import colony.Colony, places.Place, projectiles.Projectiles
-import java.awt.{Color, Dimension, Graphics2D, geom}
-import javax.swing.ImageIcon
+import java.awt.{Color, Dimension, Graphics2D, geom, Point}
+import javax.swing._
 import insects.BodyguardAnt
 
 import scala.swing.event._
-import scala.swing.Panel
+import scala.swing._
 
 class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
@@ -23,6 +23,10 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     /* Returns the current position of the mouse (or null if it's not over the panel */
     def getPos = peer.getMousePosition()
 
+    
+
+
+
     /* ICONS OF SELECTING BOXES */
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
     val shortThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_shortthrower.png"))
@@ -35,6 +39,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
     val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
+    
+  
 
     val selectBoxWidth: Int = 66
     val selectBoxHeight: Int = 66 + 40
@@ -46,6 +52,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
+      
 
       // DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
