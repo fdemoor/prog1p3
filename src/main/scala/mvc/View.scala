@@ -1,12 +1,32 @@
 package mvc
 
 import colony.Colony, places.Place, projectiles.Projectiles
-import java.awt.{Color, Dimension, Graphics2D, geom, Point}
-import javax.swing._
+import java.awt.{Color, Dimension, Graphics2D, geom}
+import javax.swing.ImageIcon
 import insects.BodyguardAnt
 
 import scala.swing.event._
-import scala.swing._
+import scala.swing.Panel
+
+
+class UIButton(icon: ImageIcon, posX: Int, poxY: Int) {
+  
+  private var isSelected_: Boolean = false
+  val isSelected : Boolean = isSelected_
+  def init() = isSelected_ = false
+  
+  val width: Int = 66
+  val height: Int = 66 + 40
+  
+  
+  
+  
+  
+}
+
+
+
+
 
 class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
@@ -22,10 +42,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
     /* Returns the current position of the mouse (or null if it's not over the panel */
     def getPos = peer.getMousePosition()
-
-    
-
-
 
     /* ICONS OF SELECTING BOXES */
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
@@ -50,7 +66,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
-      
 
       // DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
