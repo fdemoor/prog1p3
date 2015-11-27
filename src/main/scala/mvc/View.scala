@@ -39,8 +39,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
     val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-    
-  
 
     val selectBoxWidth: Int = 66
     val selectBoxHeight: Int = 66 + 40
