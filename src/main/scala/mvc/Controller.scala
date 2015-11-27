@@ -62,14 +62,14 @@ class Controller(_model: Model) {
     timerTurn.start()           // Let's go
 
     /* Counter to init new wave */
-    private var k: Int = 6
+    private var k: Int = 0
 
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
       model.moveActionsBees()
-      if (k <= 5) model.beeWave()
-      k = (k+1)%10
+      if (k > 5) model.beeWave()
+      else k = k + 1
     }
   }
   class MyTimerFrame extends ActionListener {

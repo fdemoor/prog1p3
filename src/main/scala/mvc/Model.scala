@@ -59,7 +59,7 @@ class Model {
   def beeWave(): Unit = {
     val choice: Int = aleaWave.nextInt(gridHeight)
     new Bee(800, 120 + iconPlace.getIconHeight*choice,
-      tunnelEntrances(choice), 3)
+      tunnelEntrances(choice), 3 + _Colony.foodAmount%4)
   }
 
 
