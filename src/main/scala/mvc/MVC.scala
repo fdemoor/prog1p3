@@ -3,7 +3,7 @@ package mvc
 class MVC {
   private val model: Model = new Model
   private val controller: Controller = new Controller(model)
-  private val view: View = new View(controller, model.places, model.Colony)
+  private val view: View = new View(controller, model.gridGame, model.Colony)
   controller.addView(view)
 
   def ui = view.getUI

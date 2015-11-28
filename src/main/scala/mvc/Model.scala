@@ -23,6 +23,9 @@ class Model {
 
   /** Create a grid of nXp places, perWater is the probability percentage of water places
    *  Return an array of the p tunnel entrances */
+  
+  val gridGame = new Grid(Nil: List[Place])
+   
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
 
     val alea = new Random()
@@ -31,6 +34,7 @@ class Model {
     for (i <- 0 until p) {
 
       var p = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
+      gridGame.add(p)
       _places = p::_places
 
       for (j <- 1 until n) {
@@ -41,6 +45,7 @@ class Model {
           p = new WaterPlace("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
                 120 + iconPlace.getIconHeight*i, None, Some(_places.head))
         }
+        gridGame.add(p)
         _places = p::_places
       }
 

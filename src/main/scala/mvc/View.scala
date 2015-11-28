@@ -1,6 +1,6 @@
 package mvc
 
-import colony.Colony, places.Place, projectiles.Projectiles
+import colony.Colony, places._, projectiles.Projectiles
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
 import insects.BodyguardAnt
@@ -10,7 +10,7 @@ import scala.swing.Panel
 
 
 
-class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
+class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
   private val controller: Controller = _controller
   //private val places: List[Place] = placesList
@@ -85,7 +85,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
       menu.paint(g, peer)
 
-      // DRAW PLACES AND INSECTS //
+      /*// DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
       for (p <- placesList) {
         val box = new geom.GeneralPath
@@ -98,7 +98,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         g.drawImage(p.im, p.x, p.y, peer)
         val xtoCenter: Int = (p.width - selectBoxWidth) / 2
         val ytoCenter: Int = (p.height - selectBoxWidth) / 2
-        for (bee <- p.bees) { // TODO deal with bodyguards, improve centering
+        for (bee <- p.bees) {
           g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
         }
         if (p.isAntIn) {
@@ -108,7 +108,9 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
           }
           g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
         }
-      }
+      }*/
+      
+      grid.paint(g, peer)
 
       /* BOTTOM INFO BAR */
       val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
