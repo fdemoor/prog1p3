@@ -9,21 +9,69 @@ import scala.swing.event._
 import scala.swing.Panel
 
 
-class UIButton(icon: ImageIcon, posX: Int, poxY: Int) {
+class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int) {
   
-  private var isSelected_: Boolean = false
-  val isSelected : Boolean = isSelected_
-  def init() = isSelected_ = false
+  def x = posX
+  def y = posY
+  
+  val armorIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/armor.png"))
+  val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
+  
+  private var isSelected_ = false
+  val isSelected: Boolean = isSelected_
+  def select() = {isSelected_ = true}
+  def init() = {isSelected_ = false}
   
   val width: Int = 66
-  val height: Int = 66 + 40
+  val height: Int = 66 + 16
   
+  def isClicked(getX: Int, getY: Int): Boolean = {
+    (x <= getX && getX < x + width &&
+      y <= getY && getY < y + height)
+  }
+
   
+  def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    // Food and armor information
+    g.drawImage(armorIcon.getImage, x, y, peer)
+    g.drawString(" "+armor.toString, x + armorIcon.getIconWidth, y + armorIcon.getIconHeight)
+    g.drawImage(foodIcon.getImage, x + + armorIcon.getIconWidth*2, y, peer)
+    g.drawString(" "+cost.toString, x + foodIcon.getIconWidth +
+      armorIcon.getIconWidth*2, y + foodIcon.getIconHeight)
+    
+    if (isSelected) {
+      g.setColor(Color.red)
+    } else {
+      g.setColor(Color.black)
+    }
+    g.drawRect(x, y, width, height)
+    
+    g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
+  }
   
   
   
 }
 
+class UIButtonMenu (l: List[UIButton]) {
+
+  val buttons: List[UIButton] = l
+
+  def init(): Unit = {
+      for (b <- buttons) b.init()
+  }
+
+  def mouseAction(getX: Int, getY: Int): Unit = {
+    for (b <- buttons) {
+      if (b.isClicked(getX, getY)) {
+        init()
+        b.select()
+      }
+    }
+  }
+  
+}
 
 
 
@@ -56,6 +104,12 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
 
+
+    val harvesterButton = new UIButton(harvesterIcon, 10, 10, 2, 1)
+    
+    
+    
+
     val selectBoxWidth: Int = 66
     val selectBoxHeight: Int = 66 + 40
 
@@ -66,6 +120,8 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
+
+      harvesterButton.paint(g, peer)
 
       // DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
@@ -115,7 +171,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         g.drawImage(currentIm, x, y + 40, peer)
       }
 
-      drawSelectedBox(10 + selectBoxWidth * 0, 10, controller.harvesterSelected, 2, 1, harvesterIcon)
+      //drawSelectedBox(10 + selectBoxWidth * 0, 10, controller.harvesterSelected, 2, 1, harvesterIcon)
       drawSelectedBox(10 + selectBoxWidth * 1, 10, controller.shortThrowerSelected, 3, 1, shortThrowerIcon)
       drawSelectedBox(10 + selectBoxWidth * 2, 10, controller.longThrowerSelected, 3, 1, longThrowerIcon)
       drawSelectedBox(10 + selectBoxWidth * 3, 10, controller.fireSelected, 5, 1, fireIcon)
@@ -139,8 +195,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
     /* USER ACTIONS */
     reactions += {
-      case e: MousePressed =>
-      case e: MouseDragged  =>
       case e: MouseReleased =>
 
         if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
@@ -179,10 +233,6 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         } else {
           controller.placeClicked((getPos.x, getPos.y))
         }
-      case KeyTyped(_, 'c', _, _) =>
-      case KeyTyped(_, 'i', _, _) =>
-      case KeyTyped(_, 'a', _, _) =>
-      case KeyTyped(_, 'z', _, _) =>
       case _: FocusLost => repaint()
     }
   }
