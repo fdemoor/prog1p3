@@ -9,72 +9,6 @@ import scala.swing.event._
 import scala.swing.Panel
 
 
-class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int) {
-  
-  def x = posX
-  def y = posY
-  
-  val armorIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/armor.png"))
-  val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
-  
-  private var isSelected_ = false
-  val isSelected: Boolean = isSelected_
-  def select() = {isSelected_ = true}
-  def init() = {isSelected_ = false}
-  
-  val width: Int = 66
-  val height: Int = 66 + 16
-  
-  def isClicked(getX: Int, getY: Int): Boolean = {
-    (x <= getX && getX < x + width &&
-      y <= getY && getY < y + height)
-  }
-
-  
-  def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-    
-    // Food and armor information
-    g.drawImage(armorIcon.getImage, x, y, peer)
-    g.drawString(" "+armor.toString, x + armorIcon.getIconWidth, y + armorIcon.getIconHeight)
-    g.drawImage(foodIcon.getImage, x + + armorIcon.getIconWidth*2, y, peer)
-    g.drawString(" "+cost.toString, x + foodIcon.getIconWidth +
-      armorIcon.getIconWidth*2, y + foodIcon.getIconHeight)
-    
-    if (isSelected) {
-      g.setColor(Color.red)
-    } else {
-      g.setColor(Color.black)
-    }
-    g.drawRect(x, y, width, height)
-    
-    g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
-  }
-  
-  
-  
-}
-
-class UIButtonMenu (l: List[UIButton]) {
-
-  val buttons: List[UIButton] = l
-
-  def init(): Unit = {
-      for (b <- buttons) b.init()
-  }
-
-  def mouseAction(getX: Int, getY: Int): Unit = {
-    for (b <- buttons) {
-      if (b.isClicked(getX, getY)) {
-        init()
-        b.select()
-      }
-    }
-  }
-  
-}
-
-
-
 
 class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
 
@@ -91,25 +25,53 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     /* Returns the current position of the mouse (or null if it's not over the panel */
     def getPos = peer.getMousePosition()
 
-    /* ICONS OF SELECTING BOXES */
+    // MENU
+    val menu = new UIButtonMenu(Nil: List[UIButton])
+
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
-    val shortThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_shortthrower.png"))
-    val longThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_longthrower.png"))
-    val fireIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_fire.png"))
-    val scubaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_scuba.png"))
-    val wallIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_wall.png"))
-    val ninjaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_ninja.png"))
-    val hungryIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_hungry.png"))
-    val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
-    val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
-    val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-
-
     val harvesterButton = new UIButton(harvesterIcon, 10, 10, 2, 1)
-    
-    
-    
+    menu.add(harvesterButton)
 
+    val shortThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_shortthrower.png"))
+    val shortThrowerButton = new UIButton(shortThrowerIcon, 10 + menu.buttons.head.width, 10, 3 ,1)
+    menu.add(shortThrowerButton)
+    
+    val longThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_longthrower.png"))
+    val longThrowerButton = new UIButton(longThrowerIcon, 10 + menu.buttons.head.width*2, 10, 3 ,1)
+    menu.add(longThrowerButton)
+    
+    val fireIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_fire.png"))
+    val fireButton = new UIButton(fireIcon, 10 + menu.buttons.head.width*3, 10, 5 ,1)
+    menu.add(fireButton)
+    
+    val scubaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_scuba.png"))
+    val scubaButton = new UIButton(scubaIcon, 10 + menu.buttons.head.width*4, 10, 5 ,1)
+    menu.add(scubaButton)
+    
+    val wallIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_wall.png"))
+    val wallButton = new UIButton(wallIcon, 10 + menu.buttons.head.width*5, 10, 4 ,4)
+    menu.add(wallButton)
+    
+    val ninjaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_ninja.png"))
+    val ninjaButton = new UIButton(ninjaIcon, 10 + menu.buttons.head.width*6, 10, 6 ,1)
+    menu.add(ninjaButton)
+    
+    val hungryIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_hungry.png"))
+    val hungryButton = new UIButton(hungryIcon, 10 + menu.buttons.head.width*7, 10, 4 ,1)
+    menu.add(hungryButton)
+    
+    val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
+    val queenButton = new UIButton(queenIcon, 10 + menu.buttons.head.width*8, 10, 6 ,2)
+    menu.add(queenButton)
+    
+    val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
+    val bodyGuardButton = new UIButton(bodyGuardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2)
+    menu.add(bodyGuardButton)
+    
+    val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
+    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 4 ,2)
+    menu.add(byeButton)
+    
     val selectBoxWidth: Int = 66
     val selectBoxHeight: Int = 66 + 40
 
@@ -121,7 +83,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
 
-      harvesterButton.paint(g, peer)
+      menu.paint(g, peer)
 
       // DRAW PLACES AND INSECTS //
       g.setColor(Color.black)
@@ -171,7 +133,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         g.drawImage(currentIm, x, y + 40, peer)
       }
 
-      //drawSelectedBox(10 + selectBoxWidth * 0, 10, controller.harvesterSelected, 2, 1, harvesterIcon)
+      /*drawSelectedBox(10 + selectBoxWidth * 0, 10, controller.harvesterSelected, 2, 1, harvesterIcon)
       drawSelectedBox(10 + selectBoxWidth * 1, 10, controller.shortThrowerSelected, 3, 1, shortThrowerIcon)
       drawSelectedBox(10 + selectBoxWidth * 2, 10, controller.longThrowerSelected, 3, 1, longThrowerIcon)
       drawSelectedBox(10 + selectBoxWidth * 3, 10, controller.fireSelected, 5, 1, fireIcon)
@@ -181,7 +143,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
       drawSelectedBox(10 + selectBoxWidth * 7, 10, controller.hungrySelected, 4, 1, hungryIcon)
       drawSelectedBox(10 + selectBoxWidth * 8, 10, controller.queenSelected, 6, 2, queenIcon)
       drawSelectedBox(10 + selectBoxWidth * 9, 10, controller.bodyGuardSelected, 6, 2, bodyGuardIcon)
-      drawSelectedBox(10 + selectBoxWidth * 10, 10, controller.byeSelected, 4, 2, byeIcon)
+      drawSelectedBox(10 + selectBoxWidth * 10, 10, controller.byeSelected, 4, 2, byeIcon)*/
 
 
        // DRAW PROJECTILES
