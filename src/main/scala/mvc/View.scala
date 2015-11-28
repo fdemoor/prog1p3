@@ -110,11 +110,17 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         }
       }
 
-      /* DRAW USER INTERFACE */
-      g.drawString("Food: " + Colony.foodAmount.toString, 10, size.height-10)
+      /* BOTTOM INFO BAR */
+      val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
+      g.drawImage(foodIcon.getImage, 10, size.height-26, peer)
+      g.drawString(" " + Colony.foodAmount.toString, 10+16, size.height-10)
+      
+      val scoreIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/score.png"))
+      g.drawImage(scoreIcon.getImage, 10+32+40, size.height-26, peer)
+      g.drawString(" " + Colony.scoreAmount.toString, 10+48+40, size.height-10)
 
       /** Draw a Selecter Box and print cost and armor of the unit, red if selected, black otherwise */
-      def drawSelectedBox(x: Int, y: Int, bool: Boolean, cost: Int, armor: Int, icon: ImageIcon) = {
+      /*def drawSelectedBox(x: Int, y: Int, bool: Boolean, cost: Int, armor: Int, icon: ImageIcon) = {
         val currentSelectBox = new geom.GeneralPath
         currentSelectBox.moveTo(x, y)
         currentSelectBox.lineTo(x + selectBoxWidth, y)
@@ -131,7 +137,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         g.draw(currentSelectBox)
         val currentIm = icon.getImage
         g.drawImage(currentIm, x, y + 40, peer)
-      }
+      }*/
 
       /*drawSelectedBox(10 + selectBoxWidth * 0, 10, controller.harvesterSelected, 2, 1, harvesterIcon)
       drawSelectedBox(10 + selectBoxWidth * 1, 10, controller.shortThrowerSelected, 3, 1, shortThrowerIcon)
@@ -158,8 +164,9 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
     /* USER ACTIONS */
     reactions += {
       case e: MouseReleased =>
+        menu.mouseAction(getPos.x, getPos.y)
 
-        if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
+       /*if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.harvesterClicked()
         } else if (10 + selectBoxWidth * 1 <= getPos.x && getPos.x < 10 + selectBoxWidth * 2 &&
@@ -195,7 +202,7 @@ class View(_controller: Controller, placesList: List[Place], _Colony: Colony) {
         } else {
           controller.placeClicked((getPos.x, getPos.y))
         }
-      case _: FocusLost => repaint()
+      case _: FocusLost => repaint()*/
     }
   }
 
