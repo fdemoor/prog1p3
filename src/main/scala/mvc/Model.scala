@@ -6,38 +6,29 @@ import util.Random
 import insects._, places._, colony._, projectiles._
 
 class Model {
-  //private var _places: List[Place] = Nil
+
+  /* Initializing a new colony with 2 as starting food amount */
   private val _Colony: Colony = new Colony(2)
-//  private var _projectiles: List[Projectile] = Nil
-
-
-  //def places: List[Place] = _places
   def Colony: Colony = _Colony
-//  def projectiles: List[Projectile] = _projectiles
+
 
   /* Initializing places. */
   val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-
   val gridWidth: Int = 8
   val gridHeight: Int = 5
-
   val gridGame = new Grid(Nil: List[Place])
-
-
+  
 
   /** Create a grid of nXp places, perWater is the probability percentage of water places
    *  Return an array of the p tunnel entrances */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
-
+    
     val alea = new Random()
     val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
-
+    
     for (i <- 0 until p) {
-
       var p = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
       gridGame.add(p)
-     // _places = p::_places
-
       for (j <- 1 until n) {
         if (alea.nextInt(101) > perWater) {
           p = new Place("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
@@ -47,27 +38,25 @@ class Model {
                 120 + iconPlace.getIconHeight*i, None, Some(gridGame.places.head))
         }
         gridGame.add(p)
-        //_places = p::_places
       }
-
       for (j <- 1 until n) {
         gridGame.places(j).entrance_=(Some(gridGame.places(j-1)))
       }
-
       tunnelEntrances(i) = Some(gridGame.places.head)
     }
     tunnelEntrances
   }
 
   val tunnelEntrances: Array[Option[Place]] = grid(gridWidth, gridHeight, 15)
+  
+  
+  /** Initialize a new bee in a randomly choosen tunnel */
   val aleaWave = new Random()
-
   def beeWave(): Unit = {
     val choice: Int = aleaWave.nextInt(gridHeight)
     new Bee(800, 120 + iconPlace.getIconHeight*choice,
-      tunnelEntrances(choice), 3 + _Colony.foodAmount%4)
+      tunnelEntrances(choice), 3)
   }
-
 
 
   /** A place has been clicked, find it and (eventually) add the ant. */
@@ -80,78 +69,66 @@ class Model {
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
 
             if (typeAnt == "harvester") {
-              // Put new Harvester
               try {
                 new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "shortThrower") {
-              // Put new Harvester
               try {
                 new ShortThrower(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "longThrower") {
-              // Put new Harvester
               try {
                 new LongThrower(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "fire") {
-              // Put new Harvester
               try {
                 new FireAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "scuba") {
-              // Put new Harvester
               try {
                 new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "wall") {
-              // Put new Harvester
               try {
                 new WallAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "ninja") {
-              // Put new Harvester
               try {
                 new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "hungry") {
-              // Put new Harvester
               try {
                 new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "queen") {
-              // Put new Harvester
               try {
                 new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             } else if (typeAnt == "bodyGuard") {
-              // Put new Harvester
               try {
                 new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
               } catch {
                 case ex: IllegalArgumentException => ()
               }
             }
-
-
           } else {
             findPlaceAddingAnt(pls)
           }
@@ -159,6 +136,7 @@ class Model {
     }
     findPlaceAddingAnt(gridGame.places)
   }
+
 
   /** Remove an ant when Bye Box is selected */
   def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
@@ -177,19 +155,30 @@ class Model {
     findPlaceRemovingAnt(gridGame.places)
   }
 
+
+  /** Execute move actions for all ants */
   def moveActionsAnts(): Unit = {
     for (p <- gridGame.places) {
       if (p.isAntIn) p.ant.moveActions()
     }
   }
+  
+  
+  /** Execute move actions for all bees */
   def moveActionsBees(): Unit = {
     for (p <- gridGame.places) {
       for (bee <- p.bees) bee.moveActions()
     }
   }
+  
+  
+  /** Execute move actions for all projectiles */
   def moveActionsProjectiles(): Unit = {
     Projectiles.moves()
   }
+  
+  
+  /** Remove dead insects */
   def removeDeads(): Unit = {
     for (p <- gridGame.places) {
       if (p.isAntIn && p.ant.isDead) p.removeAnt()
@@ -202,6 +191,9 @@ class Model {
       removeDeadBees(p.bees)
     }
   }
+  
+  
+  /** Moving all bees */
   def move(): Unit = {
     for (p <- gridGame.places) {
       for (bee <- p.bees) bee.move()
