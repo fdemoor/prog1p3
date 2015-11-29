@@ -6,12 +6,12 @@ import util.Random
 import insects._, places._, colony._, projectiles._
 
 class Model {
-  private var _places: List[Place] = Nil
+  //private var _places: List[Place] = Nil
   private val _Colony: Colony = new Colony(2)
 //  private var _projectiles: List[Projectile] = Nil
 
 
-  def places: List[Place] = _places
+  //def places: List[Place] = _places
   def Colony: Colony = _Colony
 //  def projectiles: List[Projectile] = _projectiles
 
@@ -21,11 +21,12 @@ class Model {
   val gridWidth: Int = 8
   val gridHeight: Int = 5
 
+  val gridGame = new Grid(Nil: List[Place])
+
+
+
   /** Create a grid of nXp places, perWater is the probability percentage of water places
    *  Return an array of the p tunnel entrances */
-  
-  val gridGame = new Grid(Nil: List[Place])
-   
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
 
     val alea = new Random()
@@ -35,25 +36,25 @@ class Model {
 
       var p = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
       gridGame.add(p)
-      _places = p::_places
+     // _places = p::_places
 
       for (j <- 1 until n) {
         if (alea.nextInt(101) > perWater) {
           p = new Place("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
-                120 + iconPlace.getIconHeight*i, None, Some(_places.head))
+                120 + iconPlace.getIconHeight*i, None, Some(gridGame.places.head))
         } else {
           p = new WaterPlace("Box"+i.toString+"."+j.toString, 20 + iconPlace.getIconWidth*j,
-                120 + iconPlace.getIconHeight*i, None, Some(_places.head))
+                120 + iconPlace.getIconHeight*i, None, Some(gridGame.places.head))
         }
         gridGame.add(p)
-        _places = p::_places
+        //_places = p::_places
       }
 
       for (j <- 1 until n) {
-        _places(j).entrance_=(Some(_places(j-1)))
+        gridGame.places(j).entrance_=(Some(gridGame.places(j-1)))
       }
 
-      tunnelEntrances(i) = Some(_places.head)
+      tunnelEntrances(i) = Some(gridGame.places.head)
     }
     tunnelEntrances
   }
@@ -156,7 +157,7 @@ class Model {
           }
       }
     }
-    findPlaceAddingAnt(_places)
+    findPlaceAddingAnt(gridGame.places)
   }
 
   /** Remove an ant when Bye Box is selected */
@@ -173,16 +174,16 @@ class Model {
           }
       }
     }
-    findPlaceRemovingAnt(_places)
+    findPlaceRemovingAnt(gridGame.places)
   }
 
   def moveActionsAnts(): Unit = {
-    for (p <- _places) {
+    for (p <- gridGame.places) {
       if (p.isAntIn) p.ant.moveActions()
     }
   }
   def moveActionsBees(): Unit = {
-    for (p <- _places) {
+    for (p <- gridGame.places) {
       for (bee <- p.bees) bee.moveActions()
     }
   }
@@ -190,7 +191,7 @@ class Model {
     Projectiles.moves()
   }
   def removeDeads(): Unit = {
-    for (p <- _places) {
+    for (p <- gridGame.places) {
       if (p.isAntIn && p.ant.isDead) p.removeAnt()
       def removeDeadBees(bL: List[Bee]): Unit = {
         if (bL.nonEmpty) {
@@ -202,7 +203,7 @@ class Model {
     }
   }
   def move(): Unit = {
-    for (p <- _places) {
+    for (p <- gridGame.places) {
       for (bee <- p.bees) bee.move()
     }
   }

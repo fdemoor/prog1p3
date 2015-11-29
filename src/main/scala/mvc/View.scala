@@ -9,12 +9,41 @@ import scala.swing.event._
 import scala.swing.Panel
 
 
+/** Paint the place and all that is inside */
+
 
 class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
   private val controller: Controller = _controller
   //private val places: List[Place] = placesList
   private val Colony: Colony = _Colony
+  
+  
+  
+  def paintGrid(gridGame: Grid, g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    for (p <- gridGame.places) {
+      g.setColor(Color.black)
+      g.drawRect(p.x, p.y, p.width, p.height)
+      g.drawImage(p.im, p.x, p.y, peer)
+      
+      for (bee <- p.bees) {
+        val xtoCenter: Int = (p.width - bee.icon.getIconWidth) / 2
+        val ytoCenter: Int = (p.height - bee.icon.getIconHeight) / 2
+        g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
+      }
+      if (p.isAntIn) {
+        val xtoCenter: Int = (p.width - p.ant.icon.getIconWidth) / 2
+        val ytoCenter: Int = (p.height - p.ant.icon.getIconHeight) / 2
+        if (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
+          val underAnt = p.ant.asInstanceOf[BodyguardAnt].ant.get
+          g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y + ytoCenter, peer)
+        }
+        g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
+      }
+    }
+  }
+  
 
   lazy val ui = new Panel {
     background = Color.white
@@ -78,7 +107,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
     override def paintComponent(g: Graphics2D) = {
       super.paintComponent(g)
-      g.setColor(new Color(100, 100, 100))
+      //g.setColor(new Color(100, 100, 100))
       val pos = getPos
       if (pos != null) g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
 
@@ -110,7 +139,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         }
       }*/
       
-      grid.paint(g, peer)
+      paintGrid(grid, g, peer)
 
       /* BOTTOM INFO BAR */
       val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))

@@ -72,30 +72,6 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(None)
     else _ant = None
   }
-  
-  /** Paint the place and all that is inside */
-  def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-    
-    g.setColor(Color.black)
-    g.drawRect(x, y, width, height)
-    g.drawImage(im, x, y, peer)
-    
-    for (bee <- bees) {
-      val xtoCenter: Int = (width - bee.icon.getIconWidth) / 2
-      val ytoCenter: Int = (height - bee.icon.getIconHeight) / 2
-      g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
-    }
-    if (isAntIn) {
-      val xtoCenter: Int = (width - ant.icon.getIconWidth) / 2
-      val ytoCenter: Int = (height - ant.icon.getIconHeight) / 2
-      if (ant.isContainer && ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
-        val underAnt = ant.asInstanceOf[BodyguardAnt].ant.get
-        g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y + ytoCenter, peer)
-      }
-      g.drawImage(ant.im, ant.x.toInt + xtoCenter, ant.y + ytoCenter, peer)
-    }
-
-  }
 
 }
 
@@ -121,9 +97,5 @@ class Grid (l: List[Place]) {
   def places: List[Place] = places_
   
   def add(p: Place): Unit = {places_ = p::places_}
-  
-  def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-    for (p <- this.places) p.paint(g, peer)
-  }
   
 }
