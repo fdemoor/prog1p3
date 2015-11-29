@@ -15,7 +15,7 @@ class Colony(foodAmountInit: Int) {
   def scoreAmount = _scoreAmount
 
   def incrScoreAmount(incr: Int) {
-    require(incr >= 0, "Negative score amount")
+    require(incr >= 0, "Negative score incr")
     _scoreAmount = _scoreAmount + incr
   }
   

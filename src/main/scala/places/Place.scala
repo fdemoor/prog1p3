@@ -1,4 +1,4 @@
-package places
+package places // TODO clean code and comment
 
 import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon

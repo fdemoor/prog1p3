@@ -1,8 +1,8 @@
 package projectiles
 
 object Projectiles {
+  
   private var _projectiles: List[Projectile] = Nil
-
   def projectiles: List[Projectile] = _projectiles
 
   def addProjectile(newProjectile: Projectile) { _projectiles = newProjectile::_projectiles }
@@ -17,4 +17,5 @@ object Projectiles {
       if (p.hasHit) removeProjectile(p)
     }
   }
+  
 }

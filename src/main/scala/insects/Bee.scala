@@ -1,4 +1,4 @@
-package insects
+package insects // TODO clean code and comment
 
 import places.Place
 import projectiles.Projectile
