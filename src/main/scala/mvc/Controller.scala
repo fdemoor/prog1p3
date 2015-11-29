@@ -5,6 +5,9 @@ import javax.swing._
 import scala.swing._
 
 
+case class ClickFound()  extends Exception
+
+
 class Controller(_model: Model) {
   private val model: Model = _model
   private var _view: Option[View] = None
@@ -87,7 +90,7 @@ class Controller(_model: Model) {
   }
   
 
-  def harvesterClicked() {
+  /*def harvesterClicked() {
     if (!harvesterSelected) initSelecter()
     harvesterSelected = !harvesterSelected
   }
@@ -130,10 +133,24 @@ class Controller(_model: Model) {
   def byeClicked() {
     if (!byeSelected) initSelecter()
     byeSelected = !byeSelected
-  }
+  }*/
 
-  def placeClicked(cursorPos: (Int, Int)): Unit = {
-    if (harvesterSelected) {
+  def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
+    try {
+      for (b <- menu.buttons) {
+        if (b.isSelected) {
+          if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
+          else model.tryAddingAnt(cursorPos, b.toString)
+          throw ClickFound()
+        }
+      }
+    } catch {
+      case ex: ClickFound => ()
+    }
+    
+        
+    
+    /*if (harvesterSelected) {
       model.tryAddingAnt(cursorPos, "harvester")
     } else if (shortThrowerSelected) {
       model.tryAddingAnt(cursorPos, "shortThrower")
@@ -155,6 +172,6 @@ class Controller(_model: Model) {
       model.tryAddingAnt(cursorPos, "bodyGuard")
     } else if (byeSelected) {
       model.tryRemovingAnt(cursorPos)
-    }
+    }*/
   }
 }

@@ -58,47 +58,47 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val menu = new UIButtonMenu(Nil: List[UIButton])
 
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
-    val harvesterButton = new UIButton(harvesterIcon, 10, 10, 2, 1)
+    val harvesterButton = new UIButton(harvesterIcon, 10, 10, 2, 1, "harvester")
     menu.add(harvesterButton)
 
     val shortThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_shortthrower.png"))
-    val shortThrowerButton = new UIButton(shortThrowerIcon, 10 + menu.buttons.head.width, 10, 3 ,1)
+    val shortThrowerButton = new UIButton(shortThrowerIcon, 10 + menu.buttons.head.width, 10, 3 ,1, "shortThrower")
     menu.add(shortThrowerButton)
     
     val longThrowerIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_longthrower.png"))
-    val longThrowerButton = new UIButton(longThrowerIcon, 10 + menu.buttons.head.width*2, 10, 3 ,1)
+    val longThrowerButton = new UIButton(longThrowerIcon, 10 + menu.buttons.head.width*2, 10, 3 ,1, "longThrower")
     menu.add(longThrowerButton)
     
     val fireIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_fire.png"))
-    val fireButton = new UIButton(fireIcon, 10 + menu.buttons.head.width*3, 10, 5 ,1)
+    val fireButton = new UIButton(fireIcon, 10 + menu.buttons.head.width*3, 10, 5 ,1, "fire")
     menu.add(fireButton)
     
     val scubaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_scuba.png"))
-    val scubaButton = new UIButton(scubaIcon, 10 + menu.buttons.head.width*4, 10, 5 ,1)
+    val scubaButton = new UIButton(scubaIcon, 10 + menu.buttons.head.width*4, 10, 5 ,1, "scuba")
     menu.add(scubaButton)
     
     val wallIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_wall.png"))
-    val wallButton = new UIButton(wallIcon, 10 + menu.buttons.head.width*5, 10, 4 ,4)
+    val wallButton = new UIButton(wallIcon, 10 + menu.buttons.head.width*5, 10, 4 ,4, "wall")
     menu.add(wallButton)
     
     val ninjaIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_ninja.png"))
-    val ninjaButton = new UIButton(ninjaIcon, 10 + menu.buttons.head.width*6, 10, 6 ,1)
+    val ninjaButton = new UIButton(ninjaIcon, 10 + menu.buttons.head.width*6, 10, 6 ,1, "ninja")
     menu.add(ninjaButton)
     
     val hungryIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_hungry.png"))
-    val hungryButton = new UIButton(hungryIcon, 10 + menu.buttons.head.width*7, 10, 4 ,1)
+    val hungryButton = new UIButton(hungryIcon, 10 + menu.buttons.head.width*7, 10, 4 ,1, "hungry")
     menu.add(hungryButton)
     
     val queenIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_queen.png"))
-    val queenButton = new UIButton(queenIcon, 10 + menu.buttons.head.width*8, 10, 6 ,2)
+    val queenButton = new UIButton(queenIcon, 10 + menu.buttons.head.width*8, 10, 6 ,2, "queen")
     menu.add(queenButton)
     
     val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
-    val bodyGuardButton = new UIButton(bodyGuardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2)
+    val bodyGuardButton = new UIButton(bodyGuardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2, "bodyGuard")
     menu.add(bodyGuardButton)
     
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 4 ,2)
+    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 4 ,2, "bye")
     menu.add(byeButton)
     
     val selectBoxWidth: Int = 66
@@ -196,6 +196,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     reactions += {
       case e: MouseReleased =>
         menu.mouseAction(getPos.x, getPos.y)
+        controller.placeClicked((getPos.x, getPos.y), menu)
 
        /*if (10 + selectBoxWidth * 0 <= getPos.x && getPos.x < 10 + selectBoxWidth * 1 &&
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
@@ -231,7 +232,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
             10 <= getPos.y && getPos.y < 10 + selectBoxHeight) {
           controller.byeClicked()
         } else {
-          controller.placeClicked((getPos.x, getPos.y))
+          
         }
       case _: FocusLost => repaint()*/
     }
