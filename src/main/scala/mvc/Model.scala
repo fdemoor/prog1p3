@@ -195,7 +195,7 @@ class Model {
       if (p.isAntIn && p.ant.isDead) p.removeAnt()
       def removeDeadBees(bL: List[Bee]): Unit = {
         if (bL.nonEmpty) {
-          if (bL.head.isDead) p.removeBee(bL.head)
+          if (bL.head.isDead) {p.removeBee(bL.head); _Colony.incrScoreAmount(5)}
           removeDeadBees(bL.tail)
         }
       }
