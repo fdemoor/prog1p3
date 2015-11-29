@@ -5,9 +5,6 @@ import javax.swing._
 import scala.swing._
 
 
-
-
-
 class Controller(_model: Model) {
   private val model: Model = _model
   private var _view: Option[View] = None
@@ -18,33 +15,6 @@ class Controller(_model: Model) {
   def tTurn = _tTurn.get
   def tFrame = _tFrame.get
 
-  /* User Selecter Interface */
-  var harvesterSelected: Boolean = false
-  var shortThrowerSelected: Boolean = false
-  var longThrowerSelected: Boolean = false
-  var fireSelected: Boolean = false
-  var scubaSelected: Boolean = false
-  var wallSelected: Boolean = false
-  var ninjaSelected: Boolean = false
-  var hungrySelected: Boolean = false
-  var queenSelected: Boolean = false
-  var bodyGuardSelected: Boolean = false
-  var byeSelected: Boolean = false
-
-
-  def initSelecter() = {
-    harvesterSelected = false
-    shortThrowerSelected = false
-    longThrowerSelected = false
-    fireSelected = false
-    scubaSelected = false
-    wallSelected = false
-    ninjaSelected = false
-    hungrySelected = false
-    queenSelected = false
-    bodyGuardSelected = false
-    byeSelected = false
-  }
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
   def addView(newView: View) {
@@ -54,6 +24,7 @@ class Controller(_model: Model) {
     tFrame  // Don't remove, avoid garbage collector
     _view = Some(newView)
   }
+
 
   class MyTimerTurn extends ActionListener {
     /* Configuration */
@@ -65,6 +36,7 @@ class Controller(_model: Model) {
     timerTurn.setCoalesce(true) // Please restart by yourself
     timerTurn.start()           // Let's go
 
+
     /* Counter to init new wave */
     private var k: Int = 0
 
@@ -72,10 +44,13 @@ class Controller(_model: Model) {
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
       model.moveActionsBees()
+      // Starting bee wave after 6 turns, one wave per turn then
       if (k > 5) model.beeWave()
       else k = k + 1
     }
   }
+  
+  
   class MyTimerFrame extends ActionListener {
     val timerFrame = new Timer(10, this)
     timerFrame.setCoalesce(true)
@@ -89,86 +64,17 @@ class Controller(_model: Model) {
     }
   }
   
-
-  /*def harvesterClicked() {
-    if (!harvesterSelected) initSelecter()
-    harvesterSelected = !harvesterSelected
-  }
-  def shortThrowerClicked() {
-    if (!shortThrowerSelected) initSelecter()
-    shortThrowerSelected = !shortThrowerSelected
-  }
-  def longThrowerClicked() {
-    if (!longThrowerSelected) initSelecter()
-    longThrowerSelected = !longThrowerSelected
-  }
-  def fireClicked() {
-    if (!fireSelected) initSelecter()
-    fireSelected = !fireSelected
-  }
-  def scubaClicked() {
-    if (!scubaSelected) initSelecter()
-    scubaSelected = !scubaSelected
-  }
-  def wallClicked() {
-    if (!wallSelected) initSelecter()
-    wallSelected = !wallSelected
-  }
-  def ninjaClicked() {
-    if (!ninjaSelected) initSelecter()
-    ninjaSelected = !ninjaSelected
-  }
-  def hungryClicked() {
-    if (!hungrySelected) initSelecter()
-    hungrySelected = !hungrySelected
-  }
-  def queenClicked() {
-    if (!queenSelected) initSelecter()
-    queenSelected = !queenSelected
-  }
-  def bodyGuardClicked() {
-    if (!bodyGuardSelected) initSelecter()
-    bodyGuardSelected = !bodyGuardSelected
-  }
-  def byeClicked() {
-    if (!byeSelected) initSelecter()
-    byeSelected = !byeSelected
-  }*/
-
+  
+  /** Execute necessary action if a place was clicked */
   def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
     for (b <- menu.buttons) {
       if (b.isSelected) {
         if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
         else model.tryAddingAnt(cursorPos, b.toString)
         throw ClickFound()
+      }
     }
-  }
     
-    
-        
-    
-    /*if (harvesterSelected) {
-      model.tryAddingAnt(cursorPos, "harvester")
-    } else if (shortThrowerSelected) {
-      model.tryAddingAnt(cursorPos, "shortThrower")
-    } else if (longThrowerSelected) {
-      model.tryAddingAnt(cursorPos, "longThrower")
-    } else if (fireSelected) {
-      model.tryAddingAnt(cursorPos, "fire")
-    } else if (scubaSelected) {
-      model.tryAddingAnt(cursorPos, "scuba")
-    } else if (wallSelected) {
-      model.tryAddingAnt(cursorPos, "wall")
-    } else if (ninjaSelected) {
-      model.tryAddingAnt(cursorPos, "ninja")
-    } else if (hungrySelected) {
-      model.tryAddingAnt(cursorPos, "hungry")
-    } else if (queenSelected) {
-      model.tryAddingAnt(cursorPos, "queen")
-    } else if (bodyGuardSelected) {
-      model.tryAddingAnt(cursorPos, "bodyGuard")
-    } else if (byeSelected) {
-      model.tryRemovingAnt(cursorPos)
-    }*/
+
   }
 }
