@@ -8,6 +8,8 @@ import insects.BodyguardAnt
 import scala.swing.event._
 import scala.swing.Panel
 
+case class ClickFound() extends Exception
+
 
 class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
@@ -95,7 +97,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     menu.add(bodyGuardButton)
     
     val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 4 ,2, "bye")
+    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 0 ,0, "bye")
     menu.add(byeButton)
 
 
@@ -138,8 +140,12 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     /* USER ACTIONS */
     reactions += {
       case e: MouseReleased =>
-        menu.mouseAction(getPos.x, getPos.y)
-        controller.placeClicked((getPos.x, getPos.y), menu)
+        try {
+          menu.mouseAction(getPos.x, getPos.y)
+          controller.placeClicked((getPos.x, getPos.y), menu)
+        } catch {
+          case ex: ClickFound => ()
+        }
       case _: FocusLost => repaint()
     }
   }

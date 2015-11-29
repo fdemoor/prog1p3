@@ -5,7 +5,7 @@ import javax.swing._
 import scala.swing._
 
 
-case class ClickFound()  extends Exception
+
 
 
 class Controller(_model: Model) {
@@ -136,17 +136,14 @@ class Controller(_model: Model) {
   }*/
 
   def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
-    try {
-      for (b <- menu.buttons) {
-        if (b.isSelected) {
-          if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
-          else model.tryAddingAnt(cursorPos, b.toString)
-          throw ClickFound()
-        }
-      }
-    } catch {
-      case ex: ClickFound => ()
+    for (b <- menu.buttons) {
+      if (b.isSelected) {
+        if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
+        else model.tryAddingAnt(cursorPos, b.toString)
+        throw ClickFound()
     }
+  }
+    
     
         
     
