@@ -26,6 +26,9 @@ class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, nam
     (x <= getX && getX < x + width &&
       y <= getY && getY < y + height)
   }
+  
+  /* Action performed when used */
+  def action(model: Model, cursorPos: (Int, Int)): Unit = model.tryAddingAnt(cursorPos, this.toString)
 
   /* Drawing method */
   def paint(g: Graphics2D, peer:java.awt.Component): Unit = {

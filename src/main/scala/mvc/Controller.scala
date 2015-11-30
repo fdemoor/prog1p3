@@ -70,7 +70,7 @@ class Controller(_model: Model) {
     for (b <- menu.buttons) {
       if (b.isSelected) {
         if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
-        else model.tryAddingAnt(cursorPos, b.toString)
+        else b.action(model, cursorPos)
         throw ClickFound()
       }
     }
