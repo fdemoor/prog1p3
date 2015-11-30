@@ -1,4 +1,4 @@
-package insects // TODO clean code and comment
+package insects
 
 import places.Place
 import projectiles.Projectile
@@ -15,8 +15,6 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   override def moveActions() {
     if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
       val ant: Ant = place.get.ant
-//      ant.armor_=(ant.armor - damages)
-//      LogsActions.addAttack(((x, y), (ant.x, ant.y)))
       new Projectile(x.toInt, y, ant, damages)
     }
   }
@@ -30,6 +28,7 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
     }
   }
 
+  /** Move toward a Place. */
   def moveTowardPlace(nextPlace: Place) {
     x_=(x - dx)
     if (nextPlace.x < x && x <= nextPlace.x + nextPlace.width) {
@@ -40,10 +39,30 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
     }
   }
 
+  /** The bee is in the last Place and move to the exit of it to eventually win. */
   def moveTowardEnd(): Unit = {
     x_=(x - dx)
     if (place.get.x - (place.get.width / 2) >= x) {
       hasGoneThrough = true
+    }
+  }
+}
+
+/** Bee that can hit from 2 Places or less. */
+class RangeBee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
+  extends Bee(posX, posY, _place, _armor) {
+
+  override def moveActions(): Unit = {
+    var currentPlace: Option[Place] = place.get.exit
+    var i: Int = 2
+    var hasHitAnt: Boolean = false
+    while (i > 0 && currentPlace.isDefined && !hasHitAnt) {
+      if (currentPlace.get.isAntIn) {
+        hasHitAnt = true
+        new Projectile(x.toInt, y, currentPlace.get.ant, damages)
+      }
+      i -= 1
+      currentPlace = currentPlace.get.exit
     }
   }
 }

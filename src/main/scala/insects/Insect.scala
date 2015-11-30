@@ -1,4 +1,4 @@
-package insects // TODO clean code and comment
+package insects
 
 import javax.swing.ImageIcon
 import places._
@@ -45,12 +45,6 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
     if (_armor <= 0) kill()
   }
   def doubleDamages() { doubledDamages = true }
-
-//  /** Update the position considering speed */
-//  def move() {
-//    _x += _dx
-//    _y += _dy
-//  }
 
   /** Increase speed */
   def accelerate(ax:Int, ay:Int) {

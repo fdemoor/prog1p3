@@ -14,16 +14,18 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   private var out: Option[Place] = exitInit
   private var _bees: List[Bee] = Nil
   private var _ant: Option[Ant] = None
+  private var _isFrozen = false
+  private var frozenTurnsLeft = 0
 
   def x: Int = posX
   def y: Int = posY
   def entrance: Option[Place] = in
   def exit: Option[Place] = out
-
   def height: Int = icon.getIconHeight
   def width: Int = icon.getIconWidth
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
+  def isFrozen = _isFrozen
 
   def entrance_=(newIn: Option[Place]) { in = newIn }
   def exit_=(newOut: Option[Place]) { out = newOut }
@@ -73,21 +75,18 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(None)
     else _ant = None
   }
-  
+
   /* Freeze power */
-  private var isFrozen_ = false
-  private var frozenTurnsLeft = 0
-  def isFrozen() = isFrozen_
   def freeze(nbTurns: Int) = {
-    isFrozen_ = true
+    _isFrozen = true
     frozenTurnsLeft = nbTurns
   }
   def freezeDecr() = {
     frozenTurnsLeft = frozenTurnsLeft-1
-    if (frozenTurnsLeft == 0) isFrozen_ = false
+    if (frozenTurnsLeft == 0) _isFrozen = false
   }
-
 }
+
 
 class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place])
   extends Place(name, posX, posY, entranceInit, exitInit) {
@@ -106,19 +105,19 @@ class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place]
 
 
 class Grid (l: List[Place]) {
-  
+
   private var places_ = l
   def places: List[Place] = places_
-  
-  
+
+
   /** Create a grid of nXp places, perWater is the probability percentage of water places
    *  Return an array of the p tunnel entrances */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
-    
+
     val alea = new Random()
     val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
     val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-    
+
     for (i <- 0 until p) {
       var pl = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
       this.add(pl)
@@ -139,7 +138,6 @@ class Grid (l: List[Place]) {
     }
     tunnelEntrances
   }
-  
+
   def add(p: Place): Unit = {places_ = p::places_}
-  
 }
