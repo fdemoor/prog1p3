@@ -20,6 +20,10 @@ class Model {
   val tunnelEntrances: Array[Option[Place]] = gridGame.grid(gridWidth, gridHeight, 15)
   
   
+  /* Initialize power costs */
+  val freezeCost: Int = 10
+  
+  
   /** Initialize a new bee in a randomly choosen tunnel */
   val aleaWave = new Random()
   def beeWave(): Unit = {
@@ -140,7 +144,10 @@ class Model {
           }
       }
     }
-    findPlaceFreezing(gridGame.places)
+    if (_Colony.foodAmount >= freezeCost) {
+      findPlaceFreezing(gridGame.places)
+      _Colony.foodAmount_=(_Colony.foodAmount-freezeCost)
+    }
   }
 
 
