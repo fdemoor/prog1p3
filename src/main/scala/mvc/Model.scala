@@ -5,6 +5,9 @@ import util.Random
 
 import insects._, places._, colony._, projectiles._
 
+case class NotEnoughFood() extends Exception
+
+
 class Model {
 
   /* Initializing a new colony with 2 as starting food amount */
@@ -41,67 +44,19 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-
-            if (typeAnt == "harvester") {
-              try {
-                new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "shortThrower") {
-              try {
-                new ShortThrower(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "longThrower") {
-              try {
-                new LongThrower(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "fire") {
-              try {
-                new FireAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "scuba") {
-              try {
-                new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "wall") {
-              try {
-                new WallAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "ninja") {
-              try {
-                new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "hungry") {
-              try {
-                new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "queen") {
-              try {
-                new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
-            } else if (typeAnt == "bodyGuard") {
-              try {
-                new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
-              } catch {
-                case ex: IllegalArgumentException => ()
-              }
+            try {
+              if (typeAnt == "harvester") new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "shortThrower") new ShortThrower(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "longThrower") new LongThrower(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "fire") new FireAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "scuba") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "wall") new WallAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "ninja") new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
+              else if (typeAnt == "bodyGuard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+            } catch {
+                case ex: IllegalArgumentException => throw NotEnoughFood()
             }
           } else {
             findPlaceAddingAnt(pls)

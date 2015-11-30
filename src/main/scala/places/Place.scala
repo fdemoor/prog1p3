@@ -105,7 +105,7 @@ class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place]
 }
 
 
-class Grid (l: List[Place]) {
+class Grid (l: List[Place]) { // TODO maybe object instead of class ?
   
   private var places_ = l
   def places: List[Place] = places_

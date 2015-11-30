@@ -47,6 +47,7 @@ class Controller(_model: Model) {
       // Starting bee wave after 6 turns, one wave per turn then
       if (k > 5) model.beeWave()
       else k = k + 1
+      if (!_view.get.getUI.Msg.isEmpty) _view.get.getUI.Msg.decr()
     }
   }
   

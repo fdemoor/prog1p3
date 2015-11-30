@@ -102,9 +102,36 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val rmButton = new UIButtonRM(rmIcon, 10 + menu.buttons.head.width*10, 10)
     menu.add(rmButton)
     
+    
+    /* CREATING POWER MENU */
+    val menuPower = new UIButtonMenu(Nil: List[UIButton])
+    
     val freezeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
     val freezeButton = new UIButtonFreeze(rmIcon, 10 + menu.buttons.head.width*11, 10)
-    menu.add(freezeButton)
+    menuPower.add(freezeButton)
+    
+    
+    /* INFO MESSAGE */
+    object Msg {
+    
+      var msg_ = ""
+      def msg(): String = msg_
+      
+      def init(): Unit = {msg_ = ""}
+      
+      def isEmpty(): Boolean = {msg_ == ""}
+      
+      var turnsLeft = 0 // print the message during 2 turns
+      def decr(): Unit = {
+        turnsLeft -= 1
+        if (turnsLeft <= 0) this.init()
+      }
+      
+      def setMsg(newMsg: String): Unit = {
+        msg_ = newMsg
+        turnsLeft = 2
+      }
+    }
 
 
     override def paintComponent(g: Graphics2D) = {
@@ -124,6 +151,11 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
       /* BOTTOM INFO BAR */
       
+      g.setColor(Color.lightGray)
+      g.fillRect(0, size.height-28, size.width, 28)
+      g.setColor(Color.black)
+      g.drawLine(0, size.height-28, size.width, size.height-28)
+      
       // FOOD
       val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
       g.drawImage(foodIcon.getImage, 10, size.height-26, peer)
@@ -133,6 +165,11 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       val scoreIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/score.png"))
       g.drawImage(scoreIcon.getImage, 10+32+40, size.height-26, peer)
       g.drawString(" " + Colony.scoreAmount.toString, 10+48+40, size.height-10)
+      
+      // INFO MESSAGE
+      g.setColor(Color.black)
+      g.drawString(Msg.msg, 10+48+40+40, size.height-10)
+      
 
 
       /* PROJECTILES */
@@ -150,6 +187,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
           menu.mouseAction(getPos.x, getPos.y)
           controller.placeClicked((getPos.x, getPos.y), menu)
         } catch {
+          case ex: NotEnoughFood => Msg.setMsg("YOU DON'T HAVE ENOUGH FOOD !!!")
           case ex: ClickFound => ()
         }
       case _: FocusLost => repaint()
