@@ -99,6 +99,10 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val rmIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
     val rmButton = new UIButtonRM(rmIcon, 10 + menu.buttons.head.width*10, 10)
     menu.add(rmButton)
+    
+    val freezeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
+    val freezeButton = new UIButtonFreeze(rmIcon, 10 + menu.buttons.head.width*11, 10)
+    menu.add(freezeButton)
 
 
     override def paintComponent(g: Graphics2D) = {

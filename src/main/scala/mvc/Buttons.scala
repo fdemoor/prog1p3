@@ -77,6 +77,29 @@ class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
 }
 
 
+class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int)
+  extends UIButton(icon, posX, posY, 0, 0, "freeze") {
+
+  /* Action performed when used */
+  override def action(model: Model, cursorPos: (Int, Int)): Unit = model.tryFreezing(cursorPos)
+  
+  /* Drawing method */
+  override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    if (isSelected) {
+      g.setColor(Color.red)
+      g.drawRect(x+1, y+1, width-2, height-2)
+    } else {
+      g.setColor(Color.blue)
+    }
+    g.drawString(" Freeze", x, y + armorIcon.getIconHeight) // TODO proper button with icon - Decr food
+    g.drawRect(x, y, width, height)
+    g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
+  }
+    
+}
+
+
 class UIButtonMenu (l: List[UIButton]) {
 
   private var buttons_ = l

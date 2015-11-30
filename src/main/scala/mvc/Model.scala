@@ -124,6 +124,24 @@ class Model {
     }
     findPlaceRemovingAnt(gridGame.places)
   }
+  
+  
+  /** Try to freeze a place */
+  def tryFreezing(cursorPos: (Int, Int)): Unit = {
+    def findPlaceFreezing(l: List[Place]): Unit = {
+      l match {
+        case Nil => ()
+        case pl :: pls =>
+          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
+              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
+              pl.freeze(3)
+          } else {
+            findPlaceFreezing(pls)
+          }
+      }
+    }
+    findPlaceFreezing(gridGame.places)
+  }
 
 
   /** Execute move actions for all ants */
@@ -166,7 +184,10 @@ class Model {
   /** Moving all bees */
   def move(): Unit = {
     for (p <- gridGame.places) {
-      for (bee <- p.bees) bee.move()
+      for (bee <- p.bees) {
+        if (p.isFrozen) p.freezeDecr()
+        else bee.move()
+      }
     }
   }
 }

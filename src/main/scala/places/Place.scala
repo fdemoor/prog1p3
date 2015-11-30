@@ -73,6 +73,19 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     if (ant.isContainer) ant.asInstanceOf[BodyguardAnt].ant_=(None)
     else _ant = None
   }
+  
+  /* Freeze power */
+  private var isFrozen_ = false
+  private var frozenTurnsLeft = 0
+  def isFrozen() = isFrozen_
+  def freeze(nbTurns: Int) = {
+    isFrozen_ = true
+    frozenTurnsLeft = nbTurns
+  }
+  def freezeDecr() = {
+    frozenTurnsLeft -= 1
+    if (frozenTurnsLeft == 0) isFrozen_ = false
+  }
 
 }
 
