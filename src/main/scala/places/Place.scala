@@ -83,7 +83,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
     frozenTurnsLeft = nbTurns
   }
   def freezeDecr() = {
-    frozenTurnsLeft -= 1
+    frozenTurnsLeft = frozenTurnsLeft-1
     if (frozenTurnsLeft == 0) isFrozen_ = false
   }
 

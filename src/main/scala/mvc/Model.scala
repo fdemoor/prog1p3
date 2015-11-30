@@ -134,7 +134,7 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-              pl.freeze(3)
+              pl.freeze(5)
           } else {
             findPlaceFreezing(pls)
           }
@@ -155,6 +155,7 @@ class Model {
   /** Execute move actions for all bees */
   def moveActionsBees(): Unit = {
     for (p <- gridGame.places) {
+      if (p.isFrozen) p.freezeDecr()
       for (bee <- p.bees) bee.moveActions()
     }
   }
@@ -185,8 +186,7 @@ class Model {
   def move(): Unit = {
     for (p <- gridGame.places) {
       for (bee <- p.bees) {
-        if (p.isFrozen) p.freezeDecr()
-        else bee.move()
+        if (!p.isFrozen) bee.move()
       }
     }
   }

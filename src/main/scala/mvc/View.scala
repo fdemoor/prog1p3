@@ -22,6 +22,8 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     
     for (p <- gridGame.places) {
       g.setColor(Color.black)
+      if (p.isFrozen) g.setColor(Color.blue)
+      else g.setColor(Color.black)
       g.drawRect(p.x, p.y, p.width, p.height)
       g.drawImage(p.im, p.x, p.y, peer)
       
