@@ -100,7 +100,7 @@ class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
     g.drawString(" "+cost.toString, x + foodIcon.getIconWidth, y + foodIcon.getIconHeight)
 
     g.drawRect(x, y, width, height)
-    g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
+    g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
   }
     
 }

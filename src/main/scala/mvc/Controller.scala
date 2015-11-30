@@ -14,6 +14,8 @@ class Controller(_model: Model) {
   def view = _view.get
   def tTurn = _tTurn.get
   def tFrame = _tFrame.get
+  
+  def freezeCost(): Int = model.freezeCost
 
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */

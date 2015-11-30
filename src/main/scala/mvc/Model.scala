@@ -102,7 +102,7 @@ class Model {
     if (_Colony.foodAmount >= freezeCost) {
       findPlaceFreezing(gridGame.places)
       _Colony.foodAmount_=(_Colony.foodAmount-freezeCost)
-    }
+    } else throw NotEnoughFood()
   }
 
 

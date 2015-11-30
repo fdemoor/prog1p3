@@ -46,10 +46,12 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
   
 
   lazy val ui = new Panel {
+    
     background = Color.white
     preferredSize = new Dimension(900, 700)
     focusable = true
     listenTo(mouse.clicks, mouse.moves, keys)
+    
 
     /* Returns the current position of the mouse (or null if it's not over the panel */
     def getPos = peer.getMousePosition()
@@ -103,12 +105,11 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     menu.add(rmButton)
     
     
-    /* CREATING POWER MENU */
-    val menuPower = new UIButtonMenu(Nil: List[UIButton])
+    /* CREATING POWER BUTTONS */
     
-    val freezeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-    val freezeButton = new UIButtonFreeze(rmIcon, 10 + menu.buttons.head.width*11, 10)
-    menuPower.add(freezeButton)
+    val freezeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/freeze.png"))
+    val freezeButton = new UIButtonFreeze(freezeIcon, 10, 700-100, controller.freezeCost) // DAMN IT size.height
+    menu.add(freezeButton) // does not work :( )
     
     
     /* INFO MESSAGE */

@@ -119,15 +119,15 @@ class Grid (l: List[Place]) { // TODO maybe object instead of class ?
     val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
 
     for (i <- 0 until p) {
-      var pl = new Place("Box"+i.toString+".0", 20, 120 + iconPlace.getIconHeight*i, None, None)
+      var pl = new Place("Box"+i.toString+".0", 20, 100 + iconPlace.getIconHeight*i, None, None)
       this.add(pl)
       for (j <- 1 until n) {
         if (alea.nextInt(101) > perWater) {
           pl = new Place("Box"+i.toString+"."+j.toString, 20 + pl.width*j,
-                120 + pl.height*i, None, Some(this.places.head))
+                100 + pl.height*i, None, Some(this.places.head))
         } else {
           pl = new WaterPlace("Box"+i.toString+"."+j.toString, 20 + pl.width*j,
-                120 + pl.height*i, None, Some(this.places.head))
+                100 + pl.height*i, None, Some(this.places.head))
         }
         this.add(pl)
       }
