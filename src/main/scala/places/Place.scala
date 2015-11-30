@@ -1,8 +1,6 @@
 package places // TODO clean code and comment
 
-import java.awt.{Color, Dimension, Graphics2D, geom}
 import javax.swing.ImageIcon
-import util.Random
 
 import insects._
 
@@ -34,10 +32,9 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def addBee(b: Bee): Unit = { _bees = b::_bees }
   def removeBee(b: Bee): Unit = {
     def rmBee(b2: Bee, l2: List[Bee]): List[Bee] = {
-      l2 match {
-        case Nil => throw new IllegalArgumentException("Bee not in the list of bees.")
-        case h::t => if (b2 == h) t else h::rmBee(b2, t)
-      }
+      if (l2.isEmpty) throw new IllegalArgumentException("Bee not in the list of bees.")
+      if (b2 == l2.head) return l2.tail
+      l2.head::rmBee(b2, l2.tail)
     }
     _bees = rmBee(b, _bees)
   }
@@ -87,7 +84,6 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   }
 }
 
-
 class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place])
   extends Place(name, posX, posY, entranceInit, exitInit) {
 
@@ -103,41 +99,3 @@ class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place]
   }
 }
 
-
-class Grid (l: List[Place]) { // TODO maybe object instead of class ?
-
-  private var places_ = l
-  def places: List[Place] = places_
-
-
-  /** Create a grid of nXp places, perWater is the probability percentage of water places
-   *  Return an array of the p tunnel entrances */
-  def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
-
-    val alea = new Random()
-    val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
-    val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
-
-    for (i <- 0 until p) {
-      var pl = new Place("Box"+i.toString+".0", 20, 100 + iconPlace.getIconHeight*i, None, None)
-      this.add(pl)
-      for (j <- 1 until n) {
-        if (alea.nextInt(101) > perWater) {
-          pl = new Place("Box"+i.toString+"."+j.toString, 20 + pl.width*j,
-                100 + pl.height*i, None, Some(this.places.head))
-        } else {
-          pl = new WaterPlace("Box"+i.toString+"."+j.toString, 20 + pl.width*j,
-                100 + pl.height*i, None, Some(this.places.head))
-        }
-        this.add(pl)
-      }
-      for (j <- 1 until n) {
-        this.places(j).entrance_=(Some(this.places(j-1)))
-      }
-      tunnelEntrances(i) = Some(this.places.head)
-    }
-    tunnelEntrances
-  }
-
-  def add(p: Place): Unit = {places_ = p::places_}
-}

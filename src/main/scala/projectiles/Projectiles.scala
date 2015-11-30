@@ -1,5 +1,6 @@
 package projectiles
 
+/** Stores and manages the projectiles. */
 object Projectiles {
 
   private var _projectiles: List[Projectile] = Nil
