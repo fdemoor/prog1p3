@@ -1,4 +1,4 @@
-package insects // TODO clean code and comment
+package insects
 
 import colony.Colony, places.Place
 import projectiles._
@@ -130,9 +130,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
         while (bL.nonEmpty && !hasHitBee) {
           val bee: Bee = bL.head
           if (!bee.isDead) {
-//            bee.armor_=(bee.armor - damages)
             hasHitBee = true
-//            LogsActions.addAttack(((x, y), (bee.x, bee.y)))
             new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
           }
           bL = bL.tail
@@ -199,7 +197,6 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends { private var _ant: Option[Ant] = None }  // Executed before super's constructor.
   with Ant(posX, posY, "weeds", colony, _place, cost = 4, container = true, _armor = 2, waterProof = true) {
-
 
   def ant: Option[Ant] = _ant
   def canAddAnt: Boolean = ant.isEmpty

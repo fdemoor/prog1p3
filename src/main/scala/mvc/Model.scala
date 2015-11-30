@@ -21,13 +21,13 @@ class Model {
   val gridHeight: Int = 5
   val gridGame = new Grid(Nil: List[Place])
   val tunnelEntrances: Array[Option[Place]] = gridGame.grid(gridWidth, gridHeight, 15)
-  
-  
+
+
   /* Initialize power costs */
   val freezeCost: Int = 10
-  
-  
-  /** Initialize a new bee in a randomly choosen tunnel */
+
+
+  /** Initialize a new bee in a randomly chosen tunnel */
   val aleaWave = new Random()
   def beeWave(): Unit = {
     val choice: Int = aleaWave.nextInt(gridHeight)
@@ -83,8 +83,8 @@ class Model {
     }
     findPlaceRemovingAnt(gridGame.places)
   }
-  
-  
+
+
   /** Try to freeze a place */
   def tryFreezing(cursorPos: (Int, Int)): Unit = {
     def findPlaceFreezing(l: List[Place]): Unit = {
@@ -112,8 +112,8 @@ class Model {
       if (p.isAntIn) p.ant.moveActions()
     }
   }
-  
-  
+
+
   /** Execute move actions for all bees */
   def moveActionsBees(): Unit = {
     for (p <- gridGame.places) {
@@ -121,14 +121,15 @@ class Model {
       for (bee <- p.bees) bee.moveActions()
     }
   }
-  
-  
+
+
   /** Execute move actions for all projectiles */
   def moveActionsProjectiles(): Unit = {
     Projectiles.moves()
+    Projectiles.removeUselessProjectiles()
   }
-  
-  
+
+
   /** Remove dead insects */
   def removeDeads(): Unit = {
     for (p <- gridGame.places) {
@@ -142,8 +143,8 @@ class Model {
       removeDeadBees(p.bees)
     }
   }
-  
-  
+
+
   /** Moving all bees */
   def move(): Unit = {
     for (p <- gridGame.places) {

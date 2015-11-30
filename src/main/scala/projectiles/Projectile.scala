@@ -2,7 +2,7 @@ package projectiles
 
 import insects._
 
-class Projectile (posX: Int, posY: Int, target: Insect, damages: Int) {
+class Projectile (posX: Int, posY: Int, val target: Insect, damages: Int) {
 
   Projectiles.addProjectile(this)
 
@@ -29,7 +29,6 @@ class Projectile (posX: Int, posY: Int, target: Insect, damages: Int) {
         y >= target.y && y <= target.y + target.icon.getIconHeight) {
       target.armor_=(target.armor - damages)
       _hasHit = true
-      // TODO del projectiles when target destroyed
     }
   }
 }
