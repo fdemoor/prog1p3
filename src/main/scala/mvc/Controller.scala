@@ -16,6 +16,8 @@ class Controller(_model: Model) {
   def tFrame = _tFrame.get
   
   def freezeCost(): Int = model.freezeCost
+  def radarCost(): Int = model.radarCost
+  def doubleCost(): Int = model.doubleCost
 
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
@@ -49,7 +51,7 @@ class Controller(_model: Model) {
       // Starting bee wave after 6 turns, one wave per turn then
       if (k > 5) model.beeWave()
       else k = k + 1
-      if (!_view.get.getUI.Msg.isEmpty) _view.get.getUI.Msg.decr()
+      //if (!_view.get.getUI.Msg.isEmpty) _view.get.getUI.Msg.decr() // TODO
     }
   }
   

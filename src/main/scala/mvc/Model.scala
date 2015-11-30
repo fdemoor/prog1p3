@@ -25,6 +25,8 @@ class Model {
 
   /* Initialize power costs */
   val freezeCost: Int = 10
+  val radarCost: Int = 10
+  val doubleCost: Int = 10
 
 
   /** Initialize a new bee in a randomly chosen tunnel */
@@ -103,6 +105,18 @@ class Model {
       findPlaceFreezing(gridGame.places)
       _Colony.foodAmount_=(_Colony.foodAmount-freezeCost)
     } else throw NotEnoughFood()
+  }
+  
+  
+  /** Try to give an ant radar power */
+  def tryRadar(cursorPos: (Int, Int)): Unit = {
+    println("test") // TODO
+  }
+  
+  
+  /** Try to give an ant double damage power */
+  def tryDouble(cursorPos: (Int, Int)): Unit = { ()
+    println("test") // TODO
   }
 
 

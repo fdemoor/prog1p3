@@ -106,6 +106,64 @@ class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 }
 
 
+class UIButtonRadar (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
+  extends UIButton(icon, posX, posY, 0, cost, "radar") {
+
+  override val width: Int = 48
+  override val height: Int = 48 + 16
+
+  /* Action performed when used */
+  override def action(model: Model, cursorPos: (Int, Int)): Unit = model.tryRadar(cursorPos)
+  
+  /* Drawing method */
+  override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    if (isSelected) {
+      g.setColor(Color.red)
+      g.drawRect(x+1, y+1, width-2, height-2)
+    } else {
+      g.setColor(Color.blue)
+    }
+    
+    g.drawImage(foodIcon.getImage, x, y, peer)
+    g.drawString(" "+cost.toString, x + foodIcon.getIconWidth, y + foodIcon.getIconHeight)
+
+    g.drawRect(x, y, width, height)
+    g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
+  }
+    
+}
+
+
+class UIButtonDouble (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
+  extends UIButton(icon, posX, posY, 0, cost, "double") {
+
+  override val width: Int = 48
+  override val height: Int = 48 + 16
+
+  /* Action performed when used */
+  override def action(model: Model, cursorPos: (Int, Int)): Unit = model.tryDouble(cursorPos)
+  
+  /* Drawing method */
+  override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    if (isSelected) {
+      g.setColor(Color.red)
+      g.drawRect(x+1, y+1, width-2, height-2)
+    } else {
+      g.setColor(Color.blue)
+    }
+    
+    g.drawImage(foodIcon.getImage, x, y, peer)
+    g.drawString(" "+cost.toString, x + foodIcon.getIconWidth, y + foodIcon.getIconHeight)
+
+    g.drawRect(x, y, width, height)
+    g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
+  }
+    
+}
+
+
 class UIButtonMenu (l: List[UIButton]) {
 
   private var buttons_ = l
