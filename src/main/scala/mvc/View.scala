@@ -96,9 +96,9 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val bodyGuardButton = new UIButton(bodyGuardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2, "bodyGuard")
     menu.add(bodyGuardButton)
     
-    val byeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
-    val byeButton = new UIButton(byeIcon, 10 + menu.buttons.head.width*10, 10, 0 ,0, "bye")
-    menu.add(byeButton)
+    val rmIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
+    val rmButton = new UIButtonRM(rmIcon, 10 + menu.buttons.head.width*10, 10)
+    menu.add(rmButton)
 
 
     override def paintComponent(g: Graphics2D) = {

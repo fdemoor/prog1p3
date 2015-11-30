@@ -69,8 +69,7 @@ class Controller(_model: Model) {
   def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
     for (b <- menu.buttons) {
       if (b.isSelected) {
-        if (b.toString == "bye") model.tryRemovingAnt(cursorPos)
-        else b.action(model, cursorPos)
+        b.action(model, cursorPos)
         throw ClickFound()
       }
     }

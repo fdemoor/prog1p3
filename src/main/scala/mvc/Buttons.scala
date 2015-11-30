@@ -53,6 +53,30 @@ class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, nam
   
 }
 
+
+class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
+  extends UIButton(icon, posX, posY, 0, 0, "remove") {
+
+  /* Action performed when used */
+  override def action(model: Model, cursorPos: (Int, Int)): Unit = model.tryRemovingAnt(cursorPos)
+  
+  /* Drawing method */
+  override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
+    
+    if (isSelected) {
+      g.setColor(Color.red)
+      g.drawRect(x+1, y+1, width-2, height-2)
+    } else {
+      g.setColor(Color.blue)
+    }
+    g.drawString(" Remove", x, y + armorIcon.getIconHeight)
+    g.drawRect(x, y, width, height)
+    g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
+  }
+    
+}
+
+
 class UIButtonMenu (l: List[UIButton]) {
 
   private var buttons_ = l
