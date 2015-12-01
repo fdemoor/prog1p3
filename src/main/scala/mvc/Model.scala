@@ -37,7 +37,7 @@ class Model {
   val randWave = new Random()
   def beeWave(): Unit = {
     val choice: Int = randWave.nextInt(gridHeight)
-    new Bee(800, 100 + iconPlace.getIconHeight*choice,
+    new RangeBee(800, 100 + iconPlace.getIconHeight*choice,
       tunnelEntrances(choice), 3)
   }
 
@@ -51,18 +51,21 @@ class Model {
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
             try {
-              if (typeAnt == "harvester") new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "shortThrower") new ShortThrower(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "longThrower") new LongThrower(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "fire") new FireAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "scuba") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "wall") new WallAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "ninja") new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
-              else if (typeAnt == "bodyGuard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+//              if (typeAnt == "harvester") new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "shortThrower") new ShortThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "longThrower") new LongThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "fire") new FireAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "scuba") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "wall") new WallAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "ninja") new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "bodyGuard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+              val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
+              Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
             } catch {
-                case ex: IllegalArgumentException => throw NotEnoughFood()
+              case ex: java.lang.reflect.InvocationTargetException => throw NotEnoughFood()
+              case ex: IllegalArgumentException => throw NotEnoughFood()
             }
           } else {
             findPlaceAddingAnt(pls)
