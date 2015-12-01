@@ -54,7 +54,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     
     def isEmpty(): Boolean = {msg_ == ""}
       
-    var turnsLeft = 0 // print the message during 2 turns
+    var turnsLeft = 0
     def decr(): Unit = {
       turnsLeft -= 1
       if (turnsLeft <= 0) this.init()
@@ -62,11 +62,11 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       
     def setMsg(newMsg: String): Unit = {
       msg_ = newMsg
-      turnsLeft = 2
+      turnsLeft = 2 // print the message during 2 turns
     }
   }
     
-    def getMsg () = Msg
+  def getMsg () = Msg
   
   
 
@@ -180,7 +180,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       
       // INFO MESSAGE
       g.setColor(Color.black)
-      g.drawString(Msg.msg, 10+48+40+40, size.height-10)
+      g.drawString(getMsg.msg, 10+48+40+40, size.height-10)
       
 
 
@@ -199,7 +199,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
           menu.mouseAction(getPos.x, getPos.y)
           controller.placeClicked((getPos.x, getPos.y), menu)
         } catch {
-          case ex: NotEnoughFood => Msg.setMsg("YOU DON'T HAVE ENOUGH FOOD !!!")
+          case ex: NotEnoughFood => getMsg.setMsg("YOU DON'T HAVE ENOUGH FOOD !!!")
           case ex: ClickFound => ()
         }
       case _: FocusLost => repaint()
