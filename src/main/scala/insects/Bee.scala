@@ -64,7 +64,7 @@ class RangeBee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int =
     var i: Int = 2
     var hasHitAnt: Boolean = false
     while (i > 0 && currentPlace.isDefined && !hasHitAnt) {
-      if (currentPlace.get.isAntIn) {
+      if (currentPlace.get.isAntIn && currentPlace.get.ant.blocksPath) {
         hasHitAnt = true
         new Projectile(x.toInt, y, currentPlace.get.ant, damages)
       }

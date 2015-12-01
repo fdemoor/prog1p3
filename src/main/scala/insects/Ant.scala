@@ -123,7 +123,7 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 class NinjaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends ThrowerAnt(posX, posY, colony, _place, cost = 6, name = "ninja", blocksPath = false)
 
-class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+class ShortThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "shortthrower", colony, _place, cost = 3, damagesAmount = 1) {
 
   override def moveActions() {
@@ -147,7 +147,7 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   }
 }
 
-class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
+class LongThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "longthrower", colony, _place, 3, damagesAmount = 1) {
 
   override def moveActions() {
