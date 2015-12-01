@@ -33,6 +33,8 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         val xtoCenter: Int = (p.width - bee.icon.getIconWidth) / 2
         val ytoCenter: Int = (p.height - bee.icon.getIconHeight) / 2
         g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
+        g.setColor(Color.black)
+        g.drawString("lvl"+bee.lvl.toString, bee.x + xtoCenter, bee.y + ytoCenter*2)
       }
       if (p.isAntIn) {
         val xtoCenter: Int = (p.width - p.ant.icon.getIconWidth) / 2
@@ -42,6 +44,8 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
           g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y + ytoCenter, peer)
         }
         g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
+        g.setColor(Color.white)
+        g.drawString("lvl"+p.ant.lvl.toString, p.ant.x, p.ant.y + p.height)
       }
     }
   }
