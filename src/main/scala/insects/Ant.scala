@@ -49,7 +49,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
     if (hasRadar) {
       for (p <- places) {
         for (b <- p.bees) {
-          b.revealLife()
+          b.revealLife() // TODO if this ant is destroyed, re-init visible except if another radar ant in same tunnel
         }
       }
     }

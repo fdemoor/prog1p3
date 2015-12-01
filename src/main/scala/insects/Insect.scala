@@ -15,6 +15,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var _dy: Int = 0
   private var _place: Option[Place] = placeInit
   private var _armor = armorInit
+  val initialArmor: Int = armorInit
   private var _isDead = false
   private var doubledDamages: Boolean = false
   private var _damages: Int = damagesAmount

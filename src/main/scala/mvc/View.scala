@@ -19,22 +19,27 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
   private val controller: Controller = _controller
   private val Colony: Colony = _Colony
 
+  val freezeOverlay: ImageIcon = new ImageIcon(getClass.getResource("/img/freeze_overlay.png"))
+  val radarOverlay: ImageIcon = new ImageIcon(getClass.getResource("/img/radar_overlay.png"))
 
   /** Paint the places and all that is inside */
   def paintGrid(gridGame: Grid, g: Graphics2D, peer:java.awt.Component): Unit = {
     for (p <- gridGame.places) {
       g.setColor(Color.black)
-      if (p.isFrozen) g.setColor(Color.blue)
-      else g.setColor(Color.black)
       g.drawRect(p.x, p.y, p.width, p.height)
       g.drawImage(p.im, p.x, p.y, peer)
+      if (p.isFrozen) g.drawImage(freezeOverlay.getImage, p.x, p.y, peer)
 
       for (bee <- p.bees) {
         val xtoCenter: Int = (p.width - bee.icon.getIconWidth) / 2
         val ytoCenter: Int = (p.height - bee.icon.getIconHeight) / 2
         g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
         g.setColor(Color.black)
-        g.drawString("lvl"+bee.lvl.toString, bee.x + xtoCenter, bee.y + ytoCenter*2)
+        var toPrint: String = ""
+        if (bee.isVisible) {
+          toPrint = "lvl"+bee.lvl.toString+" "+bee.armor.toString+"/"+bee.initialArmor.toString
+        } else {toPrint = "lvl"+bee.lvl.toString}
+        g.drawString(toPrint, bee.x + xtoCenter, bee.y + ytoCenter*2)
       }
       if (p.isAntIn) {
         val xtoCenter: Int = (p.width - p.ant.icon.getIconWidth) / 2
@@ -46,6 +51,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
         g.setColor(Color.white)
         g.drawString("lvl"+p.ant.lvl.toString, p.ant.x, p.ant.y + p.height)
+        if (p.ant.hasRadar) g.drawImage(radarOverlay.getImage, p.x, p.y, peer)
       }
     }
   }

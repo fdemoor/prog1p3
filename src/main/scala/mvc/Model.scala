@@ -99,7 +99,7 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-              pl.freeze(5)
+              pl.freeze(3)
           } else {
             findPlaceFreezing(pls)
           }
