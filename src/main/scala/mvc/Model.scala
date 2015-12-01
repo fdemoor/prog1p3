@@ -33,7 +33,7 @@ class Model {
   val aleaWave = new Random()
   def beeWave(): Unit = {
     val choice: Int = aleaWave.nextInt(gridHeight)
-    new Bee(800, 120 + iconPlace.getIconHeight*choice,
+    new Bee(800, 100 + iconPlace.getIconHeight*choice,
       tunnelEntrances(choice), 3)
   }
 

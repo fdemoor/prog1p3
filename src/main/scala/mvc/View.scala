@@ -44,6 +44,31 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     }
   }
   
+  /* INFO MESSAGE */
+  object Msg {
+  
+    var msg_ = ""
+    def msg(): String = msg_
+    
+    def init(): Unit = {msg_ = ""}
+    
+    def isEmpty(): Boolean = {msg_ == ""}
+      
+    var turnsLeft = 0 // print the message during 2 turns
+    def decr(): Unit = {
+      turnsLeft -= 1
+      if (turnsLeft <= 0) this.init()
+    }
+      
+    def setMsg(newMsg: String): Unit = {
+      msg_ = newMsg
+      turnsLeft = 2
+    }
+  }
+    
+    def getMsg () = Msg
+  
+  
 
   lazy val ui = new Panel {
     
@@ -121,28 +146,6 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val doubleButton = new UIButtonDouble(doubleIcon, 10 + menu.buttons.head.width*2, 700-100, controller.doubleCost)
     menu.add(doubleButton)*/
     
-    
-    /* INFO MESSAGE */
-    object Msg {
-    
-      var msg_ = ""
-      def msg(): String = msg_
-      
-      def init(): Unit = {msg_ = ""}
-      
-      def isEmpty(): Boolean = {msg_ == ""}
-      
-      var turnsLeft = 0 // print the message during 2 turns
-      def decr(): Unit = {
-        turnsLeft -= 1
-        if (turnsLeft <= 0) this.init()
-      }
-      
-      def setMsg(newMsg: String): Unit = {
-        msg_ = newMsg
-        turnsLeft = 2
-      }
-    }
 
 
     override def paintComponent(g: Graphics2D) = {
