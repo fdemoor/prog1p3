@@ -90,6 +90,16 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       }
     }
   }
+
+  override def kill(): Unit = {
+    super.kill()
+    for (p <- places) {
+      if (p.isAntIn) {
+        if (!p.ant.isContainer) p.ant.unDoubleDamages()
+        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.unDoubleDamages()
+      }
+    }
+  }
 }
 
 class NinjaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])

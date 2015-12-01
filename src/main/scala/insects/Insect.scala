@@ -16,7 +16,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var _armor = armorInit
   private var _isDead = false
   private var doubledDamages: Boolean = false
-  private val _damages: Int = damagesAmount
+  private var _damages: Int = damagesAmount
 
   def x: Float = _x
   def y: Int = _y
@@ -44,7 +44,9 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
     _armor = newArmor
     if (_armor <= 0) kill()
   }
+  def damages_=(newD: Int) { _damages = newD }
   def doubleDamages() { doubledDamages = true }
+  def unDoubleDamages() { doubledDamages = false}
 
   /** Increase speed */
   def accelerate(ax:Int, ay:Int) {

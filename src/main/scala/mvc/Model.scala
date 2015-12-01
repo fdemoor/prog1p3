@@ -106,17 +106,32 @@ class Model {
       _Colony.foodAmount_=(_Colony.foodAmount-freezeCost)
     } else throw NotEnoughFood()
   }
-  
-  
+
+
   /** Try to give an ant radar power */
   def tryRadar(cursorPos: (Int, Int)): Unit = {
     println("test") // TODO
   }
-  
-  
+
+
   /** Try to give an ant double damage power */
-  def tryDouble(cursorPos: (Int, Int)): Unit = { ()
-    println("test") // TODO
+  def tryDouble(cursorPos: (Int, Int)): Unit = {
+    def findPlace(l: List[Place]): Unit = {
+      l match {
+        case Nil => ()
+        case pl :: pls =>
+          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
+            pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
+            if (pl.isAntIn) pl.ant.damages_=(pl.ant.damages * 2)
+          } else {
+            findPlace(pls)
+          }
+      }
+    }
+    if (_Colony.foodAmount >= freezeCost) {
+      findPlace(gridGame.places)
+      _Colony.foodAmount_=(_Colony.foodAmount-doubleCost)
+    } else throw NotEnoughFood()
   }
 
 
