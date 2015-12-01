@@ -52,7 +52,7 @@ class Controller(_model: Model) {
       if (k > 5) model.beeWave()
       else k = k + 1
       // Display message
-      if (! (_view.get.getMsg.isEmpty)) _view.get.getMsg.decr() // TODO
+      if (! (_view.get.getMsg.isEmpty)) _view.get.getMsg.decr()
     }
   }
   

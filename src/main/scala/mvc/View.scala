@@ -133,7 +133,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     /* CREATING POWER BUTTONS */
     
     val freezeIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/freeze.png"))
-    val freezeButton = new UIButtonFreeze(freezeIcon, 10, 700-100, controller.freezeCost()) // TODO
+    val freezeButton = new UIButtonFreeze(freezeIcon, 10, 700-100, controller.freezeCost())
     menu.add(freezeButton)
     
     val radarIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/radar.png"))
