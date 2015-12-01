@@ -4,13 +4,14 @@ import colony.Colony
 import places.Place
 import projectiles._
 
-abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]
-                   , cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0
-                   , waterProof: Boolean = false, _blocksPath: Boolean = true, container: Boolean = false)
+abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place],
+                   cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0,
+                   waterProof: Boolean = false, _blocksPath: Boolean = true, container: Boolean = false)
   extends Insect(posX, posY, "ant_" + img, _place, _armor, waterProof, damagesAmount = damagesAmount) {
 
   private val _Cost = cost
   private val _Colony = colony
+  var hasRadar = false
 
   if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
   if (place.get.canAddAnt(this)) {
@@ -39,22 +40,38 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   }
 
   def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
+
+  def addRadar(): Unit = {
+    hasRadar = true
+  }
+
+  override def moveActions(): Unit = {
+    if (hasRadar) {
+      for (p <- places) {
+        for (b <- p.bees) {
+          b.revealLife()
+        }
+      }
+    }
+  }
 }
 
 class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "harvester", colony, _place, cost = 2) {
 
   override def moveActions() {
+    super.moveActions()
     addFood()
   }
 }
 
-class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], cost: Int = 2
-                 , armor: Int = 1, name: String = "thrower", waterProof: Boolean = false, blocksPath: Boolean = true)
-  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1
-              , waterProof = waterProof) {
+class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], cost: Int = 2,
+                 armor: Int = 1, name: String = "thrower", waterProof: Boolean = false, blocksPath: Boolean = true)
+  extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1,
+              waterProof = waterProof) {
 
   override def moveActions() {
+    super.moveActions()
     var hasHitBee: Boolean = false
     var bL: List[Bee] = place.get.bees
     while (bL.nonEmpty && !hasHitBee) {
@@ -68,8 +85,8 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], co
   }
 }
 
-class ScubaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place]
-               , cost: Int = 5, name: String = "scuba", armor: Int = 1)
+class ScubaAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place],
+               cost: Int = 5, name: String = "scuba", armor: Int = 1)
   extends ThrowerAnt(posX, posY, colony, _place, cost = cost, name = name, armor = armor, waterProof = true)
 
 class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
@@ -110,6 +127,7 @@ class ShortThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "shortthrower", colony, _place, cost = 3, damagesAmount = 1) {
 
   override def moveActions() {
+    super.moveActions()
     var currentPlace: Option[Place] = place.get.entrance
     var i: Int = 2
     var hasHitBee: Boolean = false
@@ -133,6 +151,7 @@ class LongThrower(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   extends Ant(posX, posY, "longthrower", colony, _place, 3, damagesAmount = 1) {
 
   override def moveActions() {
+    super.moveActions()
     scala.util.control.Exception.ignoring(classOf[NoSuchElementException]) {
       var currentPlace: Option[Place] = place.get.entrance.get.entrance.get.entrance
       var hasHitBee: Boolean = false
@@ -163,16 +182,11 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
       for (bee <- place.get.bees) new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
     }
   }
-
-  override def moveActions() {}
 }
 
 /** Ant that does nothing but block enemies. */
 class WallAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
-  extends Ant(posX, posY, "wall", colony, _place, 4, 4) {
-
-  override def moveActions() {}
-}
+  extends Ant(posX, posY, "wall", colony, _place, 4, 4)
 
 /** Ant that kills a random bee in its tunnel each 3 turns. */
 class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
@@ -182,6 +196,7 @@ class HungryAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
 
   /** Get a random bee and kill it. */
   override def moveActions(): Unit = {
+    super.moveActions()
     if (turnAwait > 0) turnAwait -= 1
     else {
       var placesNotChecked: List[Place] = util.Random.shuffle(places)

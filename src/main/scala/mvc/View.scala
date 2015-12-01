@@ -22,7 +22,6 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
   /** Paint the places and all that is inside */
   def paintGrid(gridGame: Grid, g: Graphics2D, peer:java.awt.Component): Unit = {
-
     for (p <- gridGame.places) {
       g.setColor(Color.black)
       if (p.isFrozen) g.setColor(Color.blue)
@@ -49,22 +48,22 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
   /* INFO MESSAGE */
   object Msg {
-
-    var msg_ = ""
-    def msg: String = msg_
-
-    def init(): Unit = {msg_ = ""}
-
-    def isEmpty: Boolean = msg_ == ""
-
+    var _msg = ""
     var turnsLeft = 0
+
+    def msg: String = _msg
+
+    def init(): Unit = {_msg = ""}
+
+    def isEmpty: Boolean = _msg == ""
+
     def decr(): Unit = {
       turnsLeft -= 1
       if (turnsLeft <= 0) this.init()
     }
 
     def setMsg(newMsg: String): Unit = {
-      msg_ = newMsg
+      _msg = newMsg
       turnsLeft = 2 // print the message during 2 turns
     }
   }
@@ -74,7 +73,6 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
 
   lazy val ui = new Panel {
-
     background = Color.white
     preferredSize = new Dimension(900, 700)
     focusable = true
@@ -159,13 +157,10 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       /* BUTTON MENU */
       menu.paint(g, peer)
 
-
       /* PLACES */
       paintGrid(grid, g, peer)
 
-
       /* BOTTOM INFO BAR */
-
       g.setColor(Color.lightGray)
       g.fillRect(0, size.height-28, size.width, 28)
       g.setColor(Color.black)
@@ -184,8 +179,6 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       // INFO MESSAGE
       g.setColor(Color.black)
       g.drawString(getMsg.msg, 10+48+40+40, size.height-10)
-
-
 
       /* PROJECTILES */
       g.setColor(Color.red)

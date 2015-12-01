@@ -13,7 +13,6 @@ class Grid (l: List[Place]) { // TODO maybe object instead of class ?
   /** Create a grid of nXp places, perWater is the probability percentage of water places
     *  Return an array of the p tunnel entrances */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
-
     val rand = new Random()
     val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
     val iconPlace: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))

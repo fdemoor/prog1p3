@@ -114,7 +114,22 @@ class Model {
 
   /** Try to give an ant radar power */
   def tryRadar(cursorPos: (Int, Int)): Unit = {
-    println("test") // TODO
+    def findPlace(l: List[Place]): Unit = {
+      l match {
+        case Nil => ()
+        case pl :: pls =>
+          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
+            pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
+            if (pl.isAntIn) pl.ant.addRadar()
+          } else {
+            findPlace(pls)
+          }
+      }
+    }
+    if (_Colony.foodAmount >= radarCost) {
+      findPlace(gridGame.places)
+      _Colony.foodAmount_=(_Colony.foodAmount-radarCost)
+    } else throw NotEnoughFood()
   }
 
 
@@ -126,13 +141,13 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
             pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-            if (pl.isAntIn) pl.ant.damages_=(pl.ant.damages * 2)
+            if (pl.isAntIn) pl.ant.upgradeDamages()
           } else {
             findPlace(pls)
           }
       }
     }
-    if (_Colony.foodAmount >= freezeCost) {
+    if (_Colony.foodAmount >= doubleCost) {
       findPlace(gridGame.places)
       _Colony.foodAmount_=(_Colony.foodAmount-doubleCost)
     } else throw NotEnoughFood()

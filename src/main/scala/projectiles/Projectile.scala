@@ -3,6 +3,7 @@ package projectiles
 import insects._
 
 class Projectile (posX: Int, posY: Int, val target: Insect, damages: Int) {
+  // If insects didn't have coordinates projectiles should be event-based
 
   Projectiles.addProjectile(this)
 

@@ -4,8 +4,8 @@ import javax.swing.ImageIcon
 
 import places._
 
-abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1
-                      , waterProof: Boolean = false, damagesAmount: Int = 0) {
+abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1,
+                      waterProof: Boolean = false, damagesAmount: Int = 0) {
   val icon: ImageIcon = new ImageIcon(getClass.getResource("/img/" + img + ".png"))
   val im = icon.getImage
 
@@ -18,6 +18,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var _isDead = false
   private var doubledDamages: Boolean = false
   private var _damages: Int = damagesAmount
+  private var _damagesUpgraded: Boolean = false
 
   def x: Float = _x
   def y: Int = _y
@@ -28,6 +29,7 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def isDead: Boolean = _isDead
   def isWaterProof: Boolean = waterProof
   def hasDoubledDamages: Boolean = doubledDamages
+  def hasDamagesUpgraded: Boolean = _damagesUpgraded
   def damages: Int = {
     if (hasDoubledDamages) 2 * _damages
     else _damages
@@ -48,6 +50,10 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def damages_=(newD: Int) { _damages = newD }
   def doubleDamages() { doubledDamages = true }
   def unDoubleDamages() { doubledDamages = false}
+  def upgradeDamages() {
+    _damagesUpgraded = true
+    _damages = _damages * 2
+  }
 
   /** Increase speed */
   def accelerate(ax:Int, ay:Int) {

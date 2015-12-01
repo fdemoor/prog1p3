@@ -6,22 +6,21 @@ import javax.swing.ImageIcon
 
 class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, name: String) {
 
+  val width: Int = 66
+  val height: Int = 66 + 16
+  val armorIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/armor.png"))
+  val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
+  private var _isSelected = false
+
   def x = posX
   def y = posY
 
-  val width: Int = 66
-  val height: Int = 66 + 16
-
   override def toString = name
 
-  val armorIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/armor.png"))
-  val foodIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/food.png"))
-
   /* Selection methods */
-  private var isSelected_ = false
-  def isSelected: Boolean = isSelected_
-  def select() = {isSelected_ = true}
-  def init() = {isSelected_ = false}
+  def isSelected: Boolean = _isSelected
+  def select() = {_isSelected = true}
+  def init() = {_isSelected = false}
   def isClicked(getX: Int, getY: Int): Boolean = {
     x <= getX && getX < x + width && y <= getY && getY < y + height
   }
@@ -31,7 +30,6 @@ class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, nam
 
   /* Drawing method */
   def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-
     if (isSelected) {
       g.setColor(Color.red)
       g.drawRect(x+1, y+1, width-2, height-2)
@@ -45,11 +43,9 @@ class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, nam
     g.drawImage(foodIcon.getImage, x + + armorIcon.getIconWidth*2, y, peer)
     g.drawString(" "+cost.toString, x + foodIcon.getIconWidth +
       armorIcon.getIconWidth*2, y + foodIcon.getIconHeight)
-
     g.drawRect(x, y, width, height)
     g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
   }
-
 }
 
 
@@ -61,7 +57,6 @@ class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
 
   /* Drawing method */
   override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-
     if (isSelected) {
       g.setColor(Color.red)
       g.drawRect(x+1, y+1, width-2, height-2)
@@ -72,7 +67,6 @@ class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
     g.drawRect(x, y, width, height)
     g.drawImage(icon.getImage, x, y + armorIcon.getIconHeight, peer)
   }
-
 }
 
 
@@ -87,7 +81,6 @@ class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 
   /* Drawing method */
   override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-
     if (isSelected) {
       g.setColor(Color.red)
       g.drawRect(x+1, y+1, width-2, height-2)
@@ -101,7 +94,6 @@ class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
     g.drawRect(x, y, width, height)
     g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
   }
-
 }
 
 
@@ -116,7 +108,6 @@ class UIButtonRadar (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 
   /* Drawing method */
   override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-
     if (isSelected) {
       g.setColor(Color.red)
       g.drawRect(x+1, y+1, width-2, height-2)
@@ -130,7 +121,6 @@ class UIButtonRadar (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
     g.drawRect(x, y, width, height)
     g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
   }
-
 }
 
 
@@ -145,7 +135,6 @@ class UIButtonDouble (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 
   /* Drawing method */
   override def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
-
     if (isSelected) {
       g.setColor(Color.red)
       g.drawRect(x+1, y+1, width-2, height-2)
@@ -159,16 +148,15 @@ class UIButtonDouble (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
     g.drawRect(x, y, width, height)
     g.drawImage(icon.getImage, x, y + foodIcon.getIconHeight, peer)
   }
-
 }
 
 
 class UIButtonMenu (l: List[UIButton]) {
 
-  private var buttons_ = l
-  def buttons: List[UIButton] = buttons_
+  private var _buttons = l
+  def buttons: List[UIButton] = _buttons
 
-  def add(b: UIButton): Unit ={buttons_ = b::buttons_}
+  def add(b: UIButton): Unit ={_buttons = b::_buttons}
 
   def init(): Unit = {
       for (b <- buttons) b.init()
@@ -193,5 +181,4 @@ class UIButtonMenu (l: List[UIButton]) {
   def paint(g: Graphics2D, peer:java.awt.Component): Unit = {
     for (b <- this.buttons) b.paint(g, peer)
   }
-
 }

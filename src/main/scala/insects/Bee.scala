@@ -7,10 +7,13 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   extends Insect(posX, posY, "bee", _place, _armor, true, damagesAmount = 1) {
 
   var hasGoneThrough = false
+  private var visible = false
 
   if (place.isDefined) {
     place.get.addBee(this)
   }
+
+  def isVisible = visible
 
   override def moveActions() {
     if (place.isDefined && place.get.isAntIn && place.get.ant.blocksPath) {
@@ -45,6 +48,10 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
     if (place.get.x - (place.get.width / 2) >= x) {
       hasGoneThrough = true
     }
+  }
+
+  def revealLife(): Unit = {
+    visible = true
   }
 }
 

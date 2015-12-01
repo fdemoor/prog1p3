@@ -78,7 +78,5 @@ class Controller(_model: Model) {
         throw ClickFound()
       }
     }
-
-
   }
 }
