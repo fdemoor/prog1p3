@@ -40,16 +40,26 @@ class Controller(_model: Model) {
     timerTurn.start()           // Let's go
 
 
-    /* Counter to init new wave */
+    /* Counter to init first wave */
     private var k: Int = 0
+    /* Counter to increase wave difficulty */
+    private var _kdiff: Int = 0
+    private var _beeLvl: Int = 1
+    
+    def kdiff(): Int = _kdiff
+    def beeLvl(): Int = _beeLvl
 
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       model.moveActionsAnts()
       model.moveActionsBees()
       // Starting bee wave after 6 turns, one wave per turn then
-      if (k > 5) model.beeWave()
-      else k = k + 1
+      // Increase wave difficulty after 10 turns
+      if (k > 5) {
+        model.beeWave(this.beeLvl, this.kdiff)
+        _kdiff = (_kdiff + 1)%20
+        if (this.kdiff == 0) _beeLvl = _beeLvl+1
+      } else k = k + 1
       // Display message
       if (!_view.get.getMsg.isEmpty) _view.get.getMsg.decr()
     }
