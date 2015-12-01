@@ -136,15 +136,13 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val freezeButton = new UIButtonFreeze(freezeIcon, 10, 700-100, controller.freezeCost()) // TODO
     menu.add(freezeButton)
     
-    /*val radarIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/freeze.png"))
+    val radarIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/radar.png"))
     val radarButton = new UIButtonRadar(radarIcon, 10 + menu.buttons.head.width*1, 700-100, controller.radarCost)
     menu.add(radarButton)
     
-    // DECOMMENTING THIS MAKE SCALA GO CRAZY HELP TODO
-    
     val doubleIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/double.png"))
     val doubleButton = new UIButtonDouble(doubleIcon, 10 + menu.buttons.head.width*2, 700-100, controller.doubleCost)
-    menu.add(doubleButton)*/
+    menu.add(doubleButton)
     
 
 
