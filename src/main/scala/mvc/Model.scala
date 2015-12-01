@@ -1,9 +1,13 @@
 package mvc
 
 import javax.swing.ImageIcon
-import util.Random
 
-import insects._, places._, colony._, projectiles._
+import colony._
+import insects._
+import places._
+import projectiles._
+
+import scala.util.Random
 
 case class NotEnoughFood() extends Exception
 
@@ -30,9 +34,9 @@ class Model {
 
 
   /** Initialize a new bee in a randomly chosen tunnel */
-  val aleaWave = new Random()
+  val randWave = new Random()
   def beeWave(): Unit = {
-    val choice: Int = aleaWave.nextInt(gridHeight)
+    val choice: Int = randWave.nextInt(gridHeight)
     new Bee(800, 100 + iconPlace.getIconHeight*choice,
       tunnelEntrances(choice), 3)
   }

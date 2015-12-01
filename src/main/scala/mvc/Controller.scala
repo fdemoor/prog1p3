@@ -2,7 +2,6 @@ package mvc
 
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing._
-import scala.swing._
 
 
 class Controller(_model: Model) {
@@ -14,10 +13,10 @@ class Controller(_model: Model) {
   def view = _view.get
   def tTurn = _tTurn.get
   def tFrame = _tFrame.get
-  
-  def freezeCost(): Int = model.freezeCost
-  def radarCost(): Int = model.radarCost
-  def doubleCost(): Int = model.doubleCost
+
+  def freezeCost: Int = model.freezeCost
+  def radarCost: Int = model.radarCost
+  def doubleCost: Int = model.doubleCost
 
 
   /** Add the view as it wasn't created yet when the controller was. Launch the timers. */
@@ -52,11 +51,11 @@ class Controller(_model: Model) {
       if (k > 5) model.beeWave()
       else k = k + 1
       // Display message
-      if (! (_view.get.getMsg.isEmpty)) _view.get.getMsg.decr()
+      if (!_view.get.getMsg.isEmpty) _view.get.getMsg.decr()
     }
   }
-  
-  
+
+
   class MyTimerFrame extends ActionListener {
     val timerFrame = new Timer(10, this)
     timerFrame.setCoalesce(true)
@@ -69,8 +68,8 @@ class Controller(_model: Model) {
       view.repaint() // Tell Scala that the image should be redrawn
     }
   }
-  
-  
+
+
   /** Execute necessary action if a place was clicked */
   def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
     for (b <- menu.buttons) {
@@ -79,7 +78,7 @@ class Controller(_model: Model) {
         throw ClickFound()
       }
     }
-    
+
 
   }
 }

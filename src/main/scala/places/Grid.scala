@@ -1,6 +1,7 @@
 package places
 
 import javax.swing.ImageIcon
+
 import scala.util.Random
 
 class Grid (l: List[Place]) { // TODO maybe object instead of class ?

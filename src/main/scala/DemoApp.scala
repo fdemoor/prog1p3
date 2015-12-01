@@ -5,19 +5,19 @@
 
 // Usage:
 //   - 'i' to add a moving sprite under the mouse
-//   - 'a'/'z' to increase/decrease the speed of every moving objects 
+//   - 'a'/'z' to increase/decrease the speed of every moving objects
 //   - 'c' to clear the state (and thus the screen)
 
-import scala.swing._
-import scala.swing.{ SimpleSwingApplication, MainFrame, Panel }
+import java.awt.event.{ActionEvent, ActionListener}
+import java.awt.{Color, Graphics2D, Point, geom}
+import javax.swing.{ImageIcon, Timer}
+
 import scala.swing.event._
-import java.awt.event.{ ActionEvent, ActionListener }
-import java.awt.{ Color, Graphics2D, Point, geom, MouseInfo }
-import javax.swing.{ ImageIcon, Timer }
+import scala.swing.{MainFrame, Panel, SimpleSwingApplication, _}
 
 // That object is your application
 object DemoApp extends SimpleSwingApplication {
-  
+
   // Part 1: The data describing the state of the game
   ////////////////////////////////////////////////////
 
@@ -56,17 +56,17 @@ object DemoApp extends SimpleSwingApplication {
         if (pos.x + icon.getIconWidth() > ui.size.getWidth()) {
           pos.x = ui.size.getWidth().toInt - icon.getIconWidth()
           speed.x = -speed.x
-        }          
+        }
         if (pos.y + icon.getIconHeight() > ui.size.getHeight()) {
           pos.y = ui.size.getHeight().toInt - icon.getIconHeight()
           speed.y = -speed.y
-        }          
+        }
       }
     }
     /* speedIncrease(): changes the speed of every existing sprite */
     def speedIncrease() = {
       for (pos <- imagesSpeed) {
-        pos.x = if (pos.x == 0) 1 else pos.x*2 
+        pos.x = if (pos.x == 0) 1 else pos.x*2
         pos.y = if (pos.y == 0) 1 else pos.y*2
       }
     }
@@ -100,11 +100,11 @@ object DemoApp extends SimpleSwingApplication {
       imagesSpeed = Nil
     }
   }
-  
-  // Part 2: the User Interface: main panel on which we will paint everything 
+
+  // Part 2: the User Interface: main panel on which we will paint everything
   /////////////////////////////
-  
-  // In input, it reacts to clicks and key pressed. In output, it draws the game state on itself when asked to 
+
+  // In input, it reacts to clicks and key pressed. In output, it draws the game state on itself when asked to
   lazy val ui = new Panel {
     background = Color.white
     preferredSize = new Dimension(800, 600)
@@ -113,8 +113,8 @@ object DemoApp extends SimpleSwingApplication {
     listenTo(mouse.clicks, mouse.moves, keys)
 
     reactions += {
-      case e: MousePressed => 
-        state.removeSpriteAt(e.point) 
+      case e: MousePressed =>
+        state.removeSpriteAt(e.point)
         requestFocusInWindow()
       case e: MouseDragged  => /* Nothing for now */
       case e: MouseReleased => /* Nothing for now */
@@ -122,10 +122,10 @@ object DemoApp extends SimpleSwingApplication {
       case KeyTyped(_, 'i', _, _) => state.addImage(getPos())
       case KeyTyped(_, 'a', _, _) => state.speedIncrease()
       case KeyTyped(_, 'z', _, _) => state.speedDecrease()
-        
+
       case _: FocusLost => repaint()
     }
-    
+
     /* Returns the current position of the mouse (or null if it's not over the panel */
     def getPos() = peer.getMousePosition() // (note: peer is the java panel under the Scala wrapper)
 
@@ -145,16 +145,16 @@ object DemoApp extends SimpleSwingApplication {
       val pos = getPos()
       if (pos != null)
         g.drawString("x: "+pos.x+" y: "+pos.y, size.width-85, 15)
-        
+
       g.setColor(Color.black)
       g.draw(boxPath)
-      
+
       for (p <- state.imagesPos) {
         g.drawImage(state.im, p.x, p.y, peer)
       }
     }
   }
-  
+
   // Part 3: Animation timer: calls state.update() and ui.repaint() 50 times per second
   ///////////////////////////
   class MyTimer extends ActionListener {
@@ -166,7 +166,7 @@ object DemoApp extends SimpleSwingApplication {
     val timer = new Timer(delay, this)
     timer.setCoalesce(true) // Please restart by yourself
     timer.start()           // Let's go
-    
+
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
       state.update()

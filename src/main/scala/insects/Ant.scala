@@ -1,6 +1,7 @@
 package insects
 
-import colony.Colony, places.Place
+import colony.Colony
+import places.Place
 import projectiles._
 
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place]

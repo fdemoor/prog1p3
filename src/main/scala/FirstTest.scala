@@ -1,6 +1,7 @@
 // This is a simple test application. It does nothing but testing the scala-swing installation
 
 import java.awt.{Color, Dimension}
+
 import scala.swing._
 
 object FirstTest extends SimpleSwingApplication {

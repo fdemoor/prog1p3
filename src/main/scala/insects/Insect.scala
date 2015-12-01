@@ -1,6 +1,7 @@
 package insects
 
 import javax.swing.ImageIcon
+
 import places._
 
 abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place], armorInit: Int = 1
