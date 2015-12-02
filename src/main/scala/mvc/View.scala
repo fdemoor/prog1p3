@@ -132,9 +132,9 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
     val queenButton = new UIButton(queenIcon, 10 + menu.buttons.head.width*8, 10, 6 ,2, "queen")
     menu.add(queenButton)
 
-    val bodyGuardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
-    val bodyGuardButton = new UIButton(bodyGuardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2, "bodyGuard")
-    menu.add(bodyGuardButton)
+    val bodyguardIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_weeds.png"))
+    val bodyguardButton = new UIButton(bodyguardIcon, 10 + menu.buttons.head.width*9, 10, 6 ,2, "bodyguard")
+    menu.add(bodyguardButton)
 
     val rmIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/remover.png"))
     val rmButton = new UIButtonRM(rmIcon, 10 + menu.buttons.head.width*10, 10)

@@ -67,7 +67,7 @@ class Model {
 //              else if (typeAnt == "ninja") new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
 //              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
 //              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "bodyGuard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+//              else if (typeAnt == "bodyguard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
               val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
               Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
             } catch {
