@@ -76,8 +76,9 @@ class HarvesterAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   }
 }
 
-class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place], cost: Int = 2,
-                 armor: Int = 1, name: String = "thrower", waterProof: Boolean = false, blocksPath: Boolean = true)
+class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place],
+                 cost: Int = 2, armor: Int = 1, name: String = "thrower",
+                 waterProof: Boolean = false, blocksPath: Boolean = true)
   extends Ant(posX, posY, name, colony, _place, cost, armor, _blocksPath = blocksPath, damagesAmount = 1,
               waterProof = waterProof) {
 

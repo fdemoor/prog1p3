@@ -58,15 +58,28 @@ class Model {
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
             try {
-              /* Create a new ant according to the type given. */
-              val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
-              Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
+              typeAnt match {
+                case "harvester" => new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "shortThrower" => new ShortThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "longThrower" => new LongThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "fire" => new FireAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "scuba" => new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "wall" => new WallAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "ninja" => new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "hungry" => new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "queen" => new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "bodyGuard" => new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+              }
+//              /* Create a new ant according to the type given. */
+//              val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
+//              Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
+              // The commented code above doesn't work because it can't deal with optional arguments in constructors
+              // It is the scuba ant that have optional arguments
             } catch {
-              case ex: java.lang.reflect.InvocationTargetException =>
-                if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
-              case ex: java.lang.IllegalArgumentException =>
-                if (ex.getMessage == "wrong number of arguments") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
-                else throw ex
+//              case ex: java.lang.reflect.InvocationTargetException =>
+//                if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
+              case ex: IllegalArgumentException =>
+                if (ex.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
             }
           } else {
             findPlaceAddingAnt(pls)
