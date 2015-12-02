@@ -47,9 +47,20 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
 
   override def moveActions(): Unit = {
     if (hasRadar) {
-      for (p <- places) {
-        for (b <- p.bees) {
-          b.revealLife() // TODO if this ant is destroyed, re-init visible except if another radar ant in same tunnel
+      for (p <- places; b <- p.bees) {
+        b.revealLife()
+      }
+    }
+  }
+
+  override def kill(): Unit = {
+    super.kill()
+    if (hasRadar) {
+      var beesStillVisible = false
+      for (p <- places) if (p.isAntIn && p.ant.hasRadar) beesStillVisible = true
+      if (!beesStillVisible) {
+        for (p <- places; b <- p.bees) {
+          b.hideLife()
         }
       }
     }

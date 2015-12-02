@@ -1,4 +1,4 @@
-package places // TODO clean code and comment
+package places
 
 import javax.swing.ImageIcon
 

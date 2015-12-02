@@ -2,10 +2,9 @@ package insects
 
 import places.Place
 import projectiles.Projectile
-import javax.swing.ImageIcon
 
-class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
-  extends Insect(posX, posY, "bee", _place, _armor, true, damagesAmount = 1) {
+class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1, img: String = "bee")
+  extends Insect(posX, posY, img, _place, _armor, true, damagesAmount = 1) {
 
   var hasGoneThrough = false
   private var visible = false
@@ -54,13 +53,15 @@ class Bee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
   def revealLife(): Unit = {
     visible = true
   }
+
+  def hideLife(): Unit = {
+    visible = false
+  }
 }
 
 /** Bee that can hit from 2 Places or less. */
 class RangeBee(posX: Int, posY: Int, _place: Option[Place] = None, _armor: Int = 1)
-  extends Bee(posX, posY, _place, _armor) {
-    
-  // TODO put img "beerange.png" to RangeBees
+  extends Bee(posX, posY, _place, _armor, img = "rangebee") {
 
   override def moveActions(): Unit = {
     var currentPlace: Option[Place] = place.get.exit
