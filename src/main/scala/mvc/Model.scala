@@ -41,8 +41,6 @@ class Model {
   val randWave = new Random()
   def beeWave(beeLvl: Int, k: Int): Unit = {
     val choice: Int = randWave.nextInt(gridHeight)
-    new RangeBee(800, 100 + iconPlace.getIconHeight*choice,
-      tunnelEntrances(choice), 3)
     if (k%2 == 0) {
       val b = new RangeBee(800, 100 + iconPlace.getIconHeight*choice, tunnelEntrances(choice), 3*beeLvl)
       if (beeLvl > 5) b.upgradeDamages()
