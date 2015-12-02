@@ -1,7 +1,8 @@
 /**
   * Third project of the course PROG1
-  * Authors: Simon Bihel, Florestan De Moor
   * Institute: ENS Rennes, Computer Science Department
+  * @author Simon Bihel
+  * @author Florestan De Moor
   */
 
 import mvc._

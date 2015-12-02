@@ -1,12 +1,11 @@
-/**
-  * Buttons of the UI
-  */
-
 package mvc
 
 import java.awt.{Color, Graphics2D}
 import javax.swing.ImageIcon
 
+/**
+  * Buttons of the UI.
+  */
 
 class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, name: String) {
 

@@ -1,7 +1,3 @@
-/**
-  * Control the UI of the game
-  */
-
 package mvc
 
 import java.awt.{Color, Dimension, Graphics2D}
@@ -17,7 +13,9 @@ import scala.swing.event._
 
 case class ClickFound() extends Exception
 
-
+/**
+  * Controls the UI of the game.
+  */
 class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
   private val controller: Controller = _controller

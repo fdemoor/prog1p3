@@ -19,7 +19,6 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   private var _isDead = false
   private var doubledDamages: Boolean = false
   private var _damages: Int = damagesAmount
-  private var _damagesUpgraded: Boolean = false
   private var _lvl: Int = 1
 
   def x: Float = _x
@@ -31,7 +30,6 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def isDead: Boolean = _isDead
   def isWaterProof: Boolean = waterProof
   def hasDoubledDamages: Boolean = doubledDamages
-  def hasDamagesUpgraded: Boolean = _damagesUpgraded
   def lvl: Int = _lvl
   def damages: Int = {
     if (hasDoubledDamages) 2 * _damages
@@ -54,7 +52,6 @@ abstract class Insect(posX: Int, posY: Int, img: String, placeInit: Option[Place
   def doubleDamages() { doubledDamages = true }
   def unDoubleDamages() { doubledDamages = false}
   def upgradeDamages() {
-    _damagesUpgraded = true
     _damages = _damages * 2
     _lvl += 1
   }

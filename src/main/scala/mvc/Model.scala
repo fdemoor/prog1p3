@@ -1,7 +1,3 @@
-/**
-  * Manage the elements of the game
-  */
-
 package mvc
 
 import javax.swing.ImageIcon
@@ -15,7 +11,9 @@ import scala.util.Random
 
 case class NotEnoughFood() extends Exception
 
-
+/**
+  * Manage the elements of the game.
+  */
 class Model {
 
   /* Initializing a new colony with 2 as starting food amount */
@@ -39,9 +37,9 @@ class Model {
 
   /** Initialize a new bee in a randomly chosen tunnel */
   val randWave = new Random()
-  def beeWave(beeLvl: Int, k: Int): Unit = {
+  def beeWave(beeLvl: Int, waveNumber: Int): Unit = {
     val choice: Int = randWave.nextInt(gridHeight)
-    if (k%2 == 0) {
+    if (waveNumber%2 == 0) {
       val b = new RangeBee(800, 100 + iconPlace.getIconHeight*choice, tunnelEntrances(choice), 3*beeLvl)
       if (beeLvl > 5) b.upgradeDamages()
     } else {
@@ -66,6 +64,9 @@ class Model {
             } catch {
               case ex: java.lang.reflect.InvocationTargetException =>
                 if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
+              case ex: java.lang.IllegalArgumentException =>
+                if (ex.getMessage == "wrong number of arguments") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
+                else throw ex
             }
           } else {
             findPlaceAddingAnt(pls)

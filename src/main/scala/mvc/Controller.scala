@@ -1,13 +1,11 @@
-/**
-  * Control the pace of the game
-  */
-
 package mvc
 
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing._
 
-
+/**
+  * Control the pace of the game.
+  */
 class Controller(_model: Model) {
   private val model: Model = _model
   private var _view: Option[View] = None
@@ -45,7 +43,7 @@ class Controller(_model: Model) {
 
 
     /* Counter to init first wave */
-    private var k: Int = 0
+    private var waveNumber: Int = 0
     /* Counter to increase wave difficulty */
     private var _waveDifficulty: Int = 0
     private var _beeLvl: Int = 1
@@ -59,11 +57,11 @@ class Controller(_model: Model) {
       model.moveActionsBees()
       // Starting bee wave after 6 turns, one wave per turn then
       // Increase wave difficulty after 10 turns
-      if (k > 5) {
+      if (waveNumber > 5) {
         model.beeWave(this.beeLvl, this.waveDifficulty)
         _waveDifficulty = (_waveDifficulty + 1)%20
         if (this.waveDifficulty == 0) _beeLvl = _beeLvl+1
-      } else k = k + 1
+      } else waveNumber = waveNumber + 1
       // Display message
       if (!_view.get.getMsg.isEmpty) _view.get.getMsg.decr()
     }

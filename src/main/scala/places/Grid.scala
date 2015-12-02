@@ -10,8 +10,9 @@ class Grid (l: List[Place]) {
   def places: List[Place] = places_
 
 
-  /** Create a grid of nXp places, perWater is the probability percentage of water places
-    *  Return an array of the p tunnel entrances */
+  /** Returns an array of the p tunnel entrances.
+    * Creates a grid of n.p places, perWater is the probability percentage of water places.
+    */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
     val rand = new Random()
     val tunnelEntrances: Array[Option[Place]] = (for (i <- 0 until p) yield None).toArray
