@@ -115,7 +115,8 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     for (p <- places) {
       if (p.isAntIn) {
         if (!p.ant.isContainer) p.ant.doubleDamages()
-        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.doubleDamages()
+        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined)
+          p.ant.asInstanceOf[BodyguardAnt].ant.get.doubleDamages()
       }
     }
   }
@@ -125,7 +126,8 @@ class QueenAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     for (p <- places) {
       if (p.isAntIn) {
         if (!p.ant.isContainer) p.ant.unDoubleDamages()
-        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) p.ant.asInstanceOf[BodyguardAnt].ant.get.unDoubleDamages()
+        else if (p.ant.asInstanceOf[BodyguardAnt].ant.isDefined)
+          p.ant.asInstanceOf[BodyguardAnt].ant.get.unDoubleDamages()
       }
     }
   }

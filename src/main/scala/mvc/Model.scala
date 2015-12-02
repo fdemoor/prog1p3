@@ -60,23 +60,12 @@ class Model {
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
               pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
             try {
-//              if (typeAnt == "harvester") new HarvesterAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "shortThrower") new ShortThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "longThrower") new LongThrowerAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "fire") new FireAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "scuba") new ScubaAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "wall") new WallAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "ninja") new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
-//              else if (typeAnt == "bodyguard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
               /* Create a new ant according to the type given. */
               val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
               Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
             } catch {
-              // Probably thrown because of lack of food, maybe it can catch other exceptions
-              case ex: java.lang.reflect.InvocationTargetException => throw NotEnoughFood()
-//              case ex: IllegalArgumentException => throw NotEnoughFood()
+              case ex: java.lang.reflect.InvocationTargetException =>
+                if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
             }
           } else {
             findPlaceAddingAnt(pls)
@@ -209,11 +198,8 @@ class Model {
 
   /** Moving all bees */
   def move(): Unit = {
-    for (p <- gridGame.places) {
-      for (bee <- p.bees) {
+    for (p <- gridGame.places; bee <- p.bees)
         if (!p.isFrozen) bee.move()
-      }
-    }
   }
 
   def isEnded: Boolean = {
