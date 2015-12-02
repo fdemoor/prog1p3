@@ -55,7 +55,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
 
   override def kill(): Unit = {
     super.kill()
-    if (hasRadar) {
+    if (hasRadar) {  // Stop the effect of radar
       var beesStillVisible = false
       for (p <- places) if (p.isAntIn && p.ant.hasRadar) beesStillVisible = true
       if (!beesStillVisible) {

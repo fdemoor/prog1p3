@@ -28,7 +28,7 @@ class Controller(_model: Model) {
     _view = Some(newView)
   }
 
-
+  /** Timer activated (=actions to do) on each turn. */
   class MyTimerTurn extends ActionListener {
     /* Configuration */
     val fpsTarget = 50 // Desired amount of frames per second
@@ -43,11 +43,11 @@ class Controller(_model: Model) {
     /* Counter to init first wave */
     private var k: Int = 0
     /* Counter to increase wave difficulty */
-    private var _kdiff: Int = 0
+    private var _waveDifficulty: Int = 0
     private var _beeLvl: Int = 1
-    
-    def kdiff(): Int = _kdiff
-    def beeLvl(): Int = _beeLvl
+
+    def waveDifficulty: Int = _waveDifficulty
+    def beeLvl: Int = _beeLvl
 
     /* react to the timer events */
     def actionPerformed(e: ActionEvent): Unit = {
@@ -56,16 +56,16 @@ class Controller(_model: Model) {
       // Starting bee wave after 6 turns, one wave per turn then
       // Increase wave difficulty after 10 turns
       if (k > 5) {
-        model.beeWave(this.beeLvl, this.kdiff)
-        _kdiff = (_kdiff + 1)%20
-        if (this.kdiff == 0) _beeLvl = _beeLvl+1
+        model.beeWave(this.beeLvl, this.waveDifficulty)
+        _waveDifficulty = (_waveDifficulty + 1)%20
+        if (this.waveDifficulty == 0) _beeLvl = _beeLvl+1
       } else k = k + 1
       // Display message
       if (!_view.get.getMsg.isEmpty) _view.get.getMsg.decr()
     }
   }
 
-
+  /** Timer activated (=actions to do) on each frame. */
   class MyTimerFrame extends ActionListener {
     val timerFrame = new Timer(10, this)
     timerFrame.setCoalesce(true)

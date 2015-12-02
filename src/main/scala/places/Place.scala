@@ -8,8 +8,8 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   var icon: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
   var im = icon.getImage
 
-  private var in: Option[Place] = entranceInit
-  private var out: Option[Place] = exitInit
+  private var in: Option[Place] = entranceInit  // Place on the right of this one
+  private var out: Option[Place] = exitInit  // Place on the left of this one
   private var _bees: List[Bee] = Nil
   private var _ant: Option[Ant] = None
   private var _isFrozen = false

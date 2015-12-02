@@ -36,9 +36,9 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
         g.setColor(Color.black)
         var toPrint: String = ""
-        if (bee.isVisible) {
+        if (bee.isVisible)
           toPrint = "lvl"+bee.lvl.toString+" "+bee.armor.toString+"/"+bee.initialArmor.toString
-        } else {toPrint = "lvl"+bee.lvl.toString}
+        else toPrint = "lvl"+bee.lvl.toString
         g.drawString(toPrint, bee.x + xtoCenter, bee.y + ytoCenter*2)
       }
       if (p.isAntIn) {

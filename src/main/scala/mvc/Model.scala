@@ -68,6 +68,7 @@ class Model {
 //              else if (typeAnt == "hungry") new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
 //              else if (typeAnt == "queen") new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
 //              else if (typeAnt == "bodyguard") new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+              /* Create a new ant according to the type given. */
               val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
               Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
             } catch {
