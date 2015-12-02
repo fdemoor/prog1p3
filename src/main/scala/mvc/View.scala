@@ -1,3 +1,7 @@
+/**
+  * Control the UI of the game
+  */
+
 package mvc
 
 import java.awt.{Color, Dimension, Graphics2D}

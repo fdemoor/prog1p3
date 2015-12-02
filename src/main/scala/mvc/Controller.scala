@@ -1,3 +1,7 @@
+/**
+  * Control the pace of the game
+  */
+
 package mvc
 
 import java.awt.event.{ActionEvent, ActionListener}
@@ -76,6 +80,12 @@ class Controller(_model: Model) {
       model.moveActionsProjectiles()
       model.removeDeads()
       view.repaint() // Tell Scala that the image should be redrawn
+      if (model.isEnded) {
+        view.getMsg.setMsg("Game Over.")
+        view.repaint()
+        _tTurn.get.timerTurn.stop()
+        timerFrame.stop()
+      }
     }
   }
 

@@ -1,3 +1,9 @@
+/**
+  * Third project of the course PROG1
+  * Authors: Simon Bihel, Florestan De Moor
+  * Institute: ENS Rennes, Computer Science Department
+  */
+
 import mvc._
 
 import scala.swing.{MainFrame, SimpleSwingApplication}

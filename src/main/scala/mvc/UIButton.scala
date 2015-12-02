@@ -1,3 +1,7 @@
+/**
+  * Buttons of the UI
+  */
+
 package mvc
 
 import java.awt.{Color, Graphics2D}

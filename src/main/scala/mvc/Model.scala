@@ -1,3 +1,7 @@
+/**
+  * Manage the elements of the game
+  */
+
 package mvc
 
 import javax.swing.ImageIcon
@@ -72,8 +76,9 @@ class Model {
               val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]
               Class.forName("insects." + typeAnt.capitalize + "Ant").getConstructors()(0).newInstance(args:_*)
             } catch {
+              // Probably thrown because of lack of food, maybe it can catch other exceptions
               case ex: java.lang.reflect.InvocationTargetException => throw NotEnoughFood()
-              case ex: IllegalArgumentException => throw NotEnoughFood()
+//              case ex: IllegalArgumentException => throw NotEnoughFood()
             }
           } else {
             findPlaceAddingAnt(pls)
@@ -211,5 +216,10 @@ class Model {
         if (!p.isFrozen) bee.move()
       }
     }
+  }
+
+  def isEnded: Boolean = {
+    for (p <- gridGame.places; bee <- p.bees) if (bee.hasGoneThrough) return true
+    false
   }
 }
