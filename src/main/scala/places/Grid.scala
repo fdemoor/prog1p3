@@ -4,7 +4,7 @@ import javax.swing.ImageIcon
 
 import scala.util.Random
 
-class Grid (l: List[Place]) { // TODO maybe object instead of class ?
+class Grid (l: List[Place]) {
 
   private var places_ = l
   def places: List[Place] = places_
