@@ -43,17 +43,17 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         else toPrint = "lvl"+bee.lvl.toString
         g.drawString(toPrint, bee.x + xtoCenter, bee.y + ytoCenter*2)
       }
-      if (p.isAntIn) {
+      if (p.isAntIn) { // TODO : a bodyguard is in p.ant, and it screws up drawing
         val xtoCenter: Int = (p.width - p.ant.icon.getIconWidth) / 2
         val ytoCenter: Int = (p.height - p.ant.icon.getIconHeight) / 2
         if (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
           val underAnt = p.ant.asInstanceOf[BodyguardAnt].ant.get
           g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y.toInt + ytoCenter, peer)
         }
+        if (p.ant.hasRadar) g.drawImage(radarOverlay.getImage, p.x, p.y, peer)
         g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y.toInt + ytoCenter, peer)
         g.setColor(Color.white)
         g.drawString("lvl"+p.ant.lvl.toString, p.ant.x, p.ant.y + p.height)
-        if (p.ant.hasRadar) g.drawImage(radarOverlay.getImage, p.x, p.y, peer)
       }
     }
   }
