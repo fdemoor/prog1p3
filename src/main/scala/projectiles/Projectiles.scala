@@ -23,6 +23,7 @@ object Projectiles {
     _projectiles = aux(_projectiles)
   }
 
+  /** Called each frame to make each Projectile move. */
   def moves(): Unit = {
     for (p <- projectiles) {
       p.move()

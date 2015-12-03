@@ -35,7 +35,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
       for (bee <- p.bees) {
         val xtoCenter: Int = (p.width - bee.icon.getIconWidth) / 2
         val ytoCenter: Int = (p.height - bee.icon.getIconHeight) / 2
-        g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y + ytoCenter, peer)
+        g.drawImage(bee.im, bee.x.toInt + xtoCenter, bee.y.toInt + ytoCenter, peer)
         g.setColor(Color.black)
         var toPrint: String = ""
         if (bee.isVisible)
@@ -48,9 +48,9 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         val ytoCenter: Int = (p.height - p.ant.icon.getIconHeight) / 2
         if (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
           val underAnt = p.ant.asInstanceOf[BodyguardAnt].ant.get
-          g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y + ytoCenter, peer)
+          g.drawImage(underAnt.im, underAnt.x.toInt + xtoCenter, underAnt.y.toInt + ytoCenter, peer)
         }
-        g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y + ytoCenter, peer)
+        g.drawImage(p.ant.im, p.ant.x.toInt + xtoCenter, p.ant.y.toInt + ytoCenter, peer)
         g.setColor(Color.white)
         g.drawString("lvl"+p.ant.lvl.toString, p.ant.x, p.ant.y + p.height)
         if (p.ant.hasRadar) g.drawImage(radarOverlay.getImage, p.x, p.y, peer)
@@ -96,7 +96,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
 
 
     /* CREATING MENU */
-    val menu = new UIButtonMenu(Nil: List[UIButton])
+    val menu = new UIButtons(Nil: List[UIButton])
 
     val harvesterIcon: ImageIcon = new ImageIcon(getClass.getResource("/img/ant_harvester.png"))
     val harvesterButton = new UIButton(harvesterIcon, 10, 10, 2, 1, "harvester")

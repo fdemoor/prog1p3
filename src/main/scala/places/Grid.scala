@@ -4,14 +4,20 @@ import javax.swing.ImageIcon
 
 import scala.util.Random
 
+/**
+  * Manages the places of the board.
+  * @param l Initial list of places.
+  */
 class Grid (l: List[Place]) {
 
-  private var places_ = l
-  def places: List[Place] = places_
+  private var _places = l
+  def places: List[Place] = _places
 
 
   /** Returns an array of the p tunnel entrances.
     * Creates a grid of n.p places, perWater is the probability percentage of water places.
+    * @param n Number of Places in a tunnel (columns of the grid).
+    * @param p Number of tunnels (rows of the grid).
     */
   def grid(n: Int, p: Int, perWater: Int): Array[Option[Place]] = {
     val rand = new Random()
@@ -39,5 +45,5 @@ class Grid (l: List[Place]) {
     tunnelEntrances
   }
 
-  def add(p: Place): Unit = {places_ = p::places_}
+  def add(p: Place): Unit = { _places = p::_places }
 }

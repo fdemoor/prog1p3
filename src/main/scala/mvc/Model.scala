@@ -68,7 +68,7 @@ class Model {
                 case "ninja" => new NinjaAnt(pl.x, pl.y, _Colony, Some(pl))
                 case "hungry" => new HungryAnt(pl.x, pl.y, _Colony, Some(pl))
                 case "queen" => new QueenAnt(pl.x, pl.y, _Colony, Some(pl))
-                case "bodyGuard" => new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
+                case "bodyguard" => new BodyguardAnt(pl.x, pl.y, _Colony, Some(pl))
               }
 //              /* Create a new ant according to the type given. */
 //              val args = Array(pl.x, pl.y, _Colony, Some(pl)).asInstanceOf[Array[AnyRef]]

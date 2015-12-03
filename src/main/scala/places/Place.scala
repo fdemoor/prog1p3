@@ -4,6 +4,16 @@ import javax.swing.ImageIcon
 
 import insects._
 
+/**
+  * A box in a tunnel.
+  *
+  * It can contain at max 1 ant and multiple bees.
+  * @param name Name of the place, should be unique for a better textual visualization.
+  * @param posX x of the top left corner of the Place.
+  * @param posY y of the top left corner of the Place.
+  * @param entranceInit Place on the right of this one, None if it is on the extreme right.
+  * @param exitInit Place on the left of this one, None if it is on the extreme left.
+  */
 class Place (private val name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place]) {
   var icon: ImageIcon = new ImageIcon(getClass.getResource("/img/tunnel.png"))
   var im = icon.getImage
@@ -24,6 +34,7 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   def bees: List[Bee] = _bees
   def ant: Ant = _ant.get
   def isFrozen = _isFrozen
+  override def toString = name
 
   def entrance_=(newIn: Option[Place]) { in = newIn }
   def exit_=(newOut: Option[Place]) { out = newOut }
@@ -84,6 +95,15 @@ class Place (private val name: String, posX: Int, posY: Int, entranceInit: Optio
   }
 }
 
+/**
+  * Place where only waterproof ants can live.
+  *
+  * @param name Name of the place, should be unique for a better textual visualization.
+  * @param posX x of the top left corner of the Place.
+  * @param posY y of the top left corner of the Place.
+  * @param entranceInit Place on the right of this one, None if it is on the extreme right.
+  * @param exitInit Place on the left of this one, None if it is on the extreme left.
+  */
 class WaterPlace(name: String, posX: Int, posY: Int, entranceInit: Option[Place], exitInit: Option[Place])
   extends Place(name, posX, posY, entranceInit, exitInit) {
 

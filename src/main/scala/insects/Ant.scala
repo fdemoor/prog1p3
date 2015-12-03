@@ -4,6 +4,21 @@ import colony.Colony
 import places.Place
 import projectiles._
 
+/**
+  * Common behavior of the ants
+  *
+  * @param posX x of the top left corner of the sprite.
+  * @param posY y of the top right corner of the sprite.
+  * @param img Image name of the sprite.
+  * @param colony Colony of the player.
+  * @param _place Place where the ant should be added.
+  * @param cost Cost in food for the creation of the ant.
+  * @param _armor Armor (=health points) of the ant.
+  * @param damagesAmount Initial amount of damages the insect can deal.
+  * @param waterProof True if the insect can live in a water Place.
+  * @param _blocksPath True if the ant can block bees and isn't invisible.
+  * @param container True if the ant is a bodyguard and can protect an ant in the same Place.
+  */
 abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Option[Place],
                    cost: Int = 1, _armor: Int = 1, damagesAmount: Int = 0,
                    waterProof: Boolean = false, _blocksPath: Boolean = true, container: Boolean = false)
@@ -39,6 +54,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
     res
   }
 
+  /** Add food to the colony. */
   def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
 
   def addRadar(): Unit = {
@@ -90,7 +106,7 @@ class ThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place],
       val bee: Bee = bL.head
       if (!bee.isDead) {
         hasHitBee = true
-        new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
+        new Projectile(x.toInt + icon.getIconWidth, y.toInt, bee, damages)
       }
       bL = bL.tail
     }
@@ -151,7 +167,7 @@ class ShortThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place
         val bee: Bee = bL.head
         if (!bee.isDead) {
           hasHitBee = true
-          new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
+          new Projectile(x.toInt + icon.getIconWidth, y.toInt, bee, damages)
         }
         bL = bL.tail
       }
@@ -175,7 +191,7 @@ class LongThrowerAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place]
           val bee: Bee = bL.head
           if (!bee.isDead) {
             hasHitBee = true
-            new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
+            new Projectile(x.toInt + icon.getIconWidth, y.toInt, bee, damages)
           }
           bL = bL.tail
         }
@@ -193,7 +209,7 @@ class FireAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
     super.armor_=(newArmor)
     if (armor <= 0) {
       kill()
-      for (bee <- place.get.bees) new Projectile(x.toInt + icon.getIconWidth, y, bee, damages)
+      for (bee <- place.get.bees) new Projectile(x.toInt + icon.getIconWidth, y.toInt, bee, damages)
     }
   }
 }

@@ -89,7 +89,7 @@ class Controller(_model: Model) {
 
 
   /** Execute necessary action if a place was clicked */
-  def placeClicked(cursorPos: (Int, Int), menu: UIButtonMenu): Unit = {
+  def placeClicked(cursorPos: (Int, Int), menu: UIButtons): Unit = {
     for (b <- menu.buttons) {
       if (b.isSelected) {
         b.action(model, cursorPos)

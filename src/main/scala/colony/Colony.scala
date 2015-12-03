@@ -1,5 +1,10 @@
 package colony
 
+/**
+  * Stores the food and score of the player.
+  *
+  * @param foodAmountInit Initial amount of food at the start of the game.
+  */
 class Colony(foodAmountInit: Int) {
   private var _foodAmount = foodAmountInit
 

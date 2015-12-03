@@ -1,6 +1,7 @@
 /**
   * Third project of the course PROG1
-  * Institute: ENS Rennes, Computer Science Department
+  * ENS Rennes, Computer Science Department
+  *
   * @author Simon Bihel
   * @author Florestan De Moor
   */

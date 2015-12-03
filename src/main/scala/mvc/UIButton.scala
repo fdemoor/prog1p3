@@ -4,9 +4,15 @@ import java.awt.{Color, Graphics2D}
 import javax.swing.ImageIcon
 
 /**
-  * Buttons of the UI.
+  * Basic implementation for ants buttons in the UI.
+  *
+  * @param icon Image of the button.
+  * @param posX x of the top left corner of the button.
+  * @param posY y of the top left corner of the button.
+  * @param cost Cost of the Ant.
+  * @param armor Armor of the Ant.
+  * @param name Name (=type) of the Ant.
   */
-
 class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, name: String) {
 
   val width: Int = 66
@@ -52,6 +58,13 @@ class UIButton(icon: ImageIcon, posX: Int, posY: Int, cost: Int, armor: Int, nam
 }
 
 
+/**
+  * Button for removing on-board Ants.
+  *
+  * @param icon Image of the button.
+  * @param posX x of the top left corner of the button.
+  * @param posY y of the top left corner of the button.
+  */
 class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
   extends UIButton(icon, posX, posY, 0, 0, "remove") {
 
@@ -73,6 +86,14 @@ class UIButtonRM (icon: ImageIcon, posX: Int, posY: Int)
 }
 
 
+/**
+  * Button for the freeze power.
+  *
+  * @param icon Image of the button.
+  * @param posX x of the top left corner of the button.
+  * @param posY y of the top left corner of the button.
+  * @param cost Cost of the Ant.
+  */
 class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
   extends UIButton(icon, posX, posY, 0, cost, "freeze") {
 
@@ -100,6 +121,13 @@ class UIButtonFreeze (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 }
 
 
+/**
+  * Button for the radar power.
+  * @param icon Image of the button.
+  * @param posX x of the top left corner of the button.
+  * @param posY y of the top left corner of the button.
+  * @param cost Cost of the Ant.
+  */
 class UIButtonRadar (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
   extends UIButton(icon, posX, posY, 0, cost, "radar") {
 
@@ -127,6 +155,14 @@ class UIButtonRadar (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 }
 
 
+/**
+  * Button for upgrading Ants.
+  *
+  * @param icon Image of the button.
+  * @param posX x of the top left corner of the button.
+  * @param posY y of the top left corner of the button.
+  * @param cost Cost of the Ant.
+  */
 class UIButtonDouble (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
   extends UIButton(icon, posX, posY, 0, cost, "double") {
 
@@ -154,15 +190,21 @@ class UIButtonDouble (icon: ImageIcon, posX: Int, posY: Int, cost: Int)
 }
 
 
-class UIButtonMenu (l: List[UIButton]) {
+/**
+  * Manages buttons of the UI.
+  *
+  * @param l List of the buttons on the UI.
+  */
+class UIButtons(l: List[UIButton]) {
 
   private var _buttons = l
   def buttons: List[UIButton] = _buttons
 
-  def add(b: UIButton): Unit ={_buttons = b::_buttons}
+  def add(b: UIButton): Unit = { _buttons = b::_buttons }
 
+  /** Reinitialize all the buttons. */
   def init(): Unit = {
-      for (b <- buttons) b.init()
+    for (b <- buttons) b.init()
   }
 
   /** Manage the click actions on buttons */
