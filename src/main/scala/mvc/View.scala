@@ -43,7 +43,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
         else toPrint = "lvl"+bee.lvl.toString
         g.drawString(toPrint, bee.x + xtoCenter, bee.y + ytoCenter*2)
       }
-      if (p.isAntIn) { // TODO : a bodyguard is in p.ant, and it screws up drawing
+      if (p.isAntIn) {
         val xtoCenter: Int = (p.width - p.ant.icon.getIconWidth) / 2
         val ytoCenter: Int = (p.height - p.ant.icon.getIconHeight) / 2
         if (p.ant.isContainer && p.ant.asInstanceOf[BodyguardAnt].ant.isDefined) {
@@ -207,7 +207,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
           menu.mouseAction(getPos.x, getPos.y)
           controller.placeClicked((getPos.x, getPos.y), menu)
         } catch {
-          case ex: NotEmpty => getMsg.setMsg("THERE IS ALREADY AN ANT HERE !!!")
+          case ex: NotEmptyPlace => getMsg.setMsg("THERE IS ALREADY AN ANT HERE !!!")
           case ex: NotEnoughFood => getMsg.setMsg("YOU DON'T HAVE ENOUGH FOOD !!!")
           case ex: ClickFound => ()
         }

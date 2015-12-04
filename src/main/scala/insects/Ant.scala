@@ -26,18 +26,20 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
 
   private val _Cost = cost
   private val _Colony = colony
-  var hasRadar = false
+  private var _hasRadar = false
 
   if (_Colony.foodAmount < _Cost) throw new IllegalArgumentException("Not enough food.")
   if (place.get.canAddAnt(this)) {
     place.get.addAnt(this)
     _Colony.foodAmount_=(_Colony.foodAmount - _Cost)
   }
+  else throw new IllegalArgumentException("There is already an ant.")
 
   def Cost: Int = _Cost
   def Colony: Colony = _Colony
   def blocksPath: Boolean = _blocksPath
   def isContainer: Boolean = container
+  def hasRadar: Boolean = _hasRadar
   /** Get the all the places of the tunnel. */
   def places: List[Place] = {
     var currentPlace: Place = place.get
@@ -58,7 +60,7 @@ abstract class Ant(posX: Int, posY: Int, img: String, colony: Colony, _place: Op
   def addFood(amount: Int = 1) { _Colony.foodAmount_=(_Colony.foodAmount + amount) }
 
   def addRadar(): Unit = {
-    hasRadar = true
+    _hasRadar = true
   }
 
   override def moveActions(): Unit = {
@@ -257,6 +259,10 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   def ant: Option[Ant] = _ant
   def canAddAnt: Boolean = ant.isEmpty
 
+  override def hasRadar = if (ant.isDefined) ant.get.hasRadar else false
+  override def hasDoubledDamages: Boolean = if (ant.isDefined) ant.get.hasDoubledDamages else false
+  override def lvl: Int = { if (ant.isDefined) ant.get.lvl else 0}
+
   def ant_=(modifiedAnt: Option[Ant]) {
     if (modifiedAnt.isDefined && ant.isDefined) throw new  IllegalArgumentException("It already contains an ant.")
     _ant = modifiedAnt
@@ -272,4 +278,9 @@ class BodyguardAnt(posX: Int, posY: Int, colony: Colony, _place: Option[Place])
   override def moveActions(): Unit = {
     if (ant.isDefined) ant.get.moveActions()
   }
+
+  override def addRadar() { if (ant.isDefined) ant.get.addRadar() }
+  override def doubleDamages() { if (ant.isDefined) ant.get.doubleDamages() }
+  override def unDoubleDamages(): Unit = { if (ant.isDefined) ant.get.unDoubleDamages()}
+  override def upgradeDamages(): Unit = { if (ant.isDefined) ant.get.upgradeDamages() }
 }

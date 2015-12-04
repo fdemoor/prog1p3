@@ -10,7 +10,7 @@ import projectiles._
 import scala.util.Random
 
 case class NotEnoughFood() extends Exception
-case class NotEmpty() extends Exception
+case class NotEmptyPlace() extends Exception
 
 /**
   * Manage the elements of the game.
@@ -81,7 +81,7 @@ class Model {
 //                if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
               case ex: IllegalArgumentException =>
                 if (ex.getMessage == "Not enough food.") throw NotEnoughFood()
-                else if (ex.getMessage == "It already contains an ant.") throw NotEmpty()
+                else if (ex.getMessage == "There is already an ant.") throw NotEmptyPlace()
                 else throw ex
             }
           } else {
@@ -140,7 +140,9 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
             pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-            if (pl.isAntIn) pl.ant.addRadar()
+            if (pl.isAntIn &&
+              ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer))
+              pl.ant.addRadar()
           } else {
             findPlace(pls)
           }
@@ -161,7 +163,9 @@ class Model {
         case pl :: pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
             pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-            if (pl.isAntIn) pl.ant.upgradeDamages()
+            if (pl.isAntIn &&
+              ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer))
+              pl.ant.upgradeDamages()
           } else {
             findPlace(pls)
           }
