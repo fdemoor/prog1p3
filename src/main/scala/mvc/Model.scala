@@ -92,93 +92,65 @@ class Model {
     findPlaceAddingAnt(gridGame.places)
   }
 
-
-  /** Remove an ant when Bye Box is selected */
-  def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
-    def findPlaceRemovingAnt(l: List[Place]): Unit = {
+  /** Finds the place that has been clicked. */
+  private def findPlace(cursorPos: (Int, Int)): Place = {
+    def aux(l: List[Place]): Place = {
       l match {
-        case Nil => ()
-        case pl :: pls =>
+        case Nil => throw new IllegalArgumentException("Can't find such place.")
+        case pl::pls =>
           if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
-              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-              if (pl.isAntIn) pl.removeAnt()
-          } else {
-            findPlaceRemovingAnt(pls)
-          }
+              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight)
+            pl
+          else aux(pls)
       }
     }
-    findPlaceRemovingAnt(gridGame.places)
+    aux(gridGame.places)
   }
 
 
-  /** Try to freeze a place */
+  /** Removes an ant when Bye Box is selected. */
+  def tryRemovingAnt(cursorPos: (Int, Int)): Unit = {
+    val pl: Place = findPlace(cursorPos)
+    if (pl.isAntIn) pl.removeAnt()
+  }
+
+
+  /** Tries to freeze a place. */
   def tryFreezing(cursorPos: (Int, Int)): Unit = {
-    def findPlaceFreezing(l: List[Place]): Unit = {
-      l match {
-        case Nil => ()
-        case pl :: pls =>
-          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
-              pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-              pl.freeze(3)
-          } else {
-            findPlaceFreezing(pls)
-          }
-      }
-    }
     if (_Colony.foodAmount >= freezeCost) {
-      findPlaceFreezing(gridGame.places)
+      val pl: Place = findPlace(cursorPos)
+      pl.freeze(3)
       _Colony.foodAmount_=(_Colony.foodAmount-freezeCost)
     } else throw NotEnoughFood()
   }
 
-
-  /** Try to give an ant radar power */
+  /** Tries to give an ant radar power. */
   def tryRadar(cursorPos: (Int, Int)): Unit = {
-    def findPlace(l: List[Place]): Unit = {
-      l match {
-        case Nil => ()
-        case pl :: pls =>
-          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
-            pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-            if (pl.isAntIn &&
-              ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer))
-              pl.ant.addRadar()
-          } else {
-            findPlace(pls)
-          }
-      }
-    }
     if (_Colony.foodAmount >= radarCost) {
-      findPlace(gridGame.places)
-      _Colony.foodAmount_=(_Colony.foodAmount-radarCost)
-    } else throw NotEnoughFood()
-  }
-
-
-  /** Try to give an ant double damage power */
-  def tryDouble(cursorPos: (Int, Int)): Unit = {
-    def findPlace(l: List[Place]): Unit = {
-      l match {
-        case Nil => ()
-        case pl :: pls =>
-          if (pl.x <= cursorPos._1 && cursorPos._1 < pl.x + iconPlace.getIconWidth &&
-            pl.y <= cursorPos._2 && cursorPos._2 < pl.y + iconPlace.getIconHeight) {
-            if (pl.isAntIn &&
-              ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer))
-              pl.ant.upgradeDamages()
-          } else {
-            findPlace(pls)
-          }
+      val pl: Place = findPlace(cursorPos)
+      if (pl.isAntIn &&
+          ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer)) {
+        pl.ant.addRadar()
+        _Colony.foodAmount_=(_Colony.foodAmount - radarCost)
       }
-    }
-    if (_Colony.foodAmount >= doubleCost) {
-      findPlace(gridGame.places)
-      _Colony.foodAmount_=(_Colony.foodAmount-doubleCost)
     } else throw NotEnoughFood()
   }
 
 
-  /** Execute move actions for all ants */
+  /** Tries to give an ant double damage power. */
+  def tryDouble(cursorPos: (Int, Int)): Unit = {
+    if (_Colony.foodAmount >= doubleCost) {
+      val pl: Place = findPlace(cursorPos)
+      if (pl.isAntIn &&
+          ((pl.ant.isContainer && pl.ant.asInstanceOf[BodyguardAnt].ant.isDefined) || !pl.ant.isContainer)) {
+        pl.ant.upgradeDamages()
+        _Colony.foodAmount_=(_Colony.foodAmount - doubleCost)
+      }
+    } else throw NotEnoughFood()
+  }
+
+
+  /** Executes move actions for all ants. */
   def moveActionsAnts(): Unit = {
     for (p <- gridGame.places) {
       if (p.isAntIn) p.ant.moveActions()
@@ -186,7 +158,7 @@ class Model {
   }
 
 
-  /** Execute move actions for all bees */
+  /** Executes move actions for all bees. */
   def moveActionsBees(): Unit = {
     for (p <- gridGame.places) {
       if (p.isFrozen) p.freezeDecr()
@@ -195,14 +167,14 @@ class Model {
   }
 
 
-  /** Execute move actions for all projectiles */
+  /** Executes move actions for all projectiles. */
   def moveActionsProjectiles(): Unit = {
     Projectiles.moves()
     Projectiles.removeUselessProjectiles()
   }
 
 
-  /** Remove dead insects */
+  /** Removes dead insects. */
   def removeDeads(): Unit = {
     for (p <- gridGame.places) {
       if (p.isAntIn && p.ant.isDead) p.removeAnt()
@@ -217,7 +189,7 @@ class Model {
   }
 
 
-  /** Moving all bees */
+  /** Moving all bees. */
   def move(): Unit = {
     for (p <- gridGame.places; bee <- p.bees)
         if (!p.isFrozen) bee.move()
