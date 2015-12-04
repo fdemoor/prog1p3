@@ -27,7 +27,7 @@
 
 
 %% Path of the pictures %%
-\graphicspath{{../src/main/resources/img/}}
+\graphicspath{{../src/main/resources/img/}{screens/}}
 
 \begin{document}
 
@@ -40,7 +40,10 @@
 
 \section*{Introduction}
 % TODO Florestan / Simon
-bla bla la lorem ipsum
+
+	In this report, we present our work on the third project of the programming course. It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. \this was programmed using the Scala language, and the Scala-swing library for the graphic interface. This project was done using mostly the OOP paradigm, but also some FP.
+	
+\paragraph{}First, we will introduce the game and its features. Then, we will expose the class diagrams, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
 
 
 \section{Game overview}
@@ -81,22 +84,31 @@ bla bla la lorem ipsum
 \paragraph{Spells} The player has also the possibility to use spells. This also costs food. Three spells were implemented :
  
 \begin{center}
-	\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+	\begin{tabular}{|c|p{13cm}|}
 		\hline
 		\rule[1mm]{0pt}{8mm}
-		  \includegraphics[scale=0.5]{freeze.png}
-		& \includegraphics[scale=0.5]{radar.png}
-		& \includegraphics[scale=0.5]{double.png} \\
+		\includegraphics[scale=0.5]{freeze.png}
+		   & The freeze ability can be applied on a place of the tunnel, and has for consequence to freeze all bees within for three turns. Notice that they are unable to move, but not to shoot. \\
 		\hline
-		\rule[1mm]{0pt}{5mm}
-		   The freeze ability can be applied on a place of the tunnel, and has for consequence to freeze all bees within for three turns. Notice that they are unable to move, but not to shoot. 
-		 & The radar ability can be given to an ant. As long as the concerned ant is living, the player will be able to see the armour points of all bees in the specific tunnel.
+		\rule[1mm]{0pt}{8mm}
+		\includegraphics[scale=0.5]{radar.png}
+		 & The radar ability can be given to an ant. As long as the concerned ant is living, the player will be able to see the armour points of all bees in the specific tunnel. \\
+		\hline
+		\rule[1mm]{0pt}{8mm}
+		\includegraphics[scale=0.5]{double.png}
 		 & The upgrade spell is very powerful : it can be applied to an ant, in order to level it up. This doubles its damage power. Notice that it doesn't modify armour points, the player has to protect well its upgraded ants. \\
 		\hline
 	\end{tabular}
 \end{center}
 
 \paragraph{GUI} The user interface contains a menu which allows the player to select a type of ant, or a spell. There is also a remove button, to delete existing ants. Notice that deleting an ant doesn't give back food. A message can be displayed in the bottom bar.
+
+\begin{figure}[H]
+	\center
+	\includegraphics[scale=0.3]{screen2.png}
+	\caption{Graphic User Interface}
+	\label{gui}
+\end{figure}
 
 
 \section{Class diagrams}
