@@ -1,0 +1,8 @@
+Project 3 of the course PROG1
+ENS Rennes, Compute Science Department, 1st year
+Simon Bihel, Florestan De Moor
+
+
+HOW TO LAUNCH THE GAME
+Type:
+    $ sbt run
