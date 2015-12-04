@@ -10,6 +10,7 @@ import projectiles._
 import scala.util.Random
 
 case class NotEnoughFood() extends Exception
+case class NotEmpty() extends Exception
 
 /**
   * Manage the elements of the game.
@@ -79,7 +80,9 @@ class Model {
 //              case ex: java.lang.reflect.InvocationTargetException =>
 //                if (ex.getCause.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
               case ex: IllegalArgumentException =>
-                if (ex.getMessage == "Not enough food.") throw NotEnoughFood() else throw ex
+                if (ex.getMessage == "Not enough food.") throw NotEnoughFood()
+                else if (ex.getMessage == "It already contains an ant.") throw NotEmpty()
+                else throw ex
             }
           } else {
             findPlaceAddingAnt(pls)

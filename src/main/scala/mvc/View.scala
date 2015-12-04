@@ -207,6 +207,7 @@ class View(_controller: Controller, grid: Grid, _Colony: Colony) {
           menu.mouseAction(getPos.x, getPos.y)
           controller.placeClicked((getPos.x, getPos.y), menu)
         } catch {
+          case ex: NotEmpty => getMsg.setMsg("THERE IS ALREADY AN ANT HERE !!!")
           case ex: NotEnoughFood => getMsg.setMsg("YOU DON'T HAVE ENOUGH FOOD !!!")
           case ex: ClickFound => ()
         }
