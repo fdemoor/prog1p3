@@ -49,7 +49,7 @@
 
 	In this report, we present our work on the third project of the programming course. It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. \this was programmed using the Scala language, and the Scala-swing library for the graphic interface. This project was done using mostly the OOP paradigm, but also some FP.
 	
-\paragraph{}First, we will introduce the game and its features. Then, we will expose the class diagrams, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
+\paragraph{}First, we will introduce the game and its features. Then, we will expose the class diagram, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
 
 
 \section{Game overview}
@@ -117,8 +117,23 @@
 \end{figure}
 
 
-\section{Class diagrams}
+\section{Class diagram}
 % TODO Simon
+
+To structure the code, we decided to make packages. We can classify them into two types :
+\begin{itemize}
+	\item The packages \emph{insect}, \emph{colony}, \emph{places}, \emph{projectiles} are managing the game engine.
+	\item The package \emph{mcv} is managing all the graphic interface.
+\end{itemize}
+Here is below the class diagram of our implementation :
+
+\begin{figure}[H]
+	\center
+	\includegraphics[scale=0.7]{classDiagram.png}
+	\caption{Class diagram}
+	\label{classDiagram}
+\end{figure}
+
 	\subsection{Game engine}
 	\subsection{Graphic user interface}
 
