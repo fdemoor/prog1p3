@@ -25,27 +25,29 @@ package colony {
 class Colony
 }
 
-Main *-- MVC
-MVC o-- Model
-MVC o-- Controller
-MVC o-- View
-Controller o-- Model
-Controller o-- View
-View o-- Controller
+Main *-- "1" MVC
+MVC o-- "1" Model
+MVC o-- "1" Controller
+MVC o-- "1" View
+Controller o-- "1" Model
+Controller o-- "1" View
+View o-- "1" Controller
 View *-- "*" UIButton
 
-Model o-- Colony
-Model *-- Grid
-Model o-- Projectiles
+Model o-- "1" Colony
+Model *-- "1" Grid
+Model ..> Projectiles
 
 Grid *-- "*" Place
 Place *-- "0-1" Ant
 Place *-- "*" Bee
 
-Insect o-- Place
-Ant o-- Colony
+Insect o-- "1" Place
+Ant o-- "1" Colony
 
 Insect <|-- Ant
 Insect <|-- Bee
+
+Projectiles *-- "*" Projectile
 
 @enduml

@@ -27,6 +27,8 @@
 \usepackage{subcaption}
 \usepackage{float}
 
+\setlength{\parskip}{6mm plus2mm minus2mm}
+
 
 %% Specific commands %%
 \newcommand{\this}{\emph{Ant vs. SomeBees }}
@@ -49,7 +51,7 @@
 
 	In this report, we present our work on the third project of the programming course. It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. \this was programmed using the Scala language, and the Scala-swing library for the graphic interface. This project was done using mostly the OOP paradigm, but also some FP.
 	
-\paragraph{}First, we will introduce the game and its features. Then, we will expose the class diagram, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
+	First, we will introduce the game and its features. Then, we will expose the class diagram, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
 
 
 \section{Game overview}
@@ -120,22 +122,30 @@
 \section{Class diagram}
 % TODO Simon
 
-To structure the code, we decided to make packages. We can classify them into two types :
-\begin{itemize}
-	\item The packages \emph{insect}, \emph{colony}, \emph{places}, \emph{projectiles} are managing the game engine.
-	\item The package \emph{mvc} is managing all the graphic interface.
-\end{itemize}
-Here is below the class diagram of our implementation :
+%To structure the code, we decided to make packages. We can classify them into two types :
+%\begin{itemize}
+%	\item The packages \emph{insect}, \emph{colony}, \emph{places}, \emph{projectiles} are managing the game engine.
+%	\item The package \emph{mvc} is managing all the graphic interface.
+%\end{itemize}
+%Here is below the class diagram of our implementation :
+%
+
+The architecture of the program is based on a Model-View-Controller pattern. The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. The later, which only stores the elements of the game, execute the request.
+The game itself is composed of Places that contains Ants and Bees that fire Projectiles at each others.
+The overall interactions of the various parts of the program are shown in figure~\ref{classDiagram}.
 
 \begin{figure}[H]
-	\center
-	\includegraphics[scale=0.7]{classDiagram.png} % Legend ??
-	\caption{Class diagram}
+	\centering
+	\includegraphics[scale=0.7]{classDiagram.png}
+	\caption{Global class diagram}
 	\label{classDiagram}
 \end{figure}
 
+	\subsection{Graphic User Interface}
+	As we have previously said, the GUI, and thus the View part of the MVC, has two roles : displaying and warning the Controller of inputs. For the first part, it takes the elements of the game as parameters and draw them, along with the Buttons. Secondly, only clicks are used, so there is just to check that the click is on a valid area (i.e. on a Button or on a Place) and then tell the Controller that something has been clicked.
+	
 	\subsection{Game engine}
-	\subsection{Graphic user interface}
+	
 
 
 \section{Implementation clarifications}
@@ -149,6 +159,8 @@ bla bla la lorem ipsum
 % bla bla here before
 
 \paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses.
+
+\paragraph{Events}
 
 
 \section*{Conclusion}
