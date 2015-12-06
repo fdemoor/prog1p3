@@ -122,14 +122,6 @@
 \section{Class diagram}
 % TODO Simon
 
-%To structure the code, we decided to make packages. We can classify them into two types :
-%\begin{itemize}
-%	\item The packages \emph{insect}, \emph{colony}, \emph{places}, \emph{projectiles} are managing the game engine.
-%	\item The package \emph{mvc} is managing all the graphic interface.
-%\end{itemize}
-%Here is below the class diagram of our implementation :
-%
-
 The architecture of the program is based on a Model-View-Controller pattern. The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. The later, which only stores the elements of the game, execute the request.
 The game itself is composed of Places that contains Ants and Bees that fire Projectiles at each others.
 The overall interactions of the various parts of the program are shown in figure~\ref{classDiagram}.
@@ -149,8 +141,21 @@ The overall interactions of the various parts of the program are shown in figure
 
 
 \section{Implementation clarifications}
-% TODO Florestan
-bla bla la lorem ipsum
+% TODO FlorestaN
+
+\paragraph{Bee waves} bla bla turns with levels, one turn a normal bee, the other a beerange, counter to start after 6 turns, life increasing with number of the wave
+
+\paragraph{Button menu} bla bla selecting a button, method isclicked, then if is clicked perform an action by the method action, which send to model (or controller, have to check) and then try to add for instance, exception ClickFound to stop searching when useless
+
+\paragraph{Spells} additional features for spells : booleans to know for the drawing of the place, overlay for drawing, counter for the freeze spell, to unfreeze after 3 turns, radar, upgrade tower to level up
+
+\paragraph{Info bar} object Msg, with method to set a message, is re-initialized after several turns, used mainly to display messages related to exceptions as NotEmpty, or NotEnoughFood.
+
+\paragraph{Timers} 2 timers, one to manage the frames, and the other the turns
+
+%% TELLME What else ? %%
+
+
 
 \section{Possible improvements}
 % TODO Florestan / Simon
