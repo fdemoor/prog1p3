@@ -43,7 +43,7 @@ Place *-- "0-1" Ant
 Place *-- "*" Bee
 
 Insect o-- "1" Place
-Ant o-- "1" Colony
+Ant o-up- "1" Colony
 
 Insect <|-- Ant
 Insect <|-- Bee

@@ -1,0 +1,34 @@
+@startuml
+
+abstract class Insect
+class Bee
+class RangeBee
+abstract class Ant
+class BodyguardAnt
+class FireAnt
+class HarvesterAnt
+class HungryAnt
+class LongThrowerAnt
+class NinjaAnt
+class QueenAnt
+class ScubaAnt
+class ShortThrowerAnt
+class ThrowerAnt
+class WallAnt
+
+Bee -up-|> Insect
+RangeBee -up-|> Bee
+Ant -up-|> Insect
+BodyguardAnt -up-|> Ant
+FireAnt -up-|> Ant
+HarvesterAnt -up-|> Ant
+HungryAnt -up-|> Ant
+LongThrowerAnt -up-|> Ant
+NinjaAnt -up-|> ThrowerAnt
+QueenAnt -up-|> ScubaAnt
+ScubaAnt -up-|> ThrowerAnt
+ShortThrowerAnt -up-|> Ant
+ThrowerAnt -up-|> Ant
+WallAnt -up-|> Ant
+
+@enduml
