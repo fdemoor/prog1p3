@@ -1,0 +1,14 @@
+@startuml
+
+class Msg << (O,#FFD036) Object >>
+
+Msg : _msg
+Msg : turnsLeft
+Msg : msg()
+Msg : init()
+Msg : isEmpty()
+Msg : decr()
+Msg : setMsg(String)
+
+@enduml
+
