@@ -1,13 +1,11 @@
 @startuml
 
-class Projectiles
-
+class Projectiles << (O,#FFD036) Object >>
+class Projectile
 class Insect
 
-class Projectile
 
-
-Insect o-- "1" Projectile
+Projectile o-right- "1" Insect
 Projectiles *-- "*" Projectile
 
 

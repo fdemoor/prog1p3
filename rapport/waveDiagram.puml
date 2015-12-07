@@ -5,7 +5,7 @@ class Random
 
 class Model
 
-Random *-- "*" Model
+Model *-- "1" Random
 
 Random : nextInt()
 Model : beeWave()

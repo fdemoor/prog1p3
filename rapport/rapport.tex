@@ -143,7 +143,7 @@ The overall interactions of the various parts of the program are shown in figure
 
 \section{Implementation clarifications}
 
-\paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. Once the ant knows there is a target, a new Projectile is created with a position, a target, and the damages it should inflict on hit.
+\paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. Once there is a target (if there can possibly be one), a new Projectile is created with a position, a target, and the damages it should inflict on hit.
 
 \begin{tabular}{c p{8.5cm}}
 	\raisebox{-.5\height}{\includegraphics[scale=0.6]{projectileDiagram.png}}
@@ -154,8 +154,7 @@ The overall interactions of the various parts of the program are shown in figure
 \paragraph{Bee waves} To deal with the waves, we use a counter to know the wave number. The first wave is launched after 6 turns and one wave is launched on each turn from then. For that, the Controller part calls the Model function to launch a wave with the level of the bees and the number of the wave as parameters.
 
 \begin{tabular}{c p{12cm}}
-	\raisebox{-.5\height}{\includegraphics[scale=0.6]{waveDiagram.png}} % I don't think it is useful, doens't give any information
-	% No, but it breaks the queasy text, and is still nice
+	\raisebox{-.5\height}{\includegraphics[scale=0.6]{waveDiagram.png}}
 	& If the wave number is even, a range bee is launched, a classic bee otherwise. The bee is created with armour points calculated according to the bee level parameter. If the level is high enough, it also has a damage upgrade. We use a random generator to launch the bee in one of the possible tunnel entrances.\\
 \end{tabular}
 
@@ -183,13 +182,13 @@ Each button has a method to tell if it is being clicked or not. If it is, then t
 
 \section{Possible improvements}
 % TODO Florestan / Simon
-bla bla la lorem ipsum
 
-% bla bla here before
+Along with additions, the existing code can be enhanced. To give more than a glimpse of our vision we made a whole section for it.
+
 
 \paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses.
 
-\paragraph{Events and better MVC separation}
+\paragraph{Better MVC separation and events} For now the MVC isn't perfect as there is visual elements in the code of the Model part. For example, insects and tunnels have their sprites has fields and they also have their coordinates. Changing this have multiple consequences. How can a bee know if it has reached another Place ? How can a projectile know it has hit its target ? A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. The events would be very specific and thus make the code easier to understand. Another consequence is that there would be a better modularity and make the management of window size easier.
 
 
 \section*{Conclusion}
