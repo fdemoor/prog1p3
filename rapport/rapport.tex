@@ -143,15 +143,19 @@ The overall interactions of the various parts of the program are shown in figure
 
 \section{Implementation clarifications}
 
-\paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. Once the there is a target, a new Projectile is created with a position, a target, and the damages it should inflict on hit.
+\paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. Once the ant knows there is a target, a new Projectile is created with a position, a target, and the damages it should inflict on hit.
 
-The constructor of a Projectile consists only on adding itself to list of projectiles of the object Projectiles. After that, on each frame, the object Projectiles is asked to move all of the projectiles. When a Projectile moves it sees if it has touched its target, and if so inflicts damages to the target and puts its field \texttt{hasHit} to true. Later on, Projectiles will be asked to remove the projectiles that have hit their target. 
+\begin{tabular}{c p{8.5cm}}
+	\raisebox{-.5\height}{\includegraphics[scale=0.6]{projectileDiagram.png}}
+	& The constructor of a Projectile consists only on adding itself to list of projectiles of the object Projectiles. After that, on each frame, the object Projectiles is asked to move all of the projectiles. When a Projectile moves it sees if it has touched its target, and if so inflicts damages to the target and puts its field \texttt{hasHit} to true. Later on, Projectiles will be asked to remove the projectiles that have hit their target. \\
+\end{tabular}
 
 
 \paragraph{Bee waves} To deal with the waves, we use a counter to know the wave number. The first wave is launched after 6 turns and one wave is launched on each turn from then. For that, the Controller part calls the Model function to launch a wave with the level of the bees and the number of the wave as parameters.
 
 \begin{tabular}{c p{12cm}}
 	\raisebox{-.5\height}{\includegraphics[scale=0.6]{waveDiagram.png}} % I don't think it is useful, doens't give any information
+	% No, but it breaks the queasy text, and is still nice
 	& If the wave number is even, a range bee is launched, a classic bee otherwise. The bee is created with armour points calculated according to the bee level parameter. If the level is high enough, it also has a damage upgrade. We use a random generator to launch the bee in one of the possible tunnel entrances.\\
 \end{tabular}
 

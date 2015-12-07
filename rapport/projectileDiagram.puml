@@ -1,0 +1,29 @@
+@startuml
+
+class Projectiles
+
+class Insect
+
+class Projectile
+
+
+Insect o-- "1" Projectile
+Projectiles *-- "*" Projectile
+
+
+Projectiles : projectiles()
+Projectiles : addProjectile()
+Projectiles : removeProjectile()
+Projectiles : removeUselessProjectiles()
+Projectiles : moves()
+
+Projectile : x()
+Projectile : y()
+Projectile : hasHit()
+Projectile : move()
+Projectile : hit()
+
+
+@enduml
+
+
