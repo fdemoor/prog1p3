@@ -1,6 +1,7 @@
 %------------- PROG1P3 - REPORT -------------%
 %--------------------------------------------%
-%- @authors Simon Bihel - Florestan De Moor -%
+%- @author Simon Bihel ----------------------% 
+%- @author Florestan De Moor ----------------%
 %- @version 1.0 -----------------------------%
 %--------------------------------------------%
 
@@ -41,7 +42,7 @@
 
 \title{PROG1 P3 - Ant vs. SomeBees}
 \author{Simon Bihel, Florestan De Moor \\ ENS Rennes, Computer Science Department, 1st year}
-\date{December 13rd, 2015}
+\date{December 13$^{\text{th}}$, 2015}
 
 
 \maketitle
@@ -145,12 +146,14 @@ The overall interactions of the various parts of the program are shown in figure
 
 \paragraph{Throwing projectiles} % TODO get to work Simon :p
 
+
 \paragraph{Bee waves} To deal with the waves, we use a counter to know the wave number. One wave is launched a each turn from then on. The first wave is launched after 6 turns. Then, the Controller part calls the Model function to launch a wave with the level of the bees and the number of the wave as parameters
 
 \begin{tabular}{c p{12cm}}
 	\raisebox{-.5\height}{\includegraphics[scale=0.6]{waveDiagram.png}}
 	& If the wave number is peer, a range bee is launched, a classic bee otherwise. The bee is created with armour points calculated according to the bee level parameter. If the level is high enough, it also has a damage upgrade. We use a random generator to launch the bee in one of the possible tunnel entrances.\\
 \end{tabular}
+
 
 \paragraph{Button menu} The player has the possibility to interact with the game. To manage this, we created a class to deal with selection buttons.
 
@@ -161,7 +164,6 @@ The overall interactions of the various parts of the program are shown in figure
 
 Each button has a method to tell if it is being clicked or not. If it is, then the action manager in the View part can call the action method of the right button, which then calls the right function in the Model part. We also have the possibility to re-initialize the button, because we want at most one button selected at each moment. Each button has its method to be drawn. We can define new buttons, such as the remove one, or the spells ones, which extend the main button class. It is only necessary then to override the definition of the paint and action methods to make it operational. Adding a new button to the menu is that way very simple. Buttons are gathered in a bigger class, which has a method to deal with the mouse actions. This throws a \emph{ClickFound} exception when the click is located, to avoid useless searching.
 
-\paragraph{Spells} additional features for spells : booleans to know for the drawing of the place, overlay for drawing, counter for the freeze spell, to unfreeze after 3 turns, radar, upgrade tower to level up
 
 \paragraph{Information bar} Sometimes, the player is trying to make illegal actions, so it is necessary to display a warning. To do this, we created an object \emph{Msg} in View part.
 
@@ -170,10 +172,8 @@ Each button has a method to tell if it is being clicked or not. If it is, then t
 	& When a message needs to be displayed, for example when an exception \emph{NotEnoughFood} or \emph{NotEmptyPlace} is caught, we have a method to set a message. It modifies the number of turns left during which the message will be displayed. In the Model part, if the message isn't empty, this number is decreased by one at each turn, and the message is re-initialized when zero is reached.\\
 \end{tabular}
 
-\paragraph{Timers} 2 timers, one to manage the frames, and the other the turns
 
-%% TELLME What else ? %%
-
+\paragraph{Spells} To implement spells, we had to add some fields and methods in the insect and place classes. For example, we need boolean fields in the place class to be able to draw an overlay when a place is frozen, or when the ant inside has the radar ability. The freeze spell used the same type of counter than the information bar, with a decreasing counter to unfreeze the place after a fixed amount of turns. The upgrade spell calls a method to increase the damage power of an insect. The radar ability modifies a boolean of all bees in the concerned tunnel, so that the drawing function knows it also has to print the armour points of those bees.
 
 
 \section{Possible improvements}
