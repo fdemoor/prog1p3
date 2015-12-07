@@ -56,7 +56,7 @@
 
 \section{Game overview}
 
-\this is a tower defence like game. The terms are really simple : the player controls an anthill, which has five tunnels. An army of bees will try to invade it. The goal is to survive as long as possible by killing the bees entering the tunnels in waves. If a bee succeed to go through a whole tunnel, the game is lost. Each bee killed gives the player 5 points, the player score is printed in the bottom information bar.
+\this is a tower defense like game. The terms are really simple : the player controls an anthill, which has five tunnels. An army of bees will try to invade it. The goal is to survive as long as possible by killing the bees entering the tunnels in waves. If a bee succeed to go through a whole tunnel, the game is lost. Each bee killed gives the player 5 points, the player score is printed in the bottom information bar.
 
 \begin{figure}[H]
 	\center
@@ -119,7 +119,7 @@
 \end{figure}
 
 
-\section{Class diagram}
+\section{Program's structure}
 % TODO Simon
 
 The architecture of the program is based on a Model-View-Controller pattern. The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. The later, which only stores the elements of the game, execute the request.
@@ -137,7 +137,7 @@ The overall interactions of the various parts of the program are shown in figure
 	As we have previously said, the GUI, and thus the View part of the MVC, has two roles : displaying and warning the Controller of inputs. For the first part, it takes the elements of the game as parameters and draw them, along with the Buttons. Secondly, only clicks are used, so there is just to check that the click is on a valid area (i.e. on a Button or on a Place) and then tell the Controller that something has been clicked.
 	
 	\subsection{Game engine}
-	
+	As it is turn-based, the game is run by two running timers : one for the frames and a second one for the moves of the insects. On each frame (~60 per second) movement are executed, bees move to the right and projectiles get closer to their target. On each move (~1 per second) the insects execute their actions like attacking.
 
 
 \section{Implementation clarifications}
