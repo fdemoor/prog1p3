@@ -1,0 +1,37 @@
+@startuml
+
+class UIButtons
+
+class UIButton
+
+class UIButtonRM
+class UIButtonFreeze
+class UIButtonDouble
+class UIButtonRadar
+
+UIButtons *-- "*" UIButton
+
+UIButtonRM -up-|> UIButton
+UIButtonFreeze -up-|> UIButton
+UIButtonDouble -up-|> UIButton
+UIButtonRadar -up-|> UIButton
+
+UIButton : width
+UIButton : height
+UIButton : x()
+UIButton : y()
+UIButton : isSelected()
+UIButton : select()
+UIButton : init()
+UIButton : isClicked()
+UIButton : action()
+UIButton : paint()
+
+UIButtons : buttons()
+UIButtons : init()
+UIButtons : mouseActions()
+UIButtons : paint()
+
+@enduml
+
+

@@ -146,7 +146,14 @@ The overall interactions of the various parts of the program are shown in figure
 
 \paragraph{Bee waves} bla bla turns with levels, one turn a normal bee, the other a beerange, counter to start after 6 turns, life increasing with number of the wave
 
-\paragraph{Button menu} bla bla selecting a button, method isclicked, then if is clicked perform an action by the method action, which send to model (or controller, have to check) and then try to add for instance, exception ClickFound to stop searching when useless
+\paragraph{Button menu} The player has the possibility to interact with the game. To manage this, we created a class to deal with selections buttons.
+
+\begin{figure}[H]
+	\center
+	\includegraphics[scale=0.6]{buttonDiagram.png}
+\end{figure}
+
+	Each button has a method to tell if it is being clicked or not. If it is, then the action manager in the View part can call the action method of the right button, which then calls the right function in the Model part. We also have the possibility to re-initialize the button, because we want at most one button selected at each moment. Each button has its method to be drawn. We can define new buttons, such as the remove one, or the spells ones, which extend the main button class. It is only necessary then to override the definition of the paint and action methods to make it operational. Adding a new button to the menu is that way very simple. Buttons are gathered in a bigger class, which has a method to deal with the mouse actions. This throws a \emph{ClickFound} exception when the click is located, to avoid useless searching.
 
 \paragraph{Spells} additional features for spells : booleans to know for the drawing of the place, overlay for drawing, counter for the freeze spell, to unfreeze after 3 turns, radar, upgrade tower to level up
 
