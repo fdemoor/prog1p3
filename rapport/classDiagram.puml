@@ -49,5 +49,6 @@ Insect <|-- Ant
 Insect <|-- Bee
 
 Projectiles *-- "*" Projectile
+Projectile o-- "1" Insect
 
 @enduml
