@@ -10,6 +10,8 @@
 	a4paper
 ]{article}
 
+	\setlength{\parskip}{6mm plus2mm minus2mm}
+	
 \usepackage[english]{babel}
 
 \usepackage[utf8]{inputenc}
@@ -39,11 +41,13 @@
 
 \usepackage{subcaption}
 	
+\usepackage{floatrow}	
+	
 \usepackage{float}
 
-	\setlength{\parskip}{6mm plus2mm minus2mm}
 
-	%% Specific commands %%
+
+%% Specific commands %%
 	\newcommand{\this}{\emph{Ant vs. SomeBees }}
 	\newcommand{\theEnd}{\[\star ~ ~ ~ \star\]\[\star\]}
 
@@ -78,7 +82,6 @@ Each bee killed gives the player 5 points, the player score is printed in the bo
 
 %
 \begin{figure}[H]
-	\centering
 	\foreach \x in {1,...,6} {\includegraphics[scale=0.3]{tunnel.png}}\includegraphics[scale=0.3]{tunnel_water.png}
 	\caption{Example of tunnel}
 	\label{tunnel}
@@ -93,11 +96,8 @@ The bodyguard is a special unit, that can be put at the same place than another 
 
 %
 \begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{ant_harvester.png}
-	\includegraphics[scale=0.5]{ant_fire.png}
-	\includegraphics[scale=0.5]{ant_longthrower.png}
-	\includegraphics[scale=0.5]{ant_scuba.png}
+	\foreach \x in {harvester, fire, longthrower, scuba}{
+	\includegraphics[scale=0.5]{ant_\x.png} }
 	\caption{Some ants}
 	\label{someants}
 \end{figure}
@@ -113,7 +113,6 @@ A new bee appears in one of the five tunnels, picked up randomly.
 
 %
 \begin{figure}[H]
-	\centering
 	\includegraphics[scale=0.5]{bee.png}
 	\includegraphics[scale=0.5]{rangebee.png}
 	\caption{Bees}
@@ -122,10 +121,10 @@ A new bee appears in one of the five tunnels, picked up randomly.
 %
 
 \paragraph{Spells} The player has also the possibility to use spells. %
-This also costs food. Three spells were implemented :
+This also costs food. Three spells were implemented.
  
 %
-\begin{center}
+\begin{table}[H]
 	\begin{tabular}{|c|p{13cm}|}
 		\hline
 		\rule[1mm]{0pt}{5mm}
@@ -146,7 +145,9 @@ This also costs food. Three spells were implemented :
 		 Notice that it doesn't modify armour points, the player has to protect well its upgraded ants. \\
 		\hline
 	\end{tabular}
-\end{center}
+	\caption{Spells implemented}
+	\label{spellsTable}
+\end{table}
 %
 
 \paragraph{GUI} The user interface contains a menu which allows the player to select a type of ant, or a spell. %
@@ -156,7 +157,6 @@ A message can be displayed in the bottom bar.
 
 %
 \begin{figure}[H]
-	\centering
 	\includegraphics[scale=0.3]{screen2.png}
 	\caption{Graphic User Interface}
 	\label{gui}
@@ -174,7 +174,6 @@ The overall interactions of the various parts of the program are shown in figure
 
 %
 \begin{figure}[H]
-	\centering
 	\includegraphics[scale=0.7]{classDiagram.png}
 	\caption{Global class UML diagram}
 	\label{classDiagram}
@@ -201,13 +200,17 @@ To do that, a target is found by going through the entrances (or exits) of the t
 Once there is a target (if there can possibly be one), a new Projectile is created with a position, a target, and the damages it should inflict on hit.
 
 %
-\begin{tabular}{c p{8.5cm}}
-	\raisebox{-.5\height}{\includegraphics[scale=0.6]{projectileDiagram.png}}
-	& The constructor of a Projectile consists only on adding itself to list of projectiles of the object Projectiles. %
-	After that, on each frame, the object Projectiles is asked to move all of the projectiles. %
-	When a Projectile moves it sees if it has touched its target, and if so inflicts damages to the target and puts its field \texttt{hasHit} to true. %
-	Later on, Projectiles will be asked to remove the projectiles that have hit their target. \\
-\end{tabular}
+\begin{table}
+	\begin{tabular}{c p{8.5cm}}
+		\raisebox{-.5\height}{
+			\includegraphics[scale=0.6]{projectileDiagram.png} }
+		&
+		The constructor of a Projectile consists only on adding itself to list of projectiles of the object Projectiles. %
+		After that, on each frame, the object Projectiles is asked to move all of the projectiles. %
+		When a Projectile moves it sees if it has touched its target, and if so inflicts damages to the target and puts its field \texttt{hasHit} to true. %
+		Later on, Projectiles will be asked to remove the projectiles that have hit their target. \\
+	\end{tabular}
+\end{table}
 %
 
 \paragraph{Bee waves} To deal with the waves, we use a counter to know the wave number. %
@@ -215,12 +218,15 @@ The first wave is launched after 6 turns and one wave is launched on each turn f
 For that, the Controller part calls the Model function to launch a wave with the level of the bees and the number of the wave as parameters.
 
 %
-\begin{tabular}{c p{12cm}}
-	\raisebox{-.5\height}{\includegraphics[scale=0.6]{waveDiagram.png}}
-	& If the wave number is even, a range bee is launched, a classic bee otherwise. %
-	The bee is created with armour points calculated according to the bee level parameter. %
-	If the level is high enough, it also has a damage upgrade. We use a random generator to launch the bee in one of the possible tunnel entrances.\\
-\end{tabular}
+\begin{table}
+	\begin{tabular}{c p{12cm}}
+		\raisebox{-.5\height}{
+			\includegraphics[scale=0.6]{waveDiagram.png} }
+		& If the wave number is even, a range bee is launched, a classic bee otherwise. %
+		The bee is created with armour points calculated according to the bee level parameter. %
+		If the level is high enough, it also has a damage upgrade. We use a random generator to launch the bee in one of the possible tunnel entrances.\\
+	\end{tabular}
+\end{table}
 %
 
 \paragraph{Button menu} The player has the possibility to interact with the game. %
@@ -228,7 +234,6 @@ To manage this, we created a class to deal with selection buttons.
 
 %
 \begin{figure}[H]
-	\centering
 	\includegraphics[scale=0.6]{buttonDiagram.png}
 \end{figure}
 %
@@ -248,12 +253,15 @@ This throws a \emph{ClickFound} exception when the click is located, to avoid us
 To do this, we created an object \emph{Msg} in View part.
 
 %
-\begin{tabular}{c p{12cm}}
-	\raisebox{-.5\height}{\includegraphics[scale=0.6]{msgDiagram.png}}
-	& When a message needs to be displayed, for example when an exception \emph{NotEnoughFood} or \emph{NotEmptyPlace} is caught, we have a method to set a message. %
-	It modifies the number of turns left during which the message will be displayed. %
-	In the Model part, if the message isn't empty, this number is decreased by one at each turn, and the message is re-initialized when zero is reached.\\
-\end{tabular}
+\begin{table}
+	\begin{tabular}{c p{12cm}}
+		\raisebox{-.5\height}{
+			\includegraphics[scale=0.6]{msgDiagram.png} }
+		& When a message needs to be displayed, for example when an exception \emph{NotEnoughFood} or \emph{NotEmptyPlace} is caught, we have a method to set a message. %
+		It modifies the number of turns left during which the message will be displayed. %
+		In the Model part, if the message isn't empty, this number is decreased by one at each turn, and the message is re-initialized when zero is reached.\\
+	\end{tabular}
+\end{table}
 %
 
 \paragraph{Spells} To implement spells, we had to add some fields and methods in the insect and place classes. %
@@ -291,9 +299,9 @@ Although the structure could be improved, it is at the moment well-organized eno
 Once that the core of the game is done, it must be simple to add new elements of gameplay, and to modify the graphic user interface. %
 We developed our program in this particular intention.
 
+
 %
 \begin{figure}[H]
-	\centering
 	\includegraphics[scale=0.5]{ant_queen.png}
 \end{figure}
 %
