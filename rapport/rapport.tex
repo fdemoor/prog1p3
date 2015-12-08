@@ -187,7 +187,7 @@ Along with additions, the existing code can be enhanced. To give more than a gli
 \paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses. There could also be additional types of bees that counter certain ants and the AI would have to chose the most appropriate.
 
 \paragraph{Better MVC separation and events} For now the MVC isn't perfect as there are visual elements in the code of the Model part. For example, bees have their coordinates as fields and move depending on a fixed speed. The speed, size of the sprite and that sort of problems belong to the View part. Changing this has multiple consequences. How can a bee know if it has reached another Place ? How can a projectile know it has hit its target ? A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. The events would be very specific and thus make the code easier to understand. Another consequence is that there would be a better modularity and make the management of window size easier.
-% More clear ? %
+
 
 \section*{Conclusion} % To check, but seems ok
 
