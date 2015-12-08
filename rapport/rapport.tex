@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_GB
 %------------- PROG1P3 - REPORT -------------%
 %--------------------------------------------%
 %- @author Simon Bihel ----------------------% 
@@ -57,7 +58,7 @@ First, we will introduce the game and its features. Then, we will expose the cla
 
 \section{Game overview} % To check, but seems ok
 
-\this is a tower defense like game. The terms are really simple : the player controls an anthill, which has five tunnels. An army of bees will try to invade it. The goal is to survive as long as possible by killing the bees entering the tunnels in waves. If a bee succeed to go through a whole tunnel, the game is lost. Each bee killed gives the player 5 points, the player score is printed in the bottom information bar.
+\this is a tower defence like game. The terms are really simple : the player controls an anthill, which has five tunnels. An army of bees will try to invade it. The goal is to survive as long as possible by killing the bees entering the tunnels in waves. If a bee succeed to go through a whole tunnel, the game is lost. Each bee killed gives the player 5 points, the player score is printed in the bottom information bar.
 
 \begin{figure}[H]
 	\center
@@ -184,14 +185,14 @@ Each button has a method to tell if it is being clicked or not. If it is, then t
 Along with additions, the existing code can be enhanced. To give more than a glimpse of our vision we made a whole section for it.
 
 
-\paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses.
+\paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses. There could also be additional types of bees that counter certain ants and the AI would have to chose the most appropriate.
 
-\paragraph{Better MVC separation and events} For now the MVC isn't perfect as there is visual elements in the code of the Model part. For example, insects and tunnels have their sprites has fields and they also have their coordinates. Changing this have multiple consequences. How can a bee know if it has reached another Place ? How can a projectile know it has hit its target ? A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. The events would be very specific and thus make the code easier to understand. Another consequence is that there would be a better modularity and make the management of window size easier.
-% 2nd sentence weird %
+\paragraph{Better MVC separation and events} For now the MVC isn't perfect as there are visual elements in the code of the Model part. For example, bees have their coordinates as fields and move depending on a fixed speed. The speed, size of the sprite and that sort of problems belong to the View part. Changing this has multiple consequences. How can a bee know if it has reached another Place ? How can a projectile know it has hit its target ? A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. The events would be very specific and thus make the code easier to understand. Another consequence is that there would be a better modularity and make the management of window size easier.
+% More clear ? %
 
 \section*{Conclusion} % To check, but seems ok
 
-To sum up, we made a tower defence game, using both object-oriented programming and functional programming. Our program is organized with a Model-View-Controller separation, and is quite modular. Although the structure could be improved, it is at the moment well-organized enough to enable the programmer to add new features easily which is paramount. Once that the core of the game is done, it must be simple to add new elements of gameplay, and to modify the graphic user interface. We developed our program in this particular intention.
+To sum up, we made a tower defence game, using both object-oriented programming and functional programming. Our program is organized with a Model-View-Controller separation, and is quite modular. Although the structure could be improved, it is at the moment well-organized enough to empower the programmer to add new features easily which is paramount. Once that the core of the game is done, it must be simple to add new elements of gameplay, and to modify the graphic user interface. We developed our program in this particular intention.
 
 \begin{figure}[H]
 	\center
