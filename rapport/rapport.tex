@@ -48,15 +48,14 @@
 
 \maketitle
 
-\section*{Introduction}
-% TODO Florestan / Simon
+\section*{Introduction} % To check, but seems ok
 
-	In this report, we present our work on the third project of the programming course. It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. \this was programmed using the Scala language, and the Scala-swing library for the graphic interface. This project was done using mostly the OOP paradigm, but also some FP.
-	
-	First, we will introduce the game and its features. Then, we will expose the class diagram, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
+\paragraph{} In this report, we present our work on the third project of the programming course. It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. \this was programmed using the Scala language, and the Scala-swing library for the graphic interface. This project was done using mostly the OOP paradigm, but also some FP.
+% "Modern English typography usually indicates a new paragraph by indenting the first line." From Wikipedia. #REKT %
+First, we will introduce the game and its features. Then, we will expose the class diagram, and the structure we decided to use to create this game. Finally, we will clarify some parts of the implementation.
 
 
-\section{Game overview}
+\section{Game overview} % To check, but seems ok
 
 \this is a tower defense like game. The terms are really simple : the player controls an anthill, which has five tunnels. An army of bees will try to invade it. The goal is to survive as long as possible by killing the bees entering the tunnels in waves. If a bee succeed to go through a whole tunnel, the game is lost. Each bee killed gives the player 5 points, the player score is printed in the bottom information bar.
 
@@ -121,8 +120,7 @@
 \end{figure}
 
 
-\section{Program's structure}
-% TODO Simon
+\section{Program's structure} % To develop more
 
 The architecture of the program is based on a Model-View-Controller pattern. The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. The latter, which only stores the elements of the game, executes the request.
 The game itself is composed of Places that contains Ants and Bees that fire Projectiles at each others.
@@ -142,7 +140,7 @@ The overall interactions of the various parts of the program are shown in figure
 	As it is turn-based, the game is run by two running timers : one for the frames and a second one for the moves of the insects. On each frame (~60 per second) movements are executed, bees move to the right and projectiles get closer to their target. On each move (~1 per second) the insects execute their actions like attacking.
 
 
-\section{Implementation clarifications}
+\section{Implementation clarifications} % To check, but seems ok
 
 \paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. Once there is a target (if there can possibly be one), a new Projectile is created with a position, a target, and the damages it should inflict on hit.
 
@@ -181,8 +179,7 @@ Each button has a method to tell if it is being clicked or not. If it is, then t
 \paragraph{Spells} To implement spells, we had to add some fields and methods in the insect and place classes. For example, we need boolean fields in the place class to be able to draw an overlay when a place is frozen, or when the ant inside has the radar ability. The freeze spell used the same type of counter than the information bar, with a decreasing counter to unfreeze the place after a fixed amount of turns. The upgrade spell calls a method to increase the damage power of an insect. The radar ability modifies a boolean of all bees in the concerned tunnel, so that the drawing function knows it also has to print the armour points of those bees.
 
 
-\section{Possible improvements}
-% TODO Florestan / Simon
+\section{Possible improvements} % To develop more
 
 Along with additions, the existing code can be enhanced. To give more than a glimpse of our vision we made a whole section for it.
 
@@ -192,8 +189,7 @@ Along with additions, the existing code can be enhanced. To give more than a gli
 \paragraph{Better MVC separation and events} For now the MVC isn't perfect as there is visual elements in the code of the Model part. For example, insects and tunnels have their sprites has fields and they also have their coordinates. Changing this have multiple consequences. How can a bee know if it has reached another Place ? How can a projectile know it has hit its target ? A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. The events would be very specific and thus make the code easier to understand. Another consequence is that there would be a better modularity and make the management of window size easier.
 % 2nd sentence weird %
 
-\section*{Conclusion}
-% TODO Florestan / Simon
+\section*{Conclusion} % To check, but seems ok
 
 To sum up, we made a tower defence game, using both object-oriented programming and functional programming. Our program is organized with a Model-View-Controller separation, and is quite modular. Although the structure could be improved, it is at the moment well-organized enough to enable the programmer to add new features easily which is paramount. Once that the core of the game is done, it must be simple to add new elements of gameplay, and to modify the graphic user interface. We developed our program in this particular intention.
 
