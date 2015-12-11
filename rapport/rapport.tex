@@ -61,7 +61,7 @@
 
 \maketitle
 
-\section*{Introduction} % To check, but seems ok
+\section*{Introduction}
 
 In this report, we present our work on the third project of the programming course. %
 It consisted in creating a game based on the famous one \emph{Plants vs. Zombies$^\copyright$}. %
@@ -72,7 +72,7 @@ Then, we will expose the class diagram, and the structure we decided to use to c
 Finally, we will clarify some parts of the implementation.
 
 
-\section{Game overview} % To check, but seems ok
+\section{Game overview}
 
 \this is a tower defence like game. The terms are really simple : the player controls an anthill, which has five tunnels. %
 An army of bees will try to invade it. %
@@ -166,8 +166,9 @@ A message can be displayed in the bottom bar.
 \end{figure}
 %
 
+\newpage
 
-\section{Program's structure} % To develop more
+\section{Program's structure}
 
 The architecture of the program is based on a Model-View-Controller pattern. %
 The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. %
@@ -195,16 +196,25 @@ Secondly, only clicks are used, so there is just to check that the click is on a
 On each frame (~60 per second) movements are executed, bees move to the right and projectiles get closer to their target. %
 On each move (~1 per second) the insects execute their actions like attacking.
 
+\newpage
 
-\section{Implementation clarifications} % To check, but seems ok
+\section{Implementation clarifications}
 
-\paragraph{Insects} Insects are accessed by the Place they are in. Because of that, when a new insect is created there is no need to put it in a variable as it will automatically in the constructor add itself to the Place it is in.
+\paragraph{Insects} Insects are accessed by the Place they are in. %
+Because of that, when a new insect is created there is no need to put it in a variable as it will %
+automatically in the constructor add itself to the Place it is in. %
 Insects follow a simple inheritance pattern as seen in figure~\ref{insectsDiagram}.
 
-The behavior of the BodyguardAnd is a little special. It can protect another ant and so the ant it protects is in a field. Thus the ant protected can accessed only by going through the BodyguardAnt. Because of that the behavior is simple as it only asks the protected ant to do its actions. Though, it makes the management of ants by Places a bit harder as bodyguards are a special case. For example if you want to add a bodyguard ant, you have to check if the ant that is in isn't another bodyguard, and then swap the new bodyguard with the ant while putting the ant as field to the bodyguard.
+The behavior of the BodyguardAnt is a little special. %
+It can protect another ant and so the ant it protects is in a field. %
+Thus the ant protected can accessed only by going through the BodyguardAnt. %
+Because of that the behavior is simple as it only asks the protected ant to do its actions. %
+Though, it makes the management of ants by Places a bit harder as bodyguards are a special case. %
+For example if you want to add a bodyguard ant, you have to check if the ant that is in isn't another bodyguard, %
+and then swap the new bodyguard with the ant while putting the ant as field to the bodyguard.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.65]{insectsDiagram.png}
+	\includegraphics[scale=0.55]{insectsDiagram.png}
 	\caption{Insects inheritance}
 	\label{insectsDiagram}
 \end{figure}
@@ -249,6 +259,8 @@ To manage this, we created a class to deal with selection buttons.
 %
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{buttonDiagram.png}
+	\caption{User interface buttons}
+	\label{buttonsDiagram}
 \end{figure}
 %
 
@@ -284,8 +296,9 @@ The freeze spell used the same type of counter than the information bar, with a 
 The upgrade spell calls a method to increase the damage power of an insect. %
 The radar ability modifies a boolean of all bees in the concerned tunnel, so that the drawing function knows it also has to print the armour points of those bees.
 
+\newpage
 
-\section{Possible improvements} % To develop more
+\section{Possible improvements} % TODO any more ?
 
 Along with additions, the existing code can be enhanced. %
 To give more than a glimpse of our vision we made a whole section for it.
@@ -305,7 +318,7 @@ The events would be very specific and thus make the code easier to understand. %
 Another consequence is that there would be a better modularity and make the management of window size easier.
 
 
-\section*{Conclusion} % To check, but seems ok
+\section*{Conclusion}
 
 To sum up, we made a tower defence game, using both object-oriented programming and functional programming. %
 Our program is organized with a Model-View-Controller separation, and is quite modular. %
