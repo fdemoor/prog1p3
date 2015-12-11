@@ -174,7 +174,7 @@ The overall interactions of the various parts of the program are shown in figure
 
 %
 \begin{figure}[H]
-	\includegraphics[scale=0.7]{classDiagram.png}
+	\includegraphics[scale=0.65]{classDiagram.png}
 	\caption{Global class UML diagram}
 	\label{classDiagram}
 \end{figure}
@@ -195,12 +195,23 @@ On each move (~1 per second) the insects execute their actions like attacking.
 
 \section{Implementation clarifications} % To check, but seems ok
 
+\paragraph{Insects} Insects are accessed by the Place they are in. Because of that, when a new insect is created there is no need to put it in a variable as it will automatically in the constructor add itself to the Place it is in.
+Insects follow a simple inheritance pattern as seen in figure~\ref{insectsDiagram}.
+
+The behavior of the BodyguardAnd is a little special. It can protect another ant and so the ant it protects is in a field. Thus the ant protected can accessed only by going through the BodyguardAnt. Because of that the behavior is simple as it only asks the protected ant to do its actions. Though, it makes the management of ants by Places a bit harder as bodyguards are a special case. For example if you want to add a bodyguard ant, you have to check if the ant that is in isn't another bodyguard, and then swap the new bodyguard with the ant while putting the ant as field to the bodyguard.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.65]{insectsDiagram.png}
+	\caption{Insects inheritance}
+	\label{insectsDiagram}
+\end{figure}
+
 \paragraph{Throwing projectiles} Apart from the instant kill of the Hungry Ants, all attacks are projectiles thrown at the enemy. %
 To do that, a target is found by going through the entrances (or exits) of the tunnel, starting by the Place of the insect. %
 Once there is a target (if there can possibly be one), a new Projectile is created with a position, a target, and the damages it should inflict on hit.
 
 %
-\begin{table}
+\begin{table}[H]
 	\begin{tabular}{c p{8.5cm}}
 		\raisebox{-.5\height}{
 			\includegraphics[scale=0.6]{projectileDiagram.png} }
@@ -218,7 +229,7 @@ The first wave is launched after 6 turns and one wave is launched on each turn f
 For that, the Controller part calls the Model function to launch a wave with the level of the bees and the number of the wave as parameters.
 
 %
-\begin{table}
+\begin{table}[H]
 	\begin{tabular}{c p{12cm}}
 		\raisebox{-.5\height}{
 			\includegraphics[scale=0.6]{waveDiagram.png} }
@@ -253,7 +264,7 @@ This throws a \emph{ClickFound} exception when the click is located, to avoid us
 To do this, we created an object \emph{Msg} in View part.
 
 %
-\begin{table}
+\begin{table}[H]
 	\begin{tabular}{c p{12cm}}
 		\raisebox{-.5\height}{
 			\includegraphics[scale=0.6]{msgDiagram.png} }

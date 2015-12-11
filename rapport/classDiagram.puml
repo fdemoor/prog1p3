@@ -17,7 +17,7 @@ class View
 class UIButton
 }
 package insects {
-class Insect
+abstract class Insect
 class Ant
 class Bee
 }
