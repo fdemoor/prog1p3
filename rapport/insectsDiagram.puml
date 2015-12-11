@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 
 abstract class Insect
 class Bee
@@ -17,9 +18,10 @@ class ThrowerAnt
 class WallAnt
 
 Bee -up-|> Insect
-RangeBee -up-|> Bee
+RangeBee -left-|> Bee
 Ant -up-|> Insect
 BodyguardAnt -up-|> Ant
+BodyguardAnt *-- "1" Ant
 FireAnt -up-|> Ant
 HarvesterAnt -up-|> Ant
 HungryAnt -up-|> Ant
