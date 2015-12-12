@@ -196,8 +196,12 @@ Secondly, only clicks are used, so there is just to check that the click is on a
 On each frame (~60 per second) movements are executed, bees move to the right and projectiles get closer to their target. %
 On each move (~1 per second) the insects execute their actions like attacking.
 
-The engine is creating a grid of places which form tunnels. %
-Water places are generated with a previously defined probability.
+%The engine is creating a grid of places which form tunnels. %
+%Water places are generated with a previously defined probability.
+
+The timers are maintained by the Controller which asks the Model to do the various actions. %
+To do that the Model has only access to the grid of places (which form tunnels). %
+So the Model mainly goes through the grid to find the places or the insects it's interested in and then executes the tasks.
 
 
 \newpage
