@@ -173,7 +173,7 @@ A message can be displayed in the bottom bar.
 The architecture of the program is based on a Model-View-Controller pattern. %
 The View part displays the UI and warns the Controller of inputs. The Controller then decides what action should be done in response and asks the Model to do it. %
 The latter, which only stores the elements of the game, executes the request. %
-The game itself is composed of Places that contains Ants and Bees that fire Projectiles at each others. %
+The game itself is composed of Places that contain Ants and Bees that fire Projectiles at each others. %
 The overall interactions of the various parts of the program are shown in figure~\ref{classDiagram}.
 
 %
@@ -187,7 +187,7 @@ The overall interactions of the various parts of the program are shown in figure
 	\subsection{Graphic User Interface}
 	
 	As we have previously said, the GUI, and thus the View part of the MVC, has two roles : %
-displaying and warning the Controller of inputs. For the first part, it takes the elements of the game as parameters and draw them, along with the Buttons. %
+displaying and warning the Controller of inputs. For the first part, it takes the elements of the game as parameters and draws them, along with the Buttons. %
 Secondly, only clicks are used, so there is just to check that the click is on a valid area (i.e. on a Button or on a Place) and then tell the Controller that something has been clicked.
 	
 	\subsection{Game engine}
@@ -195,6 +195,10 @@ Secondly, only clicks are used, so there is just to check that the click is on a
 	As it is turn-based, the game is run by two running timers : one for the frames and a second one for the moves of the insects. %
 On each frame (~60 per second) movements are executed, bees move to the right and projectiles get closer to their target. %
 On each move (~1 per second) the insects execute their actions like attacking.
+
+The engine is creating a grid of places which form tunnels. %
+Water places are generated with a previously defined probability.
+
 
 \newpage
 
@@ -207,7 +211,7 @@ Insects follow a simple inheritance pattern as seen in figure~\ref{insectsDiagra
 
 The behavior of the BodyguardAnt is a little special. %
 It can protect another ant and so the ant it protects is in a field. %
-Thus the ant protected can accessed only by going through the BodyguardAnt. %
+Thus the ant protected can be accessed only by going through the BodyguardAnt. %
 Because of that the behavior is simple as it only asks the protected ant to do its actions. %
 Though, it makes the management of ants by Places a bit harder as bodyguards are a special case. %
 For example if you want to add a bodyguard ant, you have to check if the ant that is in isn't another bodyguard, %
@@ -298,24 +302,27 @@ The radar ability modifies a boolean of all bees in the concerned tunnel, so tha
 
 \newpage
 
-\section{Possible improvements} % TODO any more ?
+\section{Possible improvements}
 
 Along with additions, the existing code can be enhanced. %
 To give more than a glimpse of our vision we made a whole section for it.
-
-
-\paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. %
-It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses. %
-There could also be additional types of bees that counter certain ants and the AI would have to chose the most appropriate.
 
 \paragraph{Better MVC separation and events} For now the MVC isn't perfect as there are visual elements in the code of the Model part. %
 For example, bees have their coordinates as fields and move depending on a fixed speed. %
 The speed, size of the sprite and that sort of problems belong to the View part. %
 Changing this has multiple consequences. How can a bee know if it has reached another Place ? %
 How can a projectile know it has hit its target ? %
-A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from de View part. %
+A solution could be that instead of bees and projectiles checking themselves where they are, they would listen to events that come from the View part. %
 The events would be very specific and thus make the code easier to understand. %
 Another consequence is that there would be a better modularity and make the management of window size easier.
+
+\paragraph{AI} A possible extension would be to simulate an artificial intelligence, to manage the waves of bees. %
+It would know the state of the game, and would choose at each wave the best tunnel to try to exploit the player weaknesses. %
+There could also be additional types of bees that counter certain ants and the AI would have to chose the most appropriate.
+
+\paragraph{Symmetrical game} Another extension could be to adapt the code to make the game be symmetrical : %
+each side would have the possibility to place defensive units, and also to launch offensive ones to capture the enemy base. %
+Adding an AI in this type of game would then be difficult and very interesting.
 
 
 \section*{Conclusion}
